@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Header = () => {
+const HeaderHomePage = () => {
     return (
-        <Container className="Header text-black">
+        <Container className="HeaderHomePage text-black">
             <div className="container flex justify-between mx-auto h-80">
                 <a class="logo">
                     <svg
@@ -80,11 +80,10 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default HeaderHomePage;
 
 export const Container = styled.div`
-  &.Header {
-    border-bottom:1px solid #e4e5e7;
+  &.HeaderHomePage {
     .container {
       max-width: 1280px;
       padding: 0 15px;
@@ -92,7 +91,7 @@ export const Container = styled.div`
       box-sizing: border-box;
 
       .logo {
-        color: #62646a;
+        color: #fff;
         font-weight: 900;
         font-size: 40px;
         display:flex;
@@ -101,7 +100,7 @@ export const Container = styled.div`
       .nav-list {
         li {
           a {
-            color: #62646a;
+            color: #fff;
             font-weight: 700;
             font-size: 16px;
             &:hover {
@@ -111,13 +110,14 @@ export const Container = styled.div`
           .button_LogIn {
             padding: 5px 20px;
             font-weight: 700;
-            color: #1dbf73;
-            border: solid 1px #1dbf73;
+            color: #fff;
+            border: solid 1px #fff;
             border-radius: 4px;
             text-align: center;
             transition: all ease 0.5s;
             &:hover {
               background-color: #1dbf73;
+              border: solid 1px #1dbf73;
               color: #fff;
             }
           }
