@@ -2,75 +2,73 @@ import React from "react";
 import styled from "styled-components";
 import Footer from "../../organisms/Footer";
 import HeaderHomePage from "../../organisms/HeaderHomePage";
-import img from "../../../assets/images/background.png";
+import backgroundImg from "../../../assets/images/background.png";
 import { AudioOutlined } from "@ant-design/icons";
 import { Input, Space } from "antd";
-import Banner from "../../organisms/Banner";
+import Feature from "../../organisms/Feature";
+import Stats from "../../organisms/Stats";
+import Proposition from "../../organisms/Proposition";
 
 const Home = () => {
-    const { Search } = Input;
-    const suffix = (
-        <AudioOutlined
-            style={{
-                fontSize: 16,
-                color: "#1890ff",
-            }}
-        />
-    );
-    const onSearch = (value) => console.log(value);
-    return (
-        <Container className="HomePage">
-            <HeaderHomePage className="HeaderHomePage" />
-            <div className="carousel">
-                <div className="container">
-                    <div className="intro">
-                        <h1 className="title tracking-wide">
-                            <span>
-                                Find the perfect
-                                <i className="mx-14">freelance</i>
-                                <br />
-                                services for your business
-                            </span>
-                        </h1>
-                        <div className="search-bar mb-24">
-                            <Search
-                                placeholder="input search text"
-                                allowClear
-                                enterButton="Search"
-                                onSearch={onSearch}
-                            />
-                        </div>
-                        <div className="popular-topic flex justify-start">
-                            <span className="text-white text-18 font-semibold mr-16">
-                                Popular:
-                            </span>
-                            <ul className="md:flex mb-0 flex items-center">
-                                <li>
-                                    <a>Website Design</a>
-                                </li>
-                                <li>
-                                    <a>WordPress</a>
-                                </li>
-                                <li>
-                                    <a>Logo Design</a>
-                                </li>
-                                <li>
-                                    <a>Video Editing</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+  const { Search } = Input;
+  const suffix = (
+    <AudioOutlined
+      style={{
+        fontSize: 16,
+        color: "#1890ff",
+      }}
+    />
+  );
+  const onSearch = (value) => console.log(value);
+  return (
+    <Container className="HomePage">
+      <HeaderHomePage className="HeaderHomePage" />
+      <div className="carousel">
+        <div className="container">
+          <div className="intro">
+            <h1 className="title tracking-wide">
+              <span>
+                Find the perfect
+                <i className="mx-14">freelance</i>
+                <br />
+                services for your business
+              </span>
+            </h1>
+            <div className="search-bar mb-24">
+              <Search
+                placeholder="Try 'buidling mobile app'"
+                allowClear
+                enterButton="Search"
+                onSearch={onSearch}
+              />
             </div>
-            <Banner />
-            <div className="feature_services">
-                <div className="container">
-                    <h2>Popular professional services</h2>
-                    <div></div>
-                </div>
+            <div className="popular-topic flex justify-start">
+              <span className="text-white text-18 font-semibold mr-16">
+                Popular:
+              </span>
+              <ul className="md:flex mb-0 flex items-center">
+                <li>
+                  <a>Website Design</a>
+                </li>
+                <li>
+                  <a>WordPress</a>
+                </li>
+                <li>
+                  <a>Logo Design</a>
+                </li>
+                <li>
+                  <a>Video Editing</a>
+                </li>
+              </ul>
             </div>
-        </Container>
-    );
+          </div>
+        </div>
+      </div>
+      <Stats />
+      <Feature />
+      <Proposition />
+    </Container >
+  );
 };
 
 export default Home;
@@ -97,7 +95,7 @@ export const Container = styled.div`
     .carousel {
       position: relative;
 
-      background-image: url(${img});
+      background-image: url(${backgroundImg});
       background-repeat: no-repeat;
       background-size: 100%;
       height: 640px;

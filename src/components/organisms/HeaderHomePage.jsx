@@ -5,7 +5,7 @@ const HeaderHomePage = () => {
     return (
         <Container className="HeaderHomePage text-black">
             <div className="container flex justify-between mx-auto h-80">
-                <a class="logo">
+                <a className="logo">
                     <svg
                         width="89"
                         height="27"

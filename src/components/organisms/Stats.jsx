@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Banner = () => {
+const Stats = () => {
     return (
-        <div className="banner_brand mb-96 relative" style={{ backgroundColor: '#fafafa' }}>
+        <div className="stats_brand mb-96 relative" style={{ backgroundColor: '#fafafa' }}>
             <div className="container flex justify-center items-center">
                 <span className="pr-30 font-semibold text-16" style={{ color: '#b5b6ba' }}>Trusted by:</span>
                 <ul className="md:flex mb-0 flex justify-center items-center h-96">
@@ -27,4 +27,4 @@ const Banner = () => {
     )
 }
 
-export default Banner
+export default Stats
