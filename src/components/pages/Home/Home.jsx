@@ -3,10 +3,9 @@ import styled from "styled-components";
 import Footer from "../../organisms/Footer";
 import HeaderHomePage from "../../organisms/HeaderHomePage";
 import img from "../../../assets/images/background.png";
-import { AudioOutlined } from '@ant-design/icons';
-import { Input, Space } from 'antd';
-
-
+import { AudioOutlined } from "@ant-design/icons";
+import { Input, Space } from "antd";
+import Banner from "../../organisms/Banner";
 
 const Home = () => {
     const { Search } = Input;
@@ -14,16 +13,16 @@ const Home = () => {
         <AudioOutlined
             style={{
                 fontSize: 16,
-                color: '#1890ff',
+                color: "#1890ff",
             }}
         />
     );
     const onSearch = (value) => console.log(value);
     return (
         <Container className="HomePage">
-            <div className="container">
-                <HeaderHomePage className="HeaderHomePage" />
-                <div className="carousel">
+            <HeaderHomePage className="HeaderHomePage" />
+            <div className="carousel">
+                <div className="container">
                     <div className="intro">
                         <h1 className="title tracking-wide">
                             <span>
@@ -42,8 +41,10 @@ const Home = () => {
                             />
                         </div>
                         <div className="popular-topic flex justify-start">
-                            <span className="text-white text-18 font-semibold mr-16">Popular:</span>
-                            <ul className="space-x-3 md:flex mb-0 flex items-cente">
+                            <span className="text-white text-18 font-semibold mr-16">
+                                Popular:
+                            </span>
+                            <ul className="md:flex mb-0 flex items-center">
                                 <li>
                                     <a>Website Design</a>
                                 </li>
@@ -60,14 +61,13 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="trusted_brand mb-80">
-                    <ul>
-                        <li>
-                            <a></a>
-                        </li>
-                    </ul>
+            </div>
+            <Banner />
+            <div className="feature_services">
+                <div className="container">
+                    <h2>Popular professional services</h2>
+                    <div></div>
                 </div>
-                <Footer className="Footer" />
             </div>
         </Container>
     );
@@ -77,78 +77,97 @@ export default Home;
 
 export const Container = styled.div`
   &.HomePage {
-    background-image: url(${img});
-    background-repeat: no-repeat;
-      background-size: 100%;
-    height:900px;
-     
-      .container {
+    .container{
         max-width: 1280px;
-        padding: 0 15px;
+        padding: 0px 15px;
         margin: auto;
-        box-sizing: border-box;
+        box-sizing: border-box; 
+    }
 
-        .HeaderHomePage {
-            color:#fff;
-            margin-bottom: 100px;
-        }
-        .carousel {
-            .intro{
-                .title{
-                    font-size:48px;
-                    font-weight:700;
-                    line-height: 56px;
-                    color:#fff;
-                }
-                .search-bar{
-                    .ant-input-search{
-                        width: 50%;
-                        border-radius: 0 4px 4px 0;
 
-                        .ant-input-affix-wrapper{
-                            padding: 12px 24px;
-                            border-color: transparent;
-                        }
-                        .ant-input-group-addon{
-                            border-radius: 0 4px 4px 0;
-                            .ant-btn{
-                            border-radius: 0 4px 4px 0;
-                            overflow:hidden;
-                            font-size:14px;
-                            height: 48px;
-                            font-weight:700;
-                            padding-right: 20px;
-                            padding-left: 20px;
-                            background-color:#1dbf73;
-                            border-color: transparent;
-                            &:hover{
-                                background-color:#008547;
-                            }
-                        }
-                        }
-                        
-                    }
+    .HeaderHomePage {
+      color: #fff;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 100;
+      transform: translateX(-50%);
+    }
+    .carousel {
+      position: relative;
+
+      background-image: url(${img});
+      background-repeat: no-repeat;
+      background-size: 100%;
+      height: 640px;
+
+      .container { 
+        /* max-width: 1280px;
+        margin: auto;
+        box-sizing: border-box;  */
+        padding: 200px 15px;
+        height: 100%;
+
+        .intro {
+          .title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 56px;
+            color: #fff;
+          }
+          .search-bar {
+            .ant-input-search {
+              width: 53%;
+              border-radius: 0 4px 4px 0;
+
+              .ant-input-affix-wrapper {
+                padding: 12px 24px;
+                border-color: transparent;
+              }
+              .ant-input-group-addon {
+                border-radius: 0 4px 4px 0;
+                .ant-btn {
+                  border-radius: 0 4px 4px 0;
+                  overflow: hidden;
+                  font-size: 14px;
+                  height: 48px;
+                  font-weight: 700;
+                  padding-right: 20px;
+                  padding-left: 20px;
+                  background-color: #1dbf73;
+                  border-color: transparent;
+                  &:hover {
+                    background-color: #008547;
+                  }
                 }
-                .popular-topic{
-                    ul{
-                        li{
-                            a{
-                                background-color: transparent;
-                                line-height: 24px;
-                                font-weight: 600;
-                                color: #fff;
-                                padding: 6px 14px;
-                                border: 1px solid #fff;
-                                border-radius: 40px;
-                            }
-                        }
-                    }
-                }
+              }
             }
-        }
-        .Footer {
+          }
+          .popular-topic {
+            ul {
+              li {
+                padding-right:10px;
+                a {
+                  background-color: transparent;
+                  line-height: 24px;
+                  font-weight: 600;
+                  color: #fff;
+                  padding: 4px 12px;
+                  border: 1px solid #fff;
+                  border-radius: 40px;
+                  transition: all ease 0.5s;
+                  &:hover{
+                    color: #000;
+                    background-color: #fff;
+                  }
+                }
+              }
+            }
+          }
         }
       }
+    }
     
   }
 `;
