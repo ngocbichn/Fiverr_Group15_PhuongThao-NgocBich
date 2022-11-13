@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Footer from '../../organisms/Footer'
 import Header from '../../organisms/Header'
 import { DownOutlined } from '@ant-design/icons';
 
 const WorkList = () => {
+
+    const [topBar, setTopBar] =useState(false)
+
+
+    const addShadow = () => {
+        console.log(window.scrollY)
+        if (window.scrollY >= 80) {
+            setTopBar(true)
+        }
+        else {
+            setTopBar(false)
+        }
+    }
+    
+    window.addEventListener('scroll', addShadow)
+    
     return (
         <Container className='WorkList'>
             <Header />
@@ -37,23 +53,50 @@ const WorkList = () => {
                 </div>
 
             </div>
-            <div className='container'>
+            <div className='containers'>
                 <div className='content'>
-                    <h1>Result for "html"</h1>
-                    <div className='topBar'>
-                        <div className='topFilter'>
-                            <button>Category <DownOutlined className='arrow' /></button>
+                    <h1 className='container'>Result for "html"</h1>
+                    <div className={`topBar  mt-[16px]  ${topBar? 'Scrolled' : ''}`}>
+                        <div className='shadowEffect'> 
+                        <div className='wrapper container'>
+                        <div className='topFilter  '>
+                            <button >Category <DownOutlined className='arrow' /></button>
                             <button>Service Options <DownOutlined className='arrow' /></button>
                             <button>Seller Details <DownOutlined className='arrow' /></button>
                             <button>Budget <DownOutlined className='arrow' /></button>
                             <button>Delivery Time <DownOutlined className='arrow' /></button>
                         </div>
                         <div className='proSearch'>
+                            <div className='filterSearch mr-[16px]'>
+                                <label>
+                                    <input type="checkbox" id='pro' value={true} />
+                                    <span className='checkBox'></span>
+                                </label>
+                                Pro services
+                            </div>
+                            <div className='filterSearch mr-[16px]'>
+                                <label>
+                                    <input type="checkbox" id='pro' value={true} />
+                                    <span className='checkBox'></span>
+                                </label>
+                                Local sellers
+                            </div>
+                            <div className='filterSearch mr-[16px]'>
+                                <label>
+                                    <input type="checkbox" id='pro' value={true} />
+                                    <span className='checkBox'></span>
+                                </label>
+                               Online sellers
+                            </div>
+                        
 
                         </div>
+                        </div>
+                        
+                        </div>
                     </div>
-                    <div className='searchedResult my-[24px]'>
-                        <h2 className='mb-[24px]' >30,775 services available</h2>
+                    <div className='container searchedResult '>
+                        <h2 className='my-[24px]' >30,775 services available</h2>
                         <div className=' listedResult grid grid-cols-4 gap-[20px]'>
                             <div className='grid-box' style={{ backgroundColor: '#fff' }}>
                                 <div className='grid-card'>
@@ -64,27 +107,27 @@ const WorkList = () => {
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a> 
-                                        <div className='sellerLevel'>Level 2 seller</div>
+                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                            <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
-                                       
+
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>      
+                                        <a>I will do HTML, CSS and javascript tasks</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
                                             <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                            <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
                                             </svg> 5.0
-                                          
+
                                         </span>
                                         <span className='ml-4'>(284)</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
                                             <button className='heartButton'>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
+                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
                                                 <a href=""> Starting at <span>$10</span></a>
@@ -103,27 +146,27 @@ const WorkList = () => {
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a> 
-                                        <div className='sellerLevel'>Level 2 seller</div>
+                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                            <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
-                                       
+
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>      
+                                        <a>I will do HTML, CSS and javascript tasks</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
                                             <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                            <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
                                             </svg> 5.0
-                                          
+
                                         </span>
                                         <span className='ml-4'>(284)</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
                                             <button className='heartButton'>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
+                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
                                                 <a href=""> Starting at <span>$10</span></a>
@@ -142,27 +185,27 @@ const WorkList = () => {
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a> 
-                                        <div className='sellerLevel'>Level 2 seller</div>
+                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                            <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
-                                       
+
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>      
+                                        <a>I will do HTML, CSS and javascript tasks</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
                                             <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                            <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
                                             </svg> 5.0
-                                          
+
                                         </span>
                                         <span className='ml-4'>(284)</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
                                             <button className='heartButton'>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
+                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
                                                 <a href=""> Starting at <span>$10</span></a>
@@ -181,27 +224,27 @@ const WorkList = () => {
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a> 
-                                        <div className='sellerLevel'>Level 2 seller</div>
+                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                            <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
-                                       
+
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>      
+                                        <a>I will do HTML, CSS and javascript tasks</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
                                             <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                            <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
                                             </svg> 5.0
-                                          
+
                                         </span>
                                         <span className='ml-4'>(284)</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
                                             <button className='heartButton'>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
+                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
                                                 <a href=""> Starting at <span>$10</span></a>
@@ -220,27 +263,27 @@ const WorkList = () => {
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a> 
-                                        <div className='sellerLevel'>Level 2 seller</div>
+                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                            <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
-                                       
+
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>      
+                                        <a>I will do HTML, CSS and javascript tasks</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
                                             <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                            <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
                                             </svg> 5.0
-                                          
+
                                         </span>
                                         <span className='ml-4'>(284)</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
                                             <button className='heartButton'>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
+                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
                                                 <a href=""> Starting at <span>$10</span></a>
@@ -250,7 +293,7 @@ const WorkList = () => {
                                 </div>
 
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -328,9 +371,8 @@ export const Container = styled.div`
             }
         }
 
-        .container {
-            max-width: 1280px;
-            margin: auto;
+        .containers {
+            
             .content {
                 h1 {
                     font-size: 30px;
@@ -343,8 +385,35 @@ export const Container = styled.div`
                     font-weight: 600;
                 }
                 .topBar {
-                display: flex;
-                .topFilter {
+                
+                position: sticky;
+                z-index: 10;
+                top: 0;
+                -webkit-backface-visibility: hidden;
+                /* box-shadow: 0 0.266px 1.13052px rgb(0 0 0 / 7%), 0 0.89345px 3.79717px rgb(0 0 0 / 10%), 0 5px 17px rgb(0 0 0 / 17%);
+                        z-index: 10; */
+
+                
+             
+                .shadowEffect {
+                    background-color: #fff;
+                    height: 84%;
+                    position: relative;
+                    top: 0;
+                    ::after {
+
+                        content: "";
+                        display: block;
+                        height: 10px;
+                    
+                       
+    }
+                    .wrapper {
+                        display: flex;
+                justify-content:space-between;
+                align-items: center;
+                height: 70px;
+                    .topFilter {
                     display: flex;
                     align-items: center;
                     button {
@@ -362,11 +431,70 @@ export const Container = styled.div`
                     }
                 }
                 .proSearch {
+                    display: flex;
+                  .filterSearch {
+                      display: flex;
+                      align-items: center;
+                      color: #62646a;
+                      font-size: 16px;
+                      font-weight: 600;
+                      label {
+                          display: flex;
+                          margin-right: 5px;
+                        input{
+                                display: none;
+                            }
+                        span{ 
+                            
+                            height: 18px;
+                            width: 31px;    
+                            display: inline-block;
+                            position: relative;
+                            border-radius: 999px;
+                            background-color: #dadbdd;
+                            cursor: pointer;    
+                            ::after {
+                                content: '';
+                                width: 18px;
+                                height: 18px;
+                                display: block;
+                                position: absolute; 
+                                box-sizing: border-box;
+                                top: 0;
+                                left: 0;
+                                z-index: 1;
+                                background: #fff;
+                                border: 1px solid #dadbdd;
+                                border-radius: 50%;
+                                box-shadow: 0 2px 6px rgb(34 35 37 / 10%);
 
+                            }
+    
+                        }
+                        input:checked ~ span {
+                            background-color: #1dbf73;
+
+                        }
+                        input:checked ~ span::after {
+                            transform: translateX(18px);
+
+                        }
+                      }
+                  }
                 }
+                    }
+                   
+                }
+               
+                 
                
                
             }
+            .Scrolled  {
+                
+                box-shadow: 0 0.266px 1.13052px rgb(0 0 0 / 7%), 0 0.89345px 3.79717px rgb(0 0 0 / 10%), 0 5px 17px rgb(0 0 0 / 17%);
+                        z-index: 10;
+                        }
             .searchedResult {
                 .listedResult {
                     
