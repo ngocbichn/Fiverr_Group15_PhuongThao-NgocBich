@@ -1,9 +1,9 @@
 import React from 'react'
-import pic1 from '../../assets/images/feature/logodesign.png'
-import pic2 from '../../assets/images/feature/wordpress.png'
-import pic3 from '../../assets/images/feature/voiceover.png'
-import pic4 from '../../assets/images/feature/videoexplainer.png'
-import pic5 from '../../assets/images/feature/socialmedia.png'
+import pic1 from '../../../assets/images/feature/logodesign.png'
+import pic2 from '../../../assets/images/feature/wordpress.png'
+import pic3 from '../../../assets/images/feature/voiceover.png'
+import pic4 from '../../../assets/images/feature/videoexplainer.png'
+import pic5 from '../../../assets/images/feature/socialmedia.png'
 
 const Feature = () => {
     return (

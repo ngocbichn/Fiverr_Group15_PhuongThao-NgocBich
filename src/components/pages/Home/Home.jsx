@@ -5,9 +5,11 @@ import HeaderHomePage from "../../organisms/HeaderHomePage";
 import backgroundImg from "../../../assets/images/background.png";
 import { AudioOutlined } from "@ant-design/icons";
 import { Input, Space } from "antd";
-import Feature from "../../organisms/Feature";
-import Stats from "../../organisms/Stats";
-import Proposition from "../../organisms/Proposition";
+import Feature from "./Feature";
+import Stats from "./Stats";
+import Proposition from "./Proposition";
+import Category from "./Category";
+import Testimonials from "./Testimonials";
 
 const Home = () => {
   const { Search } = Input;
@@ -67,6 +69,9 @@ const Home = () => {
       <Stats />
       <Feature />
       <Proposition />
+      <Category />
+      <Testimonials />
+      <Footer />
     </Container >
   );
 };

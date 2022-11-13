@@ -1,9 +1,9 @@
 import React from 'react'
-import thumbnail from '../../assets/images/proposition/propositionVideoThumbnail.png'
+import thumbnail from '../../../assets/images/proposition/propositionVideoThumbnail.png'
 
 const Proposition = () => {
     return (
-        <div className="proposition" style={{ backgroundColor: '#f1fdf7' }}>
+        <div className="proposition mb-96" style={{ backgroundColor: '#f1fdf7' }}>
             <div className="container" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
                 <div className="proposition_content grid grid-cols-2">
                     <div className="text" style={{ paddingRight: '11%' }}>
