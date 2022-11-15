@@ -55,7 +55,10 @@ const WorkList = () => {
             </div>
             <div className='containers'>
                 <div className='content'>
-                    <h1 className='container'>Result for "html"</h1>
+                    <div className='container'>
+                    <h1>Result for "html"</h1>
+                    </div>
+                    
                     <div className={`topBar  mt-[16px]  ${topBar? 'Scrolled' : ''}`}>
                         <div className='shadowEffect'> 
                         <div className='wrapper container'>
@@ -330,7 +333,8 @@ export const Container = styled.div`
                         margin-right: auto;
                         a {
                             color: #62646a;
-                            font-size: 16px;&:hover {
+                            font-size: 16px;
+                            &:hover {
                                 color: #1dbf73;
                             }
                            
@@ -340,6 +344,11 @@ export const Container = styled.div`
           
                    
              }    
+            }
+
+            @media screen and (min-width: 986px) {
+               
+                
             }
 
         .suggestedSearch {
