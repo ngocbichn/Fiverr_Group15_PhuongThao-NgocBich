@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderHomePage = () => {
+    
     return (
         <Container className="HeaderHomePage text-black">
             <div className="container flex justify-between mx-auto h-80">

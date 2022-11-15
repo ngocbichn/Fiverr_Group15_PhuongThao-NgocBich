@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import Footer from '../../organisms/Footer'
 import Header from '../../organisms/Header'
 import { DownOutlined } from '@ant-design/icons';
+import { NavLink } from 'react-router-dom';
 
 const WorkList = () => {
 
-    const [topBar, setTopBar] =useState(false)
+    const [topBar, setTopBar] = useState(false)
 
 
     const addShadow = () => {
@@ -18,25 +19,107 @@ const WorkList = () => {
             setTopBar(false)
         }
     }
-    
+
     window.addEventListener('scroll', addShadow)
-    
+
+    const hover = (e) => {
+        console.log(e.target.value)
+    }
+
     return (
         <Container className='WorkList'>
             <Header />
             <div className='categoryMenu'>
                 <div className='container'>
                     <ul className='navMenu'>
-                        <li> <a href="">Graphics & Design</a>  </li>
-                        <li> <a href="">Digital Marketing</a>  </li>
-                        <li> <a href="">
-                            Writing & Translation</a>  </li>
-                        <li> <a href="">Video & Animation</a>  </li>
-                        <li> <a href="">Music & Audio</a>  </li>
-                        <li> <a href="">Programming & Tech</a>  </li>
-                        <li> <a href="">Data </a> <span>New</span></li>
-                        <li> <a href="">Business</a> </li>
-                        <li> <a href="">Lifestyle</a> </li>
+                        <div className='navCate'>
+                            <li className='category'> <NavLink to="/categories">Graphics & Design</NavLink>  </li>
+                            <div className='subMenu'>
+                                <div className=' grid grid-cols-4 gap-[40px]'>
+                                    <div className='groupJobCate'>
+                                        <ul className='listJobCate'>
+                                            <h3>Logo & Brand Identity</h3>
+                                            <li> <a href="">Logo design</a> </li>
+                                            <li> <a href="">Brand Style Guides </a> </li>
+                                            <li> <a href="">Fonts & Typography </a></li>
+                                            <li><a href="">Business Card & Stationery </a></li>
+                                        </ul>
+                                    </div>
+                                    <div className='groupJobCate'>
+                                        <ul className='listJobCate'>
+                                            <h3>Logo & Brand Identity</h3>
+                                            <li>Logo design</li>
+                                            <li>Brand Style Guides</li>
+                                            <li>Fonts & Typography</li>
+                                            <li>Business Card & Stationery</li>
+                                        </ul>
+                                    </div>
+                                    <div className='groupJobCate'>
+                                        <ul className='listJobCate'>
+                                            <h3>Logo & Brand Identity</h3>
+                                            <li>Logo design</li>
+                                            <li>Brand Style Guides</li>
+                                            <li>Fonts & Typography</li>
+                                            <li>Business Card & Stationery</li>
+                                        </ul>
+                                    </div>
+                                    <div className='groupJobCate'>
+                                        <ul className='listJobCate'>
+                                            <h3>Logo & Brand Identity</h3>
+                                            <li>Logo design</li>
+                                            <li>Brand Style Guides</li>
+                                            <li>Fonts & Typography</li>
+                                            <li>Business Card & Stationery</li>
+                                        </ul>
+                                    </div>
+                                    <div className='groupJobCate'>
+                                        <ul className='listJobCate'>
+                                            <h3>Logo & Brand Identity</h3>
+                                            <li>Logo design</li>
+                                            <li>Brand Style Guides</li>
+                                            <li>Fonts & Typography</li>
+                                            <li>Business Card & Stationery</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Digital Marketing</a>  </li>
+                        </div>
+                        <div className='navCate'>
+                            <li className='category'> <a href="">
+                                Writing & Translation</a>  </li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Video & Animation</a>  </li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Music & Audio</a>  </li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Programming & Tech</a>  </li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Data </a> <span style={{color: 'red'}}>New</span></li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Business</a> </li>
+                        </div>
+
+                        <div className='navCate'>
+                            <li className='category'> <a href="">Lifestyle</a> </li>
+                        </div>
+
                     </ul>
                 </div>
 
@@ -54,48 +137,48 @@ const WorkList = () => {
 
             </div>
             <div className='containers'>
-                <div className='content'>
+                <div className='content mb-[32px]'>
                     <div className='container'>
-                    <h1>Result for "html"</h1>
+                        <h1>Result for "html"</h1>
                     </div>
-                    
-                    <div className={`topBar  mt-[16px]  ${topBar? 'Scrolled' : ''}`}>
-                        <div className='shadowEffect'> 
-                        <div className='wrapper container'>
-                        <div className='topFilter  '>
-                            <button >Category <DownOutlined className='arrow' /></button>
-                            <button>Service Options <DownOutlined className='arrow' /></button>
-                            <button>Seller Details <DownOutlined className='arrow' /></button>
-                            <button>Budget <DownOutlined className='arrow' /></button>
-                            <button>Delivery Time <DownOutlined className='arrow' /></button>
-                        </div>
-                        <div className='proSearch'>
-                            <div className='filterSearch mr-[16px]'>
-                                <label>
-                                    <input type="checkbox" id='pro' value={true} />
-                                    <span className='checkBox'></span>
-                                </label>
-                                Pro services
-                            </div>
-                            <div className='filterSearch mr-[16px]'>
-                                <label>
-                                    <input type="checkbox" id='pro' value={true} />
-                                    <span className='checkBox'></span>
-                                </label>
-                                Local sellers
-                            </div>
-                            <div className='filterSearch mr-[16px]'>
-                                <label>
-                                    <input type="checkbox" id='pro' value={true} />
-                                    <span className='checkBox'></span>
-                                </label>
-                               Online sellers
-                            </div>
-                        
 
-                        </div>
-                        </div>
-                        
+                    <div className={`topBar  mt-[16px]  ${topBar ? 'Scrolled' : ''}`}>
+                        <div className='shadowEffect'>
+                            <div className='wrapper container'>
+                                <div className='topFilter  '>
+                                    <button >Category <DownOutlined className='arrow' /></button>
+                                    <button>Service Options <DownOutlined className='arrow' /></button>
+                                    <button>Seller Details <DownOutlined className='arrow' /></button>
+                                    <button>Budget <DownOutlined className='arrow' /></button>
+                                    <button>Delivery Time <DownOutlined className='arrow' /></button>
+                                </div>
+                                <div className='proSearch'>
+                                    <div className='filterSearch mr-[16px]'>
+                                        <label>
+                                            <input type="checkbox"/>
+                                            <span className='checkBox'></span>
+                                        </label>
+                                        Pro services
+                                    </div>
+                                    <div className='filterSearch mr-[16px]'>
+                                        <label>
+                                            <input type="checkbox"/>
+                                            <span className='checkBox'></span>
+                                        </label>
+                                        Local sellers
+                                    </div>
+                                    <div className='filterSearch mr-[16px]'>
+                                        <label>
+                                            <input type="checkbox" />
+                                            <span className='checkBox'></span>
+                                        </label>
+                                        Online sellers
+                                    </div>
+
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div className='container searchedResult '>
@@ -328,18 +411,82 @@ export const Container = styled.div`
                 max-width: 1280px;
                     display: flex;
                     margin: 10px 0;
-
-                    li {
+                    .navCate {
+                        position: relative;
                         margin-right: auto;
+                        display: block;
+                       
+                        .category {
                         a {
                             color: #62646a;
                             font-size: 16px;
-                            &:hover {
-                                color: #1dbf73;
+                            position: relative;
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                bottom: -4px;
+                                left: 0;
+                                width: 0%;
+                                background-color: #1dbf73;
+                                height: 10%;
+                                display: block;
+                                
+
                             }
+                           
+                          
                            
                         }
                     }
+
+                    .subMenu {
+                        position: absolute;
+                        top: 27px;
+                        left: 0;
+                        z-index: 20;
+                       width: max-content;
+                       height: max-content;
+                        border: 1px solid #dadbdd;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    padding: 10px;
+                    display: none;
+                    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                    .groupJobCate {
+                        .listJobCate {
+                        li {
+                            line-height: 2;
+                            a {
+                                color: #62646a;
+                            }
+                        }
+                    }
+                    }
+                   
+                  
+                    }
+                    &:hover{
+                        .category {
+                            a { 
+                                color: #1dbf73;
+                                &::after{
+                                    display: block;
+                                    width: 100%;
+                                    transition: all 0.5s;
+                                
+                               
+                            }
+                            }
+                        }
+                        .subMenu{
+                            display: block;
+                        }
+                    }
+                   
+                    
+                    }
+
+                   
             }
           
                    
@@ -429,7 +576,8 @@ export const Container = styled.div`
                         font-size: 16px;
                         font-weight: 600;
                         margin-right: 12px;
-                        display:flex; align-items: center;
+                        display:flex; 
+                        align-items: center;
                         border: 1px solid #dadbdd;
                         border-radius: 5px;
                         padding: 4px 10px;

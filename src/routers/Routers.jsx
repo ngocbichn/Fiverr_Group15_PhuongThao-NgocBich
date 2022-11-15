@@ -5,6 +5,7 @@ import Home from '../components/pages/Home/Home'
 import WorkList from "../components/pages/WorkList/WorkList";
 import SignUp from "../components/pages/SignUp/SignUp"
 import SignIn from "../components/pages/SignIn/SignIn"
+import WorkCategory from "../components/pages/WorkCategory/WorkCategory";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -23,6 +24,10 @@ const Routers = () => {
                 {
                     path: 'worklist',
                     element: <WorkList />
+                },
+                {
+                    path: 'categories',
+                    element: <WorkCategory />
                 },
                 {
                     path: 'signup',

@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { SearchOutlined } from '@ant-design/icons';
+import { useNavigate, NavLink } from "react-router-dom";
 
 const Header = () => {
+   
     return (
         <Container className="Header text-black">
             <div className="container flex justify-between mx-auto h-80">
@@ -24,9 +26,9 @@ const Header = () => {
                 </a>
                 
                 <form className="searchBar"  action="">
-                <SearchOutlined className="text-base"/>
+                <SearchOutlined className="text-base ml-5"/>
                
-                <input type="text" placeholder="html" className="searchInput ml-4" />
+                <input type="text" placeholder="What services are you looking for today?" className="searchInput ml-4" style={{height: '50px'}}/>
                 <button className="searchButton bg-green-500 ">
                     SEARCH
                 </button>
@@ -56,22 +58,20 @@ const Header = () => {
                         </a>
                     </li>
                     <li className="px-10">
-                        <a
-                            rel="noopener noreferrer"
-                            href="#"
+                        <NavLink
+                            to="/signin"
                             className="flex items-center px-4"
                         >
                             Sign In
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="px-10">
-                        <a
-                            rel="noopener noreferrer"
-                            href="#"
+                        <NavLink
+                           to="/signup"
                             className="button_LogIn flex items-center"
                         >
                             Join
-                        </a>
+                        </NavLink>
                     </li>
                 </ul>
                 <button className="flex justify-end p-4 md:hidden">
@@ -115,7 +115,7 @@ export const Container = styled.div`
       }
       .searchBar {
           width: 40%;
-          height: 40%;
+          /* height: 40%; */
           border: 1px solid #e4e5e7;
           margin: auto;
           margin-left: 10px;
@@ -130,7 +130,7 @@ export const Container = styled.div`
           }
           .searchButton{
               width: 25%;
-              height: 100%;
+              height: 50px;
               color: #fff;
               font-weight: bold;
 
