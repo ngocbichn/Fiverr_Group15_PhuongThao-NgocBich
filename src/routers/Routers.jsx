@@ -3,6 +3,8 @@ import { Navigate, useRoutes } from "react-router-dom";
 import MainLayout from "../components/layouts/MainLayout";
 import Home from '../components/pages/Home/Home'
 import WorkList from "../components/pages/WorkList/WorkList";
+import SignUp from "../components/pages/SignUp/SignUp"
+import SignIn from "../components/pages/SignIn/SignIn"
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -20,9 +22,16 @@ const Routers = () => {
                 },
                 {
                     path: 'worklist',
-                    element: <WorkList/>
+                    element: <WorkList />
                 },
-
+                {
+                    path: 'signup',
+                    element: <SignUp />
+                },
+                {
+                    path: 'signin',
+                    element: <SignIn />
+                }
             ],
         }
 

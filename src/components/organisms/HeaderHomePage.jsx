@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderHomePage = () => {
@@ -41,22 +42,20 @@ const HeaderHomePage = () => {
                         </a>
                     </li>
                     <li className="px-10">
-                        <a
-                            rel="noopener noreferrer"
-                            href="#"
+                        <NavLink
+                            to="/signin"
                             className="flex items-center px-4"
                         >
                             Sign In
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="px-10">
-                        <a
-                            rel="noopener noreferrer"
-                            href="#"
+                        <NavLink
+                            to="/signup"
                             className="button_LogIn flex items-center"
                         >
                             Join
-                        </a>
+                        </NavLink>
                     </li>
                 </ul>
                 <button className="flex justify-end p-4 md:hidden">

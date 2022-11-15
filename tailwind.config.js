@@ -65,6 +65,9 @@ module.exports = {
         38: '38px',
         40: '40px',
       },
+      colors: {
+        primary: '#1dbf73',
+      },
     },
   },
   plugins: [],
