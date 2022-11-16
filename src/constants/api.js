@@ -8,7 +8,7 @@ const baseURL = 'https://fiverrnew.cybersoft.edu.vn/api/'
 export const api = axios.create()
 
 api.interceptors.request.use((config) => {
-    // const bearerToken = JSON.parse(localStorage.getItem('User_Login'))?.accessToken
+    const bearerToken = JSON.parse(localStorage.getItem('User_Login'))?.accessToken
     config = {
         ...config,
         headers: {
@@ -16,10 +16,10 @@ api.interceptors.request.use((config) => {
         },
         baseURL,
     }
-    // console.log(bearerToken);
-    // if (bearerToken) {
-    //     config.headers['Authorization'] = `Bearer ${bearerToken}`
-    // }
+    console.log(bearerToken);
+    if (bearerToken) {
+        config.headers['Authorization'] = `Bearer ${bearerToken}`
+    }
 
     return config
 })

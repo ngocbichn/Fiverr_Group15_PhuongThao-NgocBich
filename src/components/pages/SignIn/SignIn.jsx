@@ -16,7 +16,7 @@ import styled from "styled-components";
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signUpAction, useAuthManage } from "../../../store/authManage";
+import { signInAction, useAuthManage } from "../../../store/authManage";
 
 const SignIn = () => {
 
@@ -26,7 +26,7 @@ const SignIn = () => {
 
 
 
-    const { userSignUp, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
+    const { userSignIn, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
 
     const formik = useFormik({
         initialValues: {
@@ -35,10 +35,21 @@ const SignIn = () => {
         },
         onSubmit: values => {
             console.log('values', values)
-            dispatch(signUpAction(values))
-
+            dispatch(signInAction(values))
+            if (isSuccess) {
+                alert('Sign In successfully!')
+                navigate('/home')
+            }
         },
     });
+
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     return (
         <Container className="SignIn bg-primary min-h-screen flex flex-col">
             <div className="container w-2/5 mx-auto px-10 bg-white rounded">
@@ -56,12 +67,22 @@ const SignIn = () => {
                     }}
                     layout="horizontal"
                     size="large"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
                 >
                     <Form.Item label="Email">
                         <Input
                             name="email"
                             placeholder="Email"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your email!',
+                                },
+                            ]}
                         />
                     </Form.Item>
                     <Form.Item label="Password">
@@ -69,7 +90,14 @@ const SignIn = () => {
                             name="password"
                             placeholder="Password"
                             onChange={formik.handleChange}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your password!',
+                                },
+                            ]}
                         />
+
                     </Form.Item>
                     <Form.Item>
                         <button

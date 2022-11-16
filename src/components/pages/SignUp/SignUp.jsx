@@ -17,6 +17,7 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signUpAction, useAuthManage } from "../../../store/authManage";
+import FormList from "antd/lib/form/FormList";
 
 const SignUp = () => {
 
@@ -28,10 +29,15 @@ const SignUp = () => {
 
     const { userSignUp, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
 
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
     const formik = useFormik({
         initialValues: {
-            id: 0,
             name: "",
             email: "",
             password: "",
@@ -47,11 +53,9 @@ const SignUp = () => {
             console.log('values', values)
             dispatch(signUpAction(values))
             if (isSuccess) {
-                alert('Đăng ký thành công')
+                alert('Register successfully!')
                 navigate('/home')
             }
-
-
         },
     });
 
@@ -67,6 +71,17 @@ const SignUp = () => {
             formik.setFieldValue(name, gender);
         };
     };
+
+    const handleChangeSelect = (value) => {
+        formik.setFieldValue("role", value)
+    }
+
+    const handleArr = (name, value) => {
+        value = JSON.stringify(value)
+        formik.setFieldValue(name, value)
+    }
+
+
 
     return (
         <Container className="SignUp bg-primary min-h-screen flex flex-col">
@@ -85,6 +100,9 @@ const SignUp = () => {
                     }}
                     layout="horizontal"
                     size="large"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
                 >
                     <Form.Item label="Name">
                         <Input
@@ -131,24 +149,37 @@ const SignUp = () => {
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item label="Role">
-                        <Input
+                        <Select
                             name="role"
-                            placeholder="Role"
-                            onChange={formik.handleChange}
+                            defaultValue="Select Role"
+                            style={{
+                                width: '100%',
+                            }}
+                            onChange={handleChangeSelect}
+                            options={[
+                                {
+                                    value: 'ADMIN',
+                                    label: 'ADMIN',
+                                },
+                                {
+                                    value: 'USER',
+                                    label: 'USER',
+                                },
+                            ]}
                         />
                     </Form.Item>
                     <Form.Item label="Skill">
                         <Input
                             name="skill"
                             placeholder="Skill"
-                            onChange={formik.handleChange}
+                            onChange={handleArr}
                         />
                     </Form.Item>
                     <Form.Item label="Certification">
                         <Input
                             name="certification"
-                            placeholder="certification"
-                            onChange={formik.handleChange}
+                            placeholder="Certification"
+                            onChange={handleArr}
                         />
                     </Form.Item>
                     <Form.Item>
@@ -163,14 +194,14 @@ const SignUp = () => {
                 <div className="text-center text-sm text-grey-dark mt-4">
                     By signing up, you agree to the
                     <a
-                        className="no-underline border-b border-grey-dark text-primary hover:underline hover:text-primary"
+                        className="mx-5 no-underline text-primary hover:underline hover:text-primary"
                         href="#"
                     >
                         Terms of Service
                     </a>{" "}
                     and
                     <a
-                        className="no-underline border-b border-grey-dark text-primary hover:underline hover:text-primary"
+                        className="mx-5 no-underline text-primary hover:underline hover:text-primary"
                         href="#"
                     >
                         Privacy Policy
