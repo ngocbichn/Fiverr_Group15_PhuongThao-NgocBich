@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Footer from '../../organisms/Footer'
 import Header from '../../organisms/Header'
 import { DownOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { useWorkManage } from '../../../store/workManage/workManageSelector';
+import { useDispatch } from 'react-redux';
+import { getMenuLoaiCV, getCVtheochitietloai } from '../../../store/workManage/workManageReducer';
 
 const WorkList = () => {
 
     const [topBar, setTopBar] = useState(false)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
     const addShadow = () => {
-        console.log(window.scrollY)
+        // console.log(window.scrollY)
         if (window.scrollY >= 80) {
             setTopBar(true)
         }
@@ -22,9 +27,15 @@ const WorkList = () => {
 
     window.addEventListener('scroll', addShadow)
 
-    const hover = (e) => {
-        console.log(e.target.value)
-    }
+ 
+
+    useEffect(() => {dispatch(getMenuLoaiCV())},[])
+
+    const {menuLoaiCV,DScongviectheoChiTietLoai} = useWorkManage()
+    console.log('menuLoaiCV',menuLoaiCV)
+    console.log('DScongviectheoChiTietLoai',DScongviectheoChiTietLoai)
+
+   
 
     return (
         <Container className='WorkList'>
@@ -32,10 +43,43 @@ const WorkList = () => {
             <div className='categoryMenu'>
                 <div className='container'>
                     <ul className='navMenu'>
-                        <div className='navCate'>
+                         {menuLoaiCV.map((menuCV,index) => {
+                            return (
+                            <div className='navCate' key={index}>
+                            <li className='category'> <NavLink to="/categories">{menuCV.tenLoaiCongViec}</NavLink>  </li>
+                            <div className='subMenu'>
+                            <div className='grid grid-flow-col-dense grid-cols-3 gap-[40px]' >
+                            {menuCV.dsNhomChiTietLoai?.map((item) => {
+                                return (
+                               
+                                
+                                    <div className='groupJobCate' key={item.id}>
+                                        <ul className='listJobCate'>
+                                            <h3>{item.tenNhom}</h3>
+                                            {item.dsChiTietLoai.map((ChiTietLoai) => {
+                                                return (
+                                                <li key={ChiTietLoai.id}> <a onClick={() => {dispatch(getCVtheochitietloai(ChiTietLoai.id))
+                                                console.log(ChiTietLoai.id)}}
+                                                >{ChiTietLoai.tenChiTiet}</a> </li>)}
+                                           )}
+                                            
+                                        </ul>
+                                    </div> )
+                            })}
+                               </div> 
+                            </div>
+                           
+                            
+                        </div>
+                            )
+
+                        })} 
+
+
+                        {/* <div className='navCate'>
                             <li className='category'> <NavLink to="/categories">Graphics & Design</NavLink>  </li>
                             <div className='subMenu'>
-                                <div className=' grid grid-cols-4 gap-[40px]'>
+                                <div className=' grid grid-flow-col-dense gap-[40px]'>
                                     <div className='groupJobCate'>
                                         <ul className='listJobCate'>
                                             <h3>Logo & Brand Identity</h3>
@@ -63,62 +107,11 @@ const WorkList = () => {
                                             <li>Business Card & Stationery</li>
                                         </ul>
                                     </div>
-                                    <div className='groupJobCate'>
-                                        <ul className='listJobCate'>
-                                            <h3>Logo & Brand Identity</h3>
-                                            <li>Logo design</li>
-                                            <li>Brand Style Guides</li>
-                                            <li>Fonts & Typography</li>
-                                            <li>Business Card & Stationery</li>
-                                        </ul>
-                                    </div>
-                                    <div className='groupJobCate'>
-                                        <ul className='listJobCate'>
-                                            <h3>Logo & Brand Identity</h3>
-                                            <li>Logo design</li>
-                                            <li>Brand Style Guides</li>
-                                            <li>Fonts & Typography</li>
-                                            <li>Business Card & Stationery</li>
-                                        </ul>
-                                    </div>
+                                    
                                 </div>
                             </div>
-
-
-
-
-                        </div>
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Digital Marketing</a>  </li>
-                        </div>
-                        <div className='navCate'>
-                            <li className='category'> <a href="">
-                                Writing & Translation</a>  </li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Video & Animation</a>  </li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Music & Audio</a>  </li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Programming & Tech</a>  </li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Data </a> <span style={{color: 'red'}}>New</span></li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Business</a> </li>
-                        </div>
-
-                        <div className='navCate'>
-                            <li className='category'> <a href="">Lifestyle</a> </li>
-                        </div>
+                        </div> */}
+                        
 
                     </ul>
                 </div>
@@ -479,7 +472,7 @@ export const Container = styled.div`
                             }
                         }
                         .subMenu{
-                            display: block;
+                            display: inline-grid;
                         }
                     }
                    
@@ -545,7 +538,7 @@ export const Container = styled.div`
                 position: sticky;
                 z-index: 10;
                 top: 0;
-                -webkit-backface-visibility: hidden;
+                /* -webkit-backface-visibility: hidden; */
                 /* box-shadow: 0 0.266px 1.13052px rgb(0 0 0 / 7%), 0 0.89345px 3.79717px rgb(0 0 0 / 10%), 0 5px 17px rgb(0 0 0 / 17%);
                         z-index: 10; */
 

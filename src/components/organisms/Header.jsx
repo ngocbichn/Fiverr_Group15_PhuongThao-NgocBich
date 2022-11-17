@@ -2,8 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import { SearchOutlined } from '@ant-design/icons';
 import { useNavigate, NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCVTheoTen } from "../../store/workManage/workManageReducer";
+import { useWorkManage } from "../../store/workManage/workManageSelector";
+
 
 const Header = () => {
+    const dispatch = useDispatch()
+
+    // const searchContent = 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(event.target.searchInput.value)
+        dispatch(getCVTheoTen(event.target.searchInput.value))  
+     
+      }
+
+      const {DScongviectheoTen} = useWorkManage()
+      console.log('DScongviectheoTen',DScongviectheoTen)
+      
+      
    
     return (
         <Container className="Header text-black">
@@ -25,11 +43,12 @@ const Header = () => {
                     </svg>
                 </a>
                 
-                <form className="searchBar"  action="">
+                <form onSubmit={handleSubmit} className="searchBar"  action="">
                 <SearchOutlined className="text-base ml-5"/>
                
-                <input type="text" placeholder="What services are you looking for today?" className="searchInput ml-4" style={{height: '50px'}}/>
-                <button className="searchButton bg-green-500 ">
+                <input 
+                 type="text" placeholder="What services are you looking for today?" className="searchInput ml-4" style={{height: '50px'}} name="searchInput"/>
+                <button type="submit" className="searchButton bg-green-500 ">
                     SEARCH
                 </button>
                
