@@ -8,6 +8,8 @@ import SignIn from "../components/pages/SignIn/SignIn"
 import WorkCategory from "../components/pages/WorkCategory/WorkCategory";
 import AdminLayout from "../components/layouts/AdminLayout";
 import User from "../components/pages/Admin/User/User";
+import UserEdit from "../components/pages/Admin/User/UserEdit";
+import AdminWorkList from "../components/pages/Admin/Work/AdminWorkList";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -50,12 +52,20 @@ const Routers = () => {
                     element: <User />,
                 },
                 {
+                    path: 'worklist',
+                    element: <AdminWorkList />
+                },
+                {
                     path: '/admin',
                     element: <Navigate to='/admin/user' />
-                }
-            ]
-        }
+                },
+                {
+                    path: '/admin/user/edit/:id',
+                    element: <UserEdit />
+                },
 
+            ]
+        },
     ]);
     return Routing;
 };
