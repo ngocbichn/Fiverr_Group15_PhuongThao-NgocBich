@@ -15,7 +15,7 @@ import TextArea from "antd/lib/input/TextArea";
 import styled from "styled-components";
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInAction, useAuthManage } from "../../../store/authManage";
 
 const SignIn = () => {
@@ -24,15 +24,19 @@ const SignIn = () => {
 
     const navigate = useNavigate()
 
-
-
     const { userSignIn, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
+
+    const validationSchema = Yup.object({
+        email: Yup.string().required('Email is required'),
+        password: Yup.string().required('Password is required'),
+    })
 
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
         },
+        validationSchema: validationSchema,
         onSubmit: values => {
             console.log('values', values)
             dispatch(signInAction(values))
@@ -43,12 +47,7 @@ const SignIn = () => {
         },
     });
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+
 
     return (
         <Container className="SignIn bg-primary min-h-screen flex flex-col">
@@ -67,9 +66,6 @@ const SignIn = () => {
                     }}
                     layout="horizontal"
                     size="large"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
                 >
                     <Form.Item label="Email">
                         <Input
@@ -84,6 +80,7 @@ const SignIn = () => {
                                 },
                             ]}
                         />
+                        <p className='text-red-500'>{formik.errors.email}</p>
                     </Form.Item>
                     <Form.Item label="Password">
                         <Input
@@ -97,7 +94,7 @@ const SignIn = () => {
                                 },
                             ]}
                         />
-
+                        <p className='text-red-500'>{formik.errors.password}</p>
                     </Form.Item>
                     <Form.Item>
                         <button
@@ -110,7 +107,7 @@ const SignIn = () => {
                 </Form>
                 <div className="text-center text-sm text-grey-dark mt-4">
                     <p className="px-6 text-16 text-center dark:text-gray-400">Not a member yet?
-                        <a rel="noopener noreferrer" href="#" className="font-medium hover:underline" style={{ color: "#1dbf73" }}>Join now</a>.
+                        <Link to="/signup" className="font-medium hover:underline" style={{ color: "#1dbf73" }}>Join now</Link>.
                     </p>
                 </div>
             </div>

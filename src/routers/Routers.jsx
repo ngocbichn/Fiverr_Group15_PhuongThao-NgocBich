@@ -6,6 +6,8 @@ import WorkList from "../components/pages/WorkList/WorkList";
 import SignUp from "../components/pages/SignUp/SignUp"
 import SignIn from "../components/pages/SignIn/SignIn"
 import WorkCategory from "../components/pages/WorkCategory/WorkCategory";
+import AdminLayout from "../components/layouts/AdminLayout";
+import User from "../components/pages/Admin/User/User";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -38,6 +40,20 @@ const Routers = () => {
                     element: <SignIn />
                 }
             ],
+        },
+        {
+            path: "/admin",
+            element: <AdminLayout />,
+            children: [
+                {
+                    path: 'user',
+                    element: <User />,
+                },
+                {
+                    path: '/admin',
+                    element: <Navigate to='/admin/user' />
+                }
+            ]
         }
 
     ]);

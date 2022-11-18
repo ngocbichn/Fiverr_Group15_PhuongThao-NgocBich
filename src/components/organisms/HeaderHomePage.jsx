@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderHomePage = () => {
-    
+
     return (
         <Container className="HeaderHomePage text-black">
             <div className="container flex justify-between mx-auto h-80">
-                <a className="logo">
+                <a className="logo md:text-20">
                     <svg
                         width="89"
                         height="27"
@@ -28,7 +28,7 @@ const HeaderHomePage = () => {
                         <a
                             rel="noopener noreferrer"
                             href="#"
-                            className="flex items-center px-4"
+                            className="flex items-center px-4 sm:text-10"
                         >
                             Explore
                         </a>
@@ -37,7 +37,7 @@ const HeaderHomePage = () => {
                         <a
                             rel="noopener noreferrer"
                             href="#"
-                            className="flex items-center px-4"
+                            className="flex items-center px-4 sm:text-10"
                         >
                             Become a Seller
                         </a>
@@ -84,6 +84,7 @@ export default HeaderHomePage;
 
 export const Container = styled.div`
   &.HeaderHomePage {
+    margin-bottom: 0;
     .container {
       max-width: 1280px;
       padding: 0 15px;

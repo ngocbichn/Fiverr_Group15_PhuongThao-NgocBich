@@ -10,9 +10,11 @@ import Stats from "./Stats";
 import Proposition from "./Proposition";
 import Category from "./Category";
 import Testimonials from "./Testimonials";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { Search } = Input;
+  const navigate = useNavigate()
   const suffix = (
     <AudioOutlined
       style={{
@@ -21,22 +23,25 @@ const Home = () => {
       }}
     />
   );
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    console.log('search', value)
+    navigate('/worklist')
+  };
   return (
     <Container className="HomePage">
       <HeaderHomePage className="HeaderHomePage" />
       <div className="carousel">
         <div className="container">
           <div className="intro">
-            <h1 className="title tracking-wide">
-              <span>
+            <h1 className="title tracking-wide sm:leading-0">
+              <span className="sm:text-14">
                 Find the perfect
-                <i className="mx-14">freelance</i>
+                <i className="mx-14 sm:text-14">freelance</i>
                 <br />
                 services for your business
               </span>
             </h1>
-            <div className="search-bar mb-24">
+            <div className="search-bar mb-24 sm:mb-0">
               <Search
                 placeholder="Try 'buidling mobile app'"
                 allowClear

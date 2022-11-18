@@ -36,6 +36,12 @@ const SignUp = () => {
         console.log('Failed:', errorInfo);
     };
 
+    const validationSchema = Yup.object({
+        email: Yup.string().email('Email không đúng định dạng'),
+        password: Yup.string().required('Password is required'),
+        phone: Yup.string().required('Phone is required'),
+    })
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -49,6 +55,7 @@ const SignUp = () => {
             skill: [],
             certification: [],
         },
+        validationSchema: validationSchema,
         onSubmit: values => {
             console.log('values', values)
             dispatch(signUpAction(values))
@@ -86,7 +93,7 @@ const SignUp = () => {
     return (
         <Container className="SignUp bg-primary min-h-screen flex flex-col">
             <div className="container w-2/5 mx-auto px-10 bg-white rounded">
-                <h1 className="my-30 text-4xl font-bold text-center">
+                <h1 className="my-30 text-4xl font-bold text-center sm:text-16 sm:my-12">
                     Sign up to Fiverr
                 </h1>
                 <Form
@@ -117,6 +124,7 @@ const SignUp = () => {
                             placeholder="Email"
                             onChange={formik.handleChange}
                         />
+                        <p className='text-red-500'>{formik.errors.email}</p>
                     </Form.Item>
                     <Form.Item label="Password">
                         <Input
@@ -124,6 +132,7 @@ const SignUp = () => {
                             placeholder="Password"
                             onChange={formik.handleChange}
                         />
+                        <p className='text-red-500'>{formik.errors.password}</p>
                     </Form.Item>
                     <Form.Item label="Phone">
                         <Input
@@ -131,6 +140,7 @@ const SignUp = () => {
                             placeholder="Phone"
                             onChange={formik.handleChange}
                         />
+                        <p className='text-red-500'>{formik.errors.password}</p>
                     </Form.Item>
                     <Form.Item label="Birthday">
                         <DatePicker
@@ -185,7 +195,7 @@ const SignUp = () => {
                     <Form.Item>
                         <button
                             type="submit"
-                            className="bg-primary text-white font-medium text-16 hover:bg-green-800 py-12 rounded btn_submit w-full"
+                            className="bg-primary text-white font-medium text-16 sm:text-14 hover:bg-green-800 py-12 sm:py-8 rounded btn_submit w-full"
                         >
                             Create an account
                         </button>

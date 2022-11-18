@@ -32,6 +32,7 @@ module.exports = {
         44: '44px',
         48: '48px',
         50: '50px',
+        52: '52px',
         60: '60px',
         64: '64px',
         70: '70px',
@@ -67,6 +68,9 @@ module.exports = {
       },
       colors: {
         primary: '#1dbf73',
+        bgPrimary: '#f7f7f7',
+        headingPrimary: '#222325',
+        textPrimary: '#62646a',
       },
     },
   },
