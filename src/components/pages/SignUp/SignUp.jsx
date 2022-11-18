@@ -29,17 +29,22 @@ const SignUp = () => {
 
     const { userSignUp, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-    const validationSchema = Yup.object({
-        email: Yup.string().email('Email không đúng định dạng'),
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        email: Yup.string().required('Email is required').email('Email is not valid'),
         password: Yup.string().required('Password is required'),
-        phone: Yup.string().required('Phone is required'),
+        phone: Yup.string().required('Phone is required').matches(phoneRegExp, 'Phone number is not valid'),
+        birthday: Yup
+            .string()
+            .nullable()
+            .required("Please choose your age"),
+        gender: Yup.boolean().required('Gender is required'),
+        role: Yup.string()
+            .required('Role is required')
+            .oneOf(["ADMIN", "USER"])
+            .label("Role"),
     })
 
     const formik = useFormik({
@@ -92,8 +97,8 @@ const SignUp = () => {
 
     return (
         <Container className="SignUp bg-primary min-h-screen flex flex-col">
-            <div className="container w-2/5 mx-auto px-10 bg-white rounded">
-                <h1 className="my-30 text-4xl font-bold text-center sm:text-16 sm:my-12">
+            <div className="container mx-auto px-10 bg-white rounded">
+                <h1 className="my-30 text-4xl font-bold text-center">
                     Sign up to Fiverr
                 </h1>
                 <Form
@@ -107,9 +112,6 @@ const SignUp = () => {
                     }}
                     layout="horizontal"
                     size="large"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
                 >
                     <Form.Item label="Name">
                         <Input
@@ -117,6 +119,7 @@ const SignUp = () => {
                             placeholder="Name"
                             onChange={formik.handleChange}
                         />
+                        <p className='text-red-500'>{formik.errors.name}</p>
                     </Form.Item>
                     <Form.Item label="Email">
                         <Input
@@ -140,13 +143,14 @@ const SignUp = () => {
                             placeholder="Phone"
                             onChange={formik.handleChange}
                         />
-                        <p className='text-red-500'>{formik.errors.password}</p>
+                        <p className='text-red-500'>{formik.errors.phone}</p>
                     </Form.Item>
                     <Form.Item label="Birthday">
                         <DatePicker
                             format={"DD/MM/YYYY"}
                             onChange={handleChangeDatePicker}
                         />
+                        <p className='text-red-500'>{formik.errors.birthday}</p>
                     </Form.Item>
                     <Form.Item label="Gender">
                         <Radio.Group onChange={onChangeRadio("gender")} label="Gender">
@@ -157,6 +161,7 @@ const SignUp = () => {
                                 Female
                             </Radio>
                         </Radio.Group>
+                        <p className='text-red-500'>{formik.errors.gender}</p>
                     </Form.Item>
                     <Form.Item label="Role">
                         <Select
@@ -177,6 +182,7 @@ const SignUp = () => {
                                 },
                             ]}
                         />
+                        <p className='text-red-500'>{formik.errors.role}</p>
                     </Form.Item>
                     <Form.Item label="Skill">
                         <Input
@@ -184,6 +190,7 @@ const SignUp = () => {
                             placeholder="Skill"
                             onChange={handleArr}
                         />
+                        <p className='text-red-500'>{formik.errors.skill}</p>
                     </Form.Item>
                     <Form.Item label="Certification">
                         <Input
@@ -191,11 +198,12 @@ const SignUp = () => {
                             placeholder="Certification"
                             onChange={handleArr}
                         />
+                        <p className='text-red-500'>{formik.errors.certification}</p>
                     </Form.Item>
                     <Form.Item>
                         <button
                             type="submit"
-                            className="bg-primary text-white font-medium text-16 sm:text-14 hover:bg-green-800 py-12 sm:py-8 rounded btn_submit w-full"
+                            className="bg-primary text-white font-medium text-16 hover:bg-green-800 py-12 rounded btn_submit w-full"
                         >
                             Create an account
                         </button>
@@ -230,16 +238,20 @@ export const Container = styled.div`
     padding-bottom: 50px;
     .container {
       padding-bottom: 50px;
+      width: 42%;
       h1 {
       }
       .ant-form {
-        padding-left: 8%;
-        padding-right: 8%;
+        padding-left: 7%;
+        padding-right: 7%;
         .ant-form-item {
+            margin-bottom: 0;
           .ant-form-item-label {
             label {
               font-weight: 500;
             }
+          }
+          .ant-form-item-control{
           }
           .ant-row {
             gap: 10px;

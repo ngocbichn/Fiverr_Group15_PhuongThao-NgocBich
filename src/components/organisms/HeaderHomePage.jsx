@@ -25,13 +25,12 @@ const HeaderHomePage = () => {
                 </a>
                 <ul className="nav-list space-x-3 md:flex mb-0 flex items-center">
                     <li className="px-10">
-                        <a
-                            rel="noopener noreferrer"
-                            href="#"
+                        <NavLink
+                            to="/categories"
                             className="flex items-center px-4 sm:text-10"
                         >
                             Explore
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="px-10">
                         <a

@@ -10,7 +10,7 @@ import Stats from "./Stats";
 import Proposition from "./Proposition";
 import Category from "./Category";
 import Testimonials from "./Testimonials";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { Search } = Input;
@@ -33,15 +33,15 @@ const Home = () => {
       <div className="carousel">
         <div className="container">
           <div className="intro">
-            <h1 className="title tracking-wide sm:leading-0">
-              <span className="sm:text-14">
+            <h1 className="title tracking-wide">
+              <span className="">
                 Find the perfect
-                <i className="mx-14 sm:text-14">freelance</i>
+                <i className="mx-14">freelance</i>
                 <br />
                 services for your business
               </span>
             </h1>
-            <div className="search-bar mb-24 sm:mb-0">
+            <div className="search-bar mb-24">
               <Search
                 placeholder="Try 'buidling mobile app'"
                 allowClear
@@ -55,16 +55,16 @@ const Home = () => {
               </span>
               <ul className="md:flex mb-0 flex items-center">
                 <li>
-                  <a>Website Design</a>
+                  <Link to="/categories">Website Design</Link>
                 </li>
                 <li>
-                  <a>WordPress</a>
+                  <Link to="/categories">WordPress</Link>
                 </li>
                 <li>
-                  <a>Logo Design</a>
+                  <Link to="/categories">Logo Design</Link>
                 </li>
                 <li>
-                  <a>Video Editing</a>
+                  <Link to="/categories">Video Editing</Link>
                 </li>
               </ul>
             </div>

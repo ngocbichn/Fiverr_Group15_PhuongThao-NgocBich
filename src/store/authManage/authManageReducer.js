@@ -26,6 +26,7 @@ export const { reducer: authManageReducer, actions: authManageAction } =
                 //sign Up
                 .addCase(signUpAction.pending, (state, action) => {
                     state.isFetching = true;
+                    state.isSuccess = false;
                 })
                 .addCase(signUpAction.fulfilled, (state, action) => {
                     state.isFetching = false;
@@ -35,6 +36,7 @@ export const { reducer: authManageReducer, actions: authManageAction } =
                 .addCase(signUpAction.rejected, (state, action) => {
                     state.isFetching = false;
                     state.isError = true;
+                    state.isSuccess = false;
                     state.errorMessage = action.payload.message;
                 })
                 //sign In

@@ -27,7 +27,7 @@ const SignIn = () => {
     const { userSignIn, isFetching, isSuccess, isError, errorMessage } = useAuthManage()
 
     const validationSchema = Yup.object({
-        email: Yup.string().required('Email is required'),
+        email: Yup.string().required('Email is required').email('Email is not valid'),
         password: Yup.string().required('Password is required'),
     })
 
@@ -105,9 +105,9 @@ const SignIn = () => {
                         </button>
                     </Form.Item>
                 </Form>
-                <div className="text-center text-sm text-grey-dark mt-4">
+                <div className="text-center text-sm text-grey-dark mt-24">
                     <p className="px-6 text-16 text-center dark:text-gray-400">Not a member yet?
-                        <Link to="/signup" className="font-medium hover:underline" style={{ color: "#1dbf73" }}>Join now</Link>.
+                        <Link to="/signup" className="font-medium hover:underline ml-10" style={{ color: "#1dbf73" }}>Join now</Link>.
                     </p>
                 </div>
             </div>
@@ -129,6 +129,7 @@ export const Container = styled.div`
         padding-left: 8%;
         padding-right: 8%;
         .ant-form-item {
+            margin-bottom: 0;
           .ant-form-item-label {
             label {
               font-weight: 500;
