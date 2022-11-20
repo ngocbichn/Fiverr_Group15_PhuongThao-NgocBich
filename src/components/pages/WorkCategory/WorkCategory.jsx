@@ -1,13 +1,172 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Header from '../../organisms/Header'
+import { useWorkManage } from '../../../store/workManage/workManageSelector';
+import { useDispatch } from 'react-redux';
+import { getMenuLoaiCV, getCVtheochitietloai } from '../../../store/workManage/workManageReducer';
+import { NavLink } from 'react-router-dom';
+import { PlayCircleOutlined, PlayCircleFilled, ArrowRightOutlined } from '@ant-design/icons';
+import { fill } from 'lodash';
 
 const WorkCategory = () => {
+    const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen } = useWorkManage()
+    const dispatch = useDispatch()
+
+    useEffect(() => { dispatch(getMenuLoaiCV()) }, [])
+
+    const getCV = (Chitietid) => {
+        dispatch(getCVtheochitietloai(Chitietid))
+
+    }
+
+
     return (
         <Container className='WorkCate'>
-            <Header/>
-            WorkCategory
-            </Container>
+            <Header />
+            <div className='categoryMenu'>
+                <div className='container'>
+                    <ul className='navMenu'>
+                        {menuLoaiCV.map((menuCV, index) => {
+                            return (
+                                <div className='navCate' key={index}>
+                                    <li className='category'> <NavLink to="/categories">{menuCV.tenLoaiCongViec}</NavLink>  </li>
+                                    <div className='subMenu'>
+                                        <div className='grid  auto-cols-max grid-cols-3 gap-[20px]' >
+                                            {menuCV.dsNhomChiTietLoai?.map((item) => {
+                                                return (
+
+
+                                                    <div className='groupJobCate' key={item.id}>
+                                                        <ul className='listJobCate'>
+                                                            <h3>{item.tenNhom}</h3>
+                                                            {item.dsChiTietLoai.map((ChiTietLoai) => {
+                                                                return (
+                                                                    <li key={ChiTietLoai.id}> <a onClick={() => getCV(ChiTietLoai.id)}
+                                                                    >{ChiTietLoai.tenChiTiet}</a> </li>)
+                                                            }
+                                                            )}
+
+                                                        </ul>
+                                                    </div>)
+                                            })}
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            )
+
+                        })}
+
+
+
+                    </ul>
+                </div>
+
+            </div>
+            <div className='container'>
+                <div className='banner'>
+                    <div className='bannerContent'>
+                        <h1>Graphics & Design</h1>
+                        <h3>Design to make you stand out</h3>
+                        <div className='FiverrVideo'>
+                            <button className='playButton'>
+                                <div className='buttonContent'>
+                                    <PlayCircleFilled style={{ fontSize: '20px', marginRight: '6px' }} /> <span>How Fiverr Works</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div className='Intro'>
+                    <h1>Most popular in Graphics & Design</h1>
+                    <div className='Carousel'>
+                        <div className='track'>
+                            <a href="">
+                                <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/97477f04af40de3aa1f8d6aa21f69725-1626179101614/Logo%20design_2x.png" alt="" />
+                                <span>Minimalist Logo Design</span>
+                                <ArrowRightOutlined />
+                            </a>
+                        </div>
+                        <div className='track'>
+                            <a href="">
+                                <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/97477f04af40de3aa1f8d6aa21f69725-1626179101618/Architecture%20_%20Interior%20Design_2x.png" alt="" />
+                                <span>Architecture & Interior Design</span>
+                                <ArrowRightOutlined />
+                            </a>
+                        </div>
+                        <div className='track'>
+                            <a href="">
+                                <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/97477f04af40de3aa1f8d6aa21f69725-1626179101624/Photoshop%20Editing_2x.png" alt="" />
+                                <span>Image Editing</span>
+                                <ArrowRightOutlined />
+                            </a>
+                        </div>
+                        <div className='track'>
+                            <a href="">
+                                <img src="https://fiverr-res.cloudinary.com/f_auto,q_auto/v1/attachments/generic_asset/asset/fc6c7b8c1d155625e7878252a09c4437-1653222039380/Nft%20Art%20%281%29.png" alt="" />
+                                <span>NFT Arts</span>
+                                <ArrowRightOutlined />
+
+                            </a>
+                        </div>
+                        {/* <div className='track'>
+                                <a href="">
+                                    <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/97477f04af40de3aa1f8d6aa21f69725-1626179101623/T-Shirts%20_%20Merchandise_2x.png" alt="" />
+                                    <span>T-shirt & Merchandising</span>
+                                    <ArrowRightOutlined />
+                                    
+                                </a>
+                            </div> */}
+                    </div>
+                </div>
+
+                <div className='workCateResult'>
+                    <h1>Explore Graphics & Design</h1>
+                    <div className='workGroupList'>
+                        <div className='grid-wrapper grid grid-cols-4 gap-5'>
+                            <div className='column'>
+                                <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/431c7d880582a199f5b240dde2694206-1626594004536/Logo%20_%20Brand%20Identity_B_2x.png" alt="" />
+                                <div className='workList'>
+                                    <h3>Logo & Brand Identity</h3>
+                                    <div className='subWorklist'>
+                                        <div className='subWorklist-item'>
+                                        <a href="">
+                                            <span>Logo Design</span>
+                                            <ArrowRightOutlined className='arrow'/>
+                                        </a>
+                                        </div>
+                                        <div className='subWorklist-item'>
+                                        <a href="">
+                                            <span>Logo Design</span>
+                                            <ArrowRightOutlined className='arrow'/>
+                                        </a>
+                                        </div>
+                                        <div className='subWorklist-item'>
+                                        <a href="">
+                                            <span>Logo Design</span>
+                                            <ArrowRightOutlined className='arrow'/>
+                                        </a>
+                                        </div>
+                                        <div className='subWorklist-item'>
+                                        <a href="">
+                                            <span>Logo Design</span>
+                                            <ArrowRightOutlined className='arrow'/>
+                                        </a>
+                                        </div>
+                                        
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </Container>
     )
 }
 
@@ -112,256 +271,170 @@ export const Container = styled.div`
                
                 
             }
-
-        .suggestedSearch {
-            background-color: #f5f5f5;
-            padding: 12px 0;
-            .container {
-                max-width: 1280px;
-            margin: auto;
-            .suggestedContent{
-                
-                display: flex;
-                align-items: center;
-                span {
-                    margin-right: 16px;
-                    color: #62646a;
-                    font-weight: bold;
-                }
-                a {
-                    margin-right: 16px;
-                    color: #62646a;
-                    border: 1px solid #dadbdd;
-                    background-color: #fff;
-                    padding: 4px 10px;
-                    border-radius: 5px;
-                }
-                
-
-            }
-            }
-        }
-
-        .containers {
+        .container {
             
-            .content {
-                h1 {
-                    font-size: 30px;
-                    margin: 20px 0;
-                    font-weight: 600;
-                }
-                h2 {
-                    color: #74767e;
-                    font-size: 14px;
-                    font-weight: 600;
-                }
-                .topBar {
-                
-                position: sticky;
-                z-index: 10;
-                top: 0;
-                -webkit-backface-visibility: hidden;
-                /* box-shadow: 0 0.266px 1.13052px rgb(0 0 0 / 7%), 0 0.89345px 3.79717px rgb(0 0 0 / 10%), 0 5px 17px rgb(0 0 0 / 17%);
-                        z-index: 10; */
-
-                
-             
-                .shadowEffect {
-                    background-color: #fff;
-                    height: 84%;
-                    position: relative;
-                    top: 0;
-                    ::after {
-
-                        content: "";
-                        display: block;
-                        height: 10px;
-                    
-                       
-    }
-                    .wrapper {
-                        display: flex;
-                justify-content:space-between;
-                align-items: center;
-                height: 70px;
-                    .topFilter {
+            .banner {
+                z-index: 4;
+                background-image: url('https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/3f1b7ea10295936b6846bcff0afd38cf-1626595415203/graphics-design-desktop.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                min-height: 240px;
+                position: relative;
+                .bannerContent {
+                    position: absolute;
+                    width: 100%;
+                    margin: auto;
+                    top: 50%;
+                    transform: translateY(-50%);
                     display: flex;
-                    align-items: center;
-                    button {
-                        font-size: 16px;
-                        font-weight: 600;
-                        margin-right: 12px;
-                        display:flex; 
-                        align-items: center;
-                        border: 1px solid #dadbdd;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: center;
+                    color: #fff;
+                    h1 {
+                        color: #fff;
+                        font-size: 36px;
+                        font-weight: 700;
+                        margin-bottom: 8px;
+
+                    }
+                    h3 {
+                        color: #fff;
+                        font-size: 20px;
+                        margin-bottom: 12px;
+                        
+                    }
+
+                    .playButton {
+                        
+                        border: 1px solid #fff;
+                        padding: 12px 24px;
                         border-radius: 5px;
-                        padding: 4px 10px;
-                        .arrow {
-                           margin-left: 5px;
-                            font-size: 10px;
-                        }
-                    }
-                }
-                .proSearch {
-                    display: flex;
-                  .filterSearch {
-                      display: flex;
-                      align-items: center;
-                      color: #62646a;
-                      font-size: 16px;
-                      font-weight: 600;
-                      label {
-                          display: flex;
-                          margin-right: 5px;
-                        input{
-                                display: none;
-                            }
-                        span{ 
-                            
-                            height: 18px;
-                            width: 31px;    
-                            display: inline-block;
-                            position: relative;
-                            border-radius: 999px;
-                            background-color: #dadbdd;
-                            cursor: pointer;    
-                            ::after {
-                                content: '';
-                                width: 18px;
-                                height: 18px;
-                                display: block;
-                                position: absolute; 
-                                box-sizing: border-box;
-                                top: 0;
-                                left: 0;
-                                z-index: 1;
-                                background: #fff;
-                                border: 1px solid #dadbdd;
-                                border-radius: 50%;
-                                box-shadow: 0 2px 6px rgb(34 35 37 / 10%);
-
-                            }
-    
-                        }
-                        input:checked ~ span {
-                            background-color: #1dbf73;
-
-                        }
-                        input:checked ~ span::after {
-                            transform: translateX(18px);
-
-                        }
-                      }
-                  }
-                }
-                    }
-                   
-                }
-               
-                 
-               
-               
-            }
-            .Scrolled  {
-                
-                box-shadow: 0 0.266px 1.13052px rgb(0 0 0 / 7%), 0 0.89345px 3.79717px rgb(0 0 0 / 10%), 0 5px 17px rgb(0 0 0 / 17%);
-                        z-index: 10;
-                        }
-            .searchedResult {
-                .listedResult {
-                    
-                    .grid-box {
-                         min-height: 370px;
-                         width: 100% ;
-                    .grid-card {
-                        border: 1px solid #e4e5e7;
-                        .imageCarousel {
-                            img {
-                                min-height: 200px;
-                            }
-                            
-
-                        }
-                        .sellerInfo {
-                         display: flex;
-                         align-items: center;
-                         
-                            .sellerName {
-                                a {
-                                    color: #222325;
-                                font-weight: 600;
-                                }
-                               
-                                .sellerLevel {
-                                    color: #74767e;
-                                    font-weight: 500;
-
-}
-                            }
-                            
-
-                        }
-                        .sellerOffer {
-                            margin: 12px;
-                                margin-top: 10px;
-                                box-sizing: border-box;
-                                overflow: hidden;
-                            a {
-                                color: #222325;
-                                line-height: 22px;
-                                font-size: 15px;
-                               
-                            }
-
-                        }
-                        .sellerRate {
+                       .buttonContent {
                            display: flex;
-                           margin: 10px 12px;
-                           font-size: 14px;
-                           .Rating {
-                            display: flex;
-                           color: #ffbe5b;
-                           font-weight: 700;
+                           justify-content: center;
                            align-items: center;
+                           span {
+                               font-size: 16px;
                            }
 
-                        }
-                        footer {
-                            border-top: 1px solid #e4e5e7;
-                          
-                            .priceWrapper{
-                                display: flex;
-                                justify-content: space-between;
-                                margin: 0 12px;
-                                .heartButton{
-                                    fill: #b5b6ba;
-                                
-                                }
-                                .price {
-                                    
-                                    a {
-                                        color: #74767e;
-                                        font-size: 12px;
-                                    font-weight: 600;
-                                    span {
-                                        color: #404145;
-                                        font-size: 18px;
-                                        font-weight: 500;
-                                    }
-                                    }
-                                    
-                                }
-                            }
-                        }
+                       }
                     }
                 }
+            }
+            .Intro {
+                h1 {
+                    color: #404145;
+                    font-size: 24px;
+                    font-weight: 700;
+                    margin: 16px auto;
+                }
+                .Carousel {
+                    display: flex;
+                    .track {
+                        margin: 8px 16px;
+                        border: 1px solid transparent;
+                        box-sizing: border-box;
+                        background-color: #fff;
+                        box-shadow: 1px 1px 12px 4px rgba(15,14,14,0.22);
+                        padding: 5px 10px;
+                        border-radius: 10px;
+                       a {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color:#404145;
+                        font-size: 16px;
+                        font-weight: 500;
+                        img {
+                            margin-right: 8px;
+                            width: 48px;
+                            height: 48px;
+                        }
+                        span {
+                            margin-right: 5px;
+                        }
+                       }
+                       &:hover {
+                           a {
+                            color:#1dbf73;
+                           }
+                          
+                       }
+
+                    }
 
                 }
             }
+            .workCateResult {
+                margin: 50px auto;
+                h1 {
+                    color: #404145;
+                    font-size: 20px;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+
+                }
+                .workGroupList {
+
+                    .grid-wrapper {
+                        .column {
+                            img {
+
+                            }
+                            .workList {
+                                h3 {
+                                    color: #222325;
+                                    font-size: 20px;
+                                    font-weight: 700;
+                                    margin-top: 20px;
+
+                                }
+                                .subWorklist {
+                                 
+                                    .subWorklist-item {
+                                        line-height: 28px;
+                                        a {
+                                            color: #62646a;
+                                            font-size: 18px;
+                                            font-weight: 400;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: space-between;
+                                            padding: 5px 10px;
+                                            .arrow {
+                                                display: none;
+                                            }
+
+
+                                        }
+                                        &:hover {
+                                            box-sizing: border-box;
+                                            background-color: #f5f5f5;
+                                            border-radius: 8px;
+                                            .arrow {
+                                                display: block;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
+       
+
+     
 
 
            
-            }
+       
            
         }
 

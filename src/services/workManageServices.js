@@ -13,6 +13,9 @@ export const workManageServices = {
     getCVTheoTen: (tenCV) => {
         return api.get(`cong-viec/lay-danh-sach-cong-viec-theo-ten/${tenCV}`)
 
+    },
+    getChiTietLoaiCV: (MaLoaiCongViec) => {
+        return api.get(`cong-viec/lay-chi-tiet-loai-cong-viec/${MaLoaiCongViec}`)
     }
 
     

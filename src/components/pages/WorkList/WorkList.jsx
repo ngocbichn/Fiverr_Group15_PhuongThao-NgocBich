@@ -7,6 +7,8 @@ import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { useWorkManage } from '../../../store/workManage/workManageSelector';
 import { useDispatch } from 'react-redux';
 import { getMenuLoaiCV, getCVtheochitietloai } from '../../../store/workManage/workManageReducer';
+import SimpleSlider from '../../organisms/SlickSlider';
+import SlickSlider from '../../organisms/SlickSlider';
 
 const WorkList = () => {
 
@@ -31,9 +33,16 @@ const WorkList = () => {
 
     useEffect(() => {dispatch(getMenuLoaiCV())},[])
 
-    const {menuLoaiCV,DScongviectheoChiTietLoai} = useWorkManage()
+    const getCV = (Chitietid) => {
+        dispatch(getCVtheochitietloai(Chitietid))
+
+    }
+    
+
+    const {menuLoaiCV,DScongviectheoChiTietLoai, DScongviectheoTen} = useWorkManage()
     console.log('menuLoaiCV',menuLoaiCV)
     console.log('DScongviectheoChiTietLoai',DScongviectheoChiTietLoai)
+    console.log('DScongviectheoTen',DScongviectheoTen)
 
    
 
@@ -48,7 +57,7 @@ const WorkList = () => {
                             <div className='navCate' key={index}>
                             <li className='category'> <NavLink to="/categories">{menuCV.tenLoaiCongViec}</NavLink>  </li>
                             <div className='subMenu'>
-                            <div className='grid grid-flow-col-dense grid-cols-3 gap-[40px]' >
+                            <div className='grid  grid-cols-3 gap-[20px]' >
                             {menuCV.dsNhomChiTietLoai?.map((item) => {
                                 return (
                                
@@ -58,8 +67,7 @@ const WorkList = () => {
                                             <h3>{item.tenNhom}</h3>
                                             {item.dsChiTietLoai.map((ChiTietLoai) => {
                                                 return (
-                                                <li key={ChiTietLoai.id}> <a onClick={() => {dispatch(getCVtheochitietloai(ChiTietLoai.id))
-                                                console.log(ChiTietLoai.id)}}
+                                                <li key={ChiTietLoai.id}> <a onClick={() => getCV(ChiTietLoai.id)}
                                                 >{ChiTietLoai.tenChiTiet}</a> </li>)}
                                            )}
                                             
@@ -177,22 +185,26 @@ const WorkList = () => {
                     <div className='container searchedResult '>
                         <h2 className='my-[24px]' >30,775 services available</h2>
                         <div className=' listedResult grid grid-cols-4 gap-[20px]'>
-                            <div className='grid-box' style={{ backgroundColor: '#fff' }}>
+                        {DScongviectheoChiTietLoai?.map((congviec) => {
+                            return (
+                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}>
                                 <div className='grid-card'>
+                                   
                                     <div className='imageCarousel'>
-                                        <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/116856649/original/a5945e0c694538f4e36215017d623873aac3ce67/edit-html-and-css-on-your-webpage.png" alt="" />
+                                        <img src={congviec.congViec.hinhAnh} />
                                     </div>
+                                    {/* <SimpleSlider/> */}
                                     <div className='sellerInfo m-[12px]'>
                                         <span className='sellerImg' >
-                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
+                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src={congviec.avatar} alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                        <div className='sellerName ml-6'> <a href="">{congviec.tenNguoiTao}</a>
                                             <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
 
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>
+                                        <a>{congviec.tenCongViec}</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
@@ -201,7 +213,7 @@ const WorkList = () => {
                                             </svg> 5.0
 
                                         </span>
-                                        <span className='ml-4'>(284)</span>
+                                        <span className='ml-4'>({congviec.congViec.danhGia})</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
@@ -209,29 +221,37 @@ const WorkList = () => {
                                                 <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
-                                                <a href=""> Starting at <span>$10</span></a>
+                                                <a href=""> Starting at <span>${congviec.congViec.giaTien}</span></a>
                                             </div>
                                         </div>
                                     </footer>
                                 </div>
 
                             </div>
-                            <div className='grid-box' style={{ backgroundColor: '#fff' }}>
+                            )
+
+                        })}
+
+                        {DScongviectheoTen?.map((congviec) => {
+                            return (
+                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}>
                                 <div className='grid-card'>
+                                   
                                     <div className='imageCarousel'>
-                                        <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/116856649/original/a5945e0c694538f4e36215017d623873aac3ce67/edit-html-and-css-on-your-webpage.png" alt="" />
+                                        <img src={congviec.congViec.hinhAnh} />
                                     </div>
+                                    {/* <SimpleSlider/> */}
                                     <div className='sellerInfo m-[12px]'>
                                         <span className='sellerImg' >
-                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
+                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src={congviec.avatar} alt="" />
                                         </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
+                                        <div className='sellerName ml-6'> <a href="">{congviec.tenNguoiTao}</a>
                                             <div className='sellerLevel'>Level 2 seller</div>
                                         </div>
 
                                     </div>
                                     <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>
+                                        <a>{congviec.tenCongViec}</a>
                                     </div>
                                     <div className='sellerRate'>
                                         <span className='Rating'>
@@ -240,7 +260,7 @@ const WorkList = () => {
                                             </svg> 5.0
 
                                         </span>
-                                        <span className='ml-4'>(284)</span>
+                                        <span className='ml-4'>({congviec.congViec.danhGia})</span>
                                     </div>
                                     <footer>
                                         <div className='priceWrapper'>
@@ -248,130 +268,19 @@ const WorkList = () => {
                                                 <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
                                             </button>
                                             <div className='price'>
-                                                <a href=""> Starting at <span>$10</span></a>
+                                                <a href=""> Starting at <span>${congviec.congViec.giaTien}</span></a>
                                             </div>
                                         </div>
                                     </footer>
                                 </div>
 
                             </div>
-                            <div className='grid-box' style={{ backgroundColor: '#fff' }}>
-                                <div className='grid-card'>
-                                    <div className='imageCarousel'>
-                                        <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/116856649/original/a5945e0c694538f4e36215017d623873aac3ce67/edit-html-and-css-on-your-webpage.png" alt="" />
-                                    </div>
-                                    <div className='sellerInfo m-[12px]'>
-                                        <span className='sellerImg' >
-                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
-                                        </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
-                                            <div className='sellerLevel'>Level 2 seller</div>
-                                        </div>
+                            )
 
-                                    </div>
-                                    <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>
-                                    </div>
-                                    <div className='sellerRate'>
-                                        <span className='Rating'>
-                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                            </svg> 5.0
-
-                                        </span>
-                                        <span className='ml-4'>(284)</span>
-                                    </div>
-                                    <footer>
-                                        <div className='priceWrapper'>
-                                            <button className='heartButton'>
-                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
-                                            </button>
-                                            <div className='price'>
-                                                <a href=""> Starting at <span>$10</span></a>
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </div>
-
-                            </div>
-                            <div className='grid-box' style={{ backgroundColor: '#fff' }}>
-                                <div className='grid-card'>
-                                    <div className='imageCarousel'>
-                                        <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/116856649/original/a5945e0c694538f4e36215017d623873aac3ce67/edit-html-and-css-on-your-webpage.png" alt="" />
-                                    </div>
-                                    <div className='sellerInfo m-[12px]'>
-                                        <span className='sellerImg' >
-                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
-                                        </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
-                                            <div className='sellerLevel'>Level 2 seller</div>
-                                        </div>
-
-                                    </div>
-                                    <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>
-                                    </div>
-                                    <div className='sellerRate'>
-                                        <span className='Rating'>
-                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                            </svg> 5.0
-
-                                        </span>
-                                        <span className='ml-4'>(284)</span>
-                                    </div>
-                                    <footer>
-                                        <div className='priceWrapper'>
-                                            <button className='heartButton'>
-                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
-                                            </button>
-                                            <div className='price'>
-                                                <a href=""> Starting at <span>$10</span></a>
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </div>
-
-                            </div>
-                            <div className='grid-box' style={{ backgroundColor: '#fff' }}>
-                                <div className='grid-card'>
-                                    <div className='imageCarousel'>
-                                        <img src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/116856649/original/a5945e0c694538f4e36215017d623873aac3ce67/edit-html-and-css-on-your-webpage.png" alt="" />
-                                    </div>
-                                    <div className='sellerInfo m-[12px]'>
-                                        <span className='sellerImg' >
-                                            <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src="https://fiverr-res.cloudinary.com/t_profile_thumb,q_auto,f_auto/attachments/profile/photo/9e4e283779a255a8ebb803b94905af7d-649846441604052298512/JPEG_20201030_153457_4491597895407383130.jpg" alt="" />
-                                        </span>
-                                        <div className='sellerName ml-6'> <a href="">rajnishbaldha</a>
-                                            <div className='sellerLevel'>Level 2 seller</div>
-                                        </div>
-
-                                    </div>
-                                    <div className='sellerOffer'>
-                                        <a>I will do HTML, CSS and javascript tasks</a>
-                                    </div>
-                                    <div className='sellerRate'>
-                                        <span className='Rating'>
-                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                            </svg> 5.0
-
-                                        </span>
-                                        <span className='ml-4'>(284)</span>
-                                    </div>
-                                    <footer>
-                                        <div className='priceWrapper'>
-                                            <button className='heartButton'>
-                                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.4469 1.95625C12.7344 0.496875 10.1875 0.759375 8.61561 2.38125L7.99999 3.01562L7.38436 2.38125C5.81561 0.759375 3.26561 0.496875 1.55311 1.95625C-0.409388 3.63125 -0.512513 6.6375 1.24374 8.45312L7.29061 14.6969C7.68124 15.1 8.31561 15.1 8.70624 14.6969L14.7531 8.45312C16.5125 6.6375 16.4094 3.63125 14.4469 1.95625Z"></path></svg>
-                                            </button>
-                                            <div className='price'>
-                                                <a href=""> Starting at <span>$10</span></a>
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </div>
-
-                            </div>
+                        })}
+                           
+                        
+                          
 
                         </div>
                     </div>
@@ -438,6 +347,7 @@ export const Container = styled.div`
                         left: 0;
                         z-index: 20;
                        width: max-content;
+                       /* grid-template-columns: fit-content(300px) fit-content(300px) 1fr; */
                        height: max-content;
                         border: 1px solid #dadbdd;
                     background-color: #fff;
@@ -445,6 +355,7 @@ export const Container = styled.div`
                     padding: 10px;
                     display: none;
                     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                    
                     .groupJobCate {
                         .listJobCate {
                         li {

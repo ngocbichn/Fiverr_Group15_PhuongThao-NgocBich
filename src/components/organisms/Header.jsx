@@ -9,17 +9,19 @@ import { useWorkManage } from "../../store/workManage/workManageSelector";
 
 const Header = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     // const searchContent = 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(event.target.searchInput.value)
         dispatch(getCVTheoTen(event.target.searchInput.value))  
+        navigate('/worklist')
      
       }
 
       const {DScongviectheoTen} = useWorkManage()
-      console.log('DScongviectheoTen',DScongviectheoTen)
+     
       
       
    
