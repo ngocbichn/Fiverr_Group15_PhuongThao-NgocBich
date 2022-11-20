@@ -112,3 +112,17 @@ export const getCVTheoTen = createAsyncThunk('workManage/getCVTheoTen', async (t
         
     }
 })
+
+export const getChiTietLoaiCV = createAsyncThunk('workManage/getChiTietLoaiCV', async(MaLoaiCongViec, {dispatch,getState,rejectWithValue}) => {
+    try {
+        const result = await workManageServices.getChiTietLoaiCV(MaLoaiCongViec)
+        console.log(result.data.content)
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+        
+        
+    }
+
+})
