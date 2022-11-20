@@ -1,10 +1,8 @@
 import React, { Fragment } from "react";
 import { Table } from "antd";
 import {
-    AudioOutlined,
     EditFilled,
     DeleteFilled,
-    CalendarOutlined,
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import styled from "styled-components";
@@ -12,12 +10,17 @@ import { useUserManage } from "../../../../store/userManage/userManageSelector";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { getUserList } from "../../../../store/userManage/userManageReducer";
+import { deleteUser, getUserList } from "../../../../store/userManage/userManageReducer";
+import moment from "moment";
 
 const User = () => {
     //getMovieList
     const dispatch = useDispatch();
-    const { userList, userList: { id } } = useUserManage();
+    const {
+        userList,
+        userList: { id },
+        isFetchingDeleteUser
+    } = useUserManage();
 
     useEffect(() => {
         dispatch(getUserList());
@@ -48,13 +51,13 @@ const User = () => {
                 }
                 return -1;
             },
-            width: "18%",
+            width: "20%",
             sortDirections: ["descend", "ascend"],
         },
         {
             title: "Email",
             dataIndex: "email",
-            width: "24%",
+            width: "28%",
         },
         {
             title: "Gender",
@@ -72,7 +75,7 @@ const User = () => {
                     value: false,
                 },
             ],
-            width: "10%",
+            width: "12%",
         },
         {
             title: "Role",
@@ -97,12 +100,12 @@ const User = () => {
             filterMode: "tree",
             filterSearch: true,
             onFilter: (value, record) => record.role.includes(value),
-            width: "15%",
+            width: "12%",
         },
         {
             title: "Actions",
             dataIndex: "hanhDong",
-            width: "25%",
+            width: "20%",
             render: (text, user) => {
                 return (
                     <div className="flex justify-start align-items-center">
@@ -115,6 +118,22 @@ const User = () => {
                                 <EditFilled />
                             </NavLink>
                         </div>
+                        <div className="mr-10">
+                            <span
+                                key={2}
+                                style={{ cursor: "pointer" }}
+                                className=" text-orange-600 text-20 p-2 hover:text-orange-200"
+                                onClick={() => {
+                                    if (window.confirm("Do you want to delete " + user.name + "?")) {
+                                        dispatch(deleteUser(user.id)
+                                        );
+
+                                    }
+                                }}
+                            >
+                                <DeleteFilled />
+                            </span>
+                        </div>
                     </div>
                 );
             },
@@ -122,6 +141,8 @@ const User = () => {
     ];
 
     const data = userList;
+
+    // console.log(data)
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log("params", pagination, filters, sorter, extra);
@@ -172,7 +193,15 @@ const User = () => {
                 </div>
                 <div className="userList">
                     <div className="user_data">
-                        <div className="input_search my-20">
+                        <div className="my-24">
+                            <Link
+                                to="/admin/user/addnew"
+                                className="bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded hover:text-white"
+                            >
+                                Add A New Admin
+                            </Link>
+                        </div>
+                        <div className="input_search mb-20">
                             <Search placeholder="Name" onSearch={onSearch} enterButton />
                         </div>
                     </div>
@@ -183,6 +212,7 @@ const User = () => {
                             dataSource={data}
                             onChange={onChange}
                             rowKey={"id"}
+                            bordered
                         />
                     </div>
                 </div>
