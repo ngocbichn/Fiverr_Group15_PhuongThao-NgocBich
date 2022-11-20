@@ -3,13 +3,15 @@ import styled from 'styled-components'
 import Header from '../../organisms/Header'
 import { useWorkManage } from '../../../store/workManage/workManageSelector';
 import { useDispatch } from 'react-redux';
-import { getMenuLoaiCV, getCVtheochitietloai } from '../../../store/workManage/workManageReducer';
+import { getMenuLoaiCV, getCVtheochitietloai, getChiTietLoaiCV } from '../../../store/workManage/workManageReducer';
 import { NavLink } from 'react-router-dom';
 import { PlayCircleOutlined, PlayCircleFilled, ArrowRightOutlined } from '@ant-design/icons';
 import { fill } from 'lodash';
 
 const WorkCategory = () => {
-    const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen } = useWorkManage()
+    const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen, chiTietLoaiCV } = useWorkManage()
+    console.log(menuLoaiCV)
+
     const dispatch = useDispatch()
 
     useEffect(() => { dispatch(getMenuLoaiCV()) }, [])
@@ -18,6 +20,11 @@ const WorkCategory = () => {
         dispatch(getCVtheochitietloai(Chitietid))
 
     }
+    const getLoaiCV = (MaLoaiCV) => {
+        dispatch(getChiTietLoaiCV(MaLoaiCV))
+    }
+
+    console.log('chiTietLoaiCV', chiTietLoaiCV)
 
 
     return (
@@ -29,7 +36,9 @@ const WorkCategory = () => {
                         {menuLoaiCV.map((menuCV, index) => {
                             return (
                                 <div className='navCate' key={index}>
-                                    <li className='category'> <NavLink to="/categories">{menuCV.tenLoaiCongViec}</NavLink>  </li>
+                                    <li className='category' onClick={() => getLoaiCV(menuCV.id)}>
+                                        <a>
+                                            {menuCV.tenLoaiCongViec}</a>  </li>
                                     <div className='subMenu'>
                                         <div className='grid  auto-cols-max grid-cols-3 gap-[20px]' >
                                             {menuCV.dsNhomChiTietLoai?.map((item) => {
@@ -123,44 +132,62 @@ const WorkCategory = () => {
                 </div>
 
                 <div className='workCateResult'>
-                    <h1>Explore Graphics & Design</h1>
+                    {chiTietLoaiCV?.map((listCV) => {
+                        return (
+                            <h1 key={listCV.id}>Explore {listCV.tenLoaiCongViec} </h1>
+                        )
+                    })}
+
                     <div className='workGroupList'>
                         <div className='grid-wrapper grid grid-cols-4 gap-5'>
-                            <div className='column'>
-                                <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/attachments/generic_asset/asset/431c7d880582a199f5b240dde2694206-1626594004536/Logo%20_%20Brand%20Identity_B_2x.png" alt="" />
-                                <div className='workList'>
-                                    <h3>Logo & Brand Identity</h3>
-                                    <div className='subWorklist'>
-                                        <div className='subWorklist-item'>
-                                        <a href="">
-                                            <span>Logo Design</span>
-                                            <ArrowRightOutlined className='arrow'/>
-                                        </a>
-                                        </div>
-                                        <div className='subWorklist-item'>
-                                        <a href="">
-                                            <span>Logo Design</span>
-                                            <ArrowRightOutlined className='arrow'/>
-                                        </a>
-                                        </div>
-                                        <div className='subWorklist-item'>
-                                        <a href="">
-                                            <span>Logo Design</span>
-                                            <ArrowRightOutlined className='arrow'/>
-                                        </a>
-                                        </div>
-                                        <div className='subWorklist-item'>
-                                        <a href="">
-                                            <span>Logo Design</span>
-                                            <ArrowRightOutlined className='arrow'/>
-                                        </a>
-                                        </div>
-                                        
-                                       
+                            {
+                                chiTietLoaiCV?.map((listCV) => {
+                                    return (
 
-                                    </div>
-                                </div>
+
+
+                                        listCV.dsNhomChiTietLoai.map((grouplistCV) => {
+                                            return (
+                                                <div className='column' key={grouplistCV.id}>
+                                                    <img src={grouplistCV.hinhAnh} alt="" />
+                                                    <div className='workList'>
+                                                        <h3>{grouplistCV.tenNhom}</h3>
+                                                        <div className='subWorklist'>
+                                                            {grouplistCV.dsChiTietLoai.map((item) => {
+                                                                return (
+                                                                    <div className='subWorklist-item' key={item.id}>
+                                                                        <a href="">
+                                                                            <span>{item.tenChiTiet}</span>
+                                                                            <ArrowRightOutlined className='arrow' />
+                                                                        </a>
+                                                                    </div>
+                                                                )
+                                                            })}
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            )
+                                        })
+
+
+
+                                    )
+
+                                })
+                            }
+                            <div>
+
                             </div>
+
+
+
+
                         </div>
                     </div>
 
@@ -272,6 +299,7 @@ export const Container = styled.div`
                 
             }
         .container {
+            margin-top: 24px!important;
             
             .banner {
                 z-index: 4;
