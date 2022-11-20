@@ -9,6 +9,8 @@ DScongviectheoChiTietLoai: [],
 fetchingDSCVtheoChiTietloai: false,
 DScongviectheoTen: [],
 fetchingDSCVtheoTen: false,
+chiTietLoaiCV: [],
+fetchingchiTietLoaiCV: false,
 
 }
 
@@ -67,6 +69,19 @@ export const { reducer: workManageReducer, actions: workManageAction } = createS
             state.fetchingDSCVtheoTen = false
             state.DScongviectheoTen =action.payload
 
+        })
+        //lấy chi tiết loại CV 
+
+        .addCase(getChiTietLoaiCV.pending,(state, action) => {
+            state.fetchingchiTietLoaiCV = true
+        })
+        .addCase(getChiTietLoaiCV.fulfilled,(state, action) => {
+            state.fetchingchiTietLoaiCV = false
+            state.chiTietLoaiCV = action.payload
+        })
+        .addCase(getChiTietLoaiCV.rejected,(state, action) => {
+            state.fetchingchiTietLoaiCV = false
+            state.chiTietLoaiCV = action.payload
         })
     }
 })
