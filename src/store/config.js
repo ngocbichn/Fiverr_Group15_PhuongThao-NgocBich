@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { workManageReducer } from "./workManage";
 import { authManageReducer } from "./authManage"
 import { userManageReducer } from "./userManage";
+import { adminWorkManageReducer } from "./adminWorkManage"
 
 const { combineReducers } = require("redux");
 
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     workManageReducer,
     authManageReducer,
     userManageReducer,
+    adminWorkManageReducer,
 })
 
 export const store = configureStore({

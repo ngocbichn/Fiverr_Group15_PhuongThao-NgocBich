@@ -10,11 +10,11 @@ import { useUserManage } from "../../../../store/userManage/userManageSelector";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { deleteUser, getUserList } from "../../../../store/userManage/userManageReducer";
+import { deleteUser, getUserList, searchUserByName } from "../../../../store/userManage/userManageReducer";
 import moment from "moment";
 
 const User = () => {
-    //getMovieList
+
     const dispatch = useDispatch();
     const {
         userList,
@@ -27,7 +27,6 @@ const User = () => {
     }, []);
 
     const navigate = useNavigate();
-    // console.log("movieList", movieList);
 
     const columns = [
         {
@@ -152,6 +151,7 @@ const User = () => {
 
     const onSearch = (value) => {
         console.log(value);
+        dispatch(searchUserByName(value))
     };
     return (
         <Container className="UserAdmin">
@@ -202,7 +202,7 @@ const User = () => {
                             </Link>
                         </div>
                         <div className="input_search mb-20">
-                            <Search placeholder="Name" onSearch={onSearch} enterButton />
+                            <Search placeholder="Search User By Name" onSearch={onSearch} enterButton />
                         </div>
                     </div>
                     <div className="user_table">

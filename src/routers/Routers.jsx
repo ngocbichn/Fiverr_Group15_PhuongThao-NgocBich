@@ -11,6 +11,7 @@ import User from "../components/pages/Admin/User/User";
 import UserEdit from "../components/pages/Admin/User/UserEdit";
 import AdminWorkList from "../components/pages/Admin/Work/AdminWorkList";
 import UserAddNew from "../components/pages/Admin/User/UserAddNew";
+import AdminWorkAddNew from "../components/pages/Admin/Work/AdminWorkAddNew"
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -68,7 +69,10 @@ const Routers = () => {
                     path: '/admin/user/edit/:userId',
                     element: <UserEdit />
                 },
-
+                {
+                    path: '/admin/worklist/addnew',
+                    element: <AdminWorkAddNew />
+                },
             ]
         },
     ]);
