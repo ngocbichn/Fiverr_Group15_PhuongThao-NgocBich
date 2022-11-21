@@ -55,7 +55,7 @@ const WorkList = () => {
                          {menuLoaiCV.map((menuCV,index) => {
                             return (
                             <div className='navCate' key={index}>
-                            <li className='category'> <NavLink to="/categories">{menuCV.tenLoaiCongViec}</NavLink>  </li>
+                            <li className='category'> <NavLink to={`/categories/${menuCV.id}`}>{menuCV.tenLoaiCongViec}</NavLink>  </li>
                             <div className='subMenu'>
                             <div className='grid  grid-cols-3 gap-[20px]' >
                             {menuCV.dsNhomChiTietLoai?.map((item) => {

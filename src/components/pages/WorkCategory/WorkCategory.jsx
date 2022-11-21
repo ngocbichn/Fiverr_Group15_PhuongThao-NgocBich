@@ -4,17 +4,22 @@ import Header from '../../organisms/Header'
 import { useWorkManage } from '../../../store/workManage/workManageSelector';
 import { useDispatch } from 'react-redux';
 import { getMenuLoaiCV, getCVtheochitietloai, getChiTietLoaiCV } from '../../../store/workManage/workManageReducer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams, useSearchParams } from 'react-router-dom';
 import { PlayCircleOutlined, PlayCircleFilled, ArrowRightOutlined } from '@ant-design/icons';
 import { fill } from 'lodash';
+import Footer from '../../organisms/Footer';
 
 const WorkCategory = () => {
     const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen, chiTietLoaiCV } = useWorkManage()
     console.log(menuLoaiCV)
 
+    const param = useParams()
+    console.log(param.maLoaiCV)
+
     const dispatch = useDispatch()
 
     useEffect(() => { dispatch(getMenuLoaiCV()) }, [])
+    useEffect(() => {getLoaiCV(param.maLoaiCV)}, [param.maLoaiCV])
 
     const getCV = (Chitietid) => {
         dispatch(getCVtheochitietloai(Chitietid))
@@ -25,6 +30,10 @@ const WorkCategory = () => {
     }
 
     console.log('chiTietLoaiCV', chiTietLoaiCV)
+    // const [searchParams, getSearchParams] = useSearchParams({
+    //     loaiCV: 
+     
+    // })
 
 
     return (
@@ -193,6 +202,8 @@ const WorkCategory = () => {
 
                 </div>
             </div>
+            <div className='searchRelated'></div>
+            <Footer/>
         </Container>
     )
 }
@@ -467,5 +478,5 @@ export const Container = styled.div`
         }
 
 
-    }
+    
 `

@@ -31,7 +31,7 @@ const Routers = () => {
                     element: <WorkList />
                 },
                 {
-                    path: 'categories',
+                    path: 'categories/:maLoaiCV',
                     element: <WorkCategory />
                 },
                 {
