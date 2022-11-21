@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import {
@@ -19,7 +19,8 @@ import { useUserManage } from '../../../../store/userManage/userManageSelector';
 import { useDispatch } from 'react-redux';
 import { postNewUser } from '../../../../store/userManage/userManageReducer';
 
-const UserAddNew = () => {
+const AdminWorkAddNew = () => {
+    const [imgSrc, setImgSrc] = useState("");
 
     const { isLoadingUserChanged, errorMessage } = useUserManage()
 
@@ -29,25 +30,20 @@ const UserAddNew = () => {
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            email: "",
-            phone: "",
-            birthday: "",
-            gender: true,
-            role: "ADMIN",
+            tenCongViec: "",
+            danhGia: 0,
+            giaTien: 0,
+            nguoiTao: 1,
+            hinhAnh: null,
+            moTa: "",
+            maChiTietLoaiCongViec: 0,
+            moTaNgan: "",
+            saoCongViec: 0,
         },
         onSubmit: (values) => {
-            dispatch(postNewUser(values))
-            alert('Added Successfully!')
-            navigate('/admin/user')
+            console.log('values', values)
         },
     });
-
-    const handleChangeDatePicker = (value) => {
-        console.log("datePickerChange", moment(value).format("DD/MM/YYYY"));
-        let birthday = moment(value).format("DD/MM/YYYY");
-        formik.setFieldValue("birthday", birthday);
-    };
 
     const handleChangeSelect = (name) => {
         return (value) => {
@@ -55,13 +51,39 @@ const UserAddNew = () => {
         };
     }
 
+    const handleChangeInputNumber = (name) => {
+        return (value) => {
+            formik.setFieldValue(name, value)
+        }
+    }
+
+    const handleChangeFile = (e) => {
+        let file = e.target.files[0];
+        if (
+            file.type === "image/jpeg" ||
+            file.type === "image/jpg" ||
+            file.type === "image/png" ||
+            file.type === "image.gif"
+        ) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                // console.log(e.target.result
+                setImgSrc(e.target.result);
+            };
+            formik.setFieldValue("hinhAnh", file);
+
+            // formik.setErrors()
+        }
+    };
+
     return (
-        <Container className="UserAddNew">
-            <div className="UserAddNew_content">
+        <Container className="AdminWorkAddNew">
+            <div className="WorkAddNew_content">
                 <div className="title">
                     <div className="title_content">
                         <h4 className="text-18 text-headingPrimary font-semibold leading-5 tracking-tight">
-                            Add a New Admin
+                            Add a New Work
                         </h4>
                         <ol className="breadcrumb flex">
                             <li className="breadcrumb_item">
@@ -84,19 +106,19 @@ const UserAddNew = () => {
                             <li className="font-semibold mx-10 text-primary">/</li>
                             <li className="breadcrumb_item">
                                 <Link
-                                    to="/admin/user"
+                                    to="/admin/worklist"
                                     className="text-textPrimary hover:text-primary"
                                 >
-                                    User
+                                    Work List
                                 </Link>
                             </li>
                             <li className="font-semibold mx-10 text-primary">/</li>
                             <li className="breadcrumb_item">
                                 <Link
-                                    to="/admin/user/addnew"
+                                    to="/admin/worklist/addnew"
                                     className="text-textPrimary hover:text-primary"
                                 >
-                                    Add New User
+                                    Add New Work
                                 </Link>
                             </li>
                         </ol>
@@ -116,66 +138,69 @@ const UserAddNew = () => {
                     >
                         <Form.Item label="Name">
                             <Input
-                                name="name"
+                                name="tenCongViec"
                                 placeholder="Name"
                                 onChange={formik.handleChange}
                             />
                         </Form.Item>
-                        <Form.Item label="Email">
+                        <Form.Item label="Review">
+                            <InputNumber
+                                placeholder="Review"
+                                onChange={handleChangeInputNumber("danhGia")}
+                                min={1}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Price">
+                            <InputNumber
+                                placeholder="$10"
+                                onChange={handleChangeInputNumber("giaTien")}
+                                min={1}
+                                max={99}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Description">
                             <Input
-                                name="email"
-                                placeholder="Email"
+                                name="moTa"
+                                placeholder="Description"
                                 onChange={formik.handleChange}
                             />
                         </Form.Item>
-                        <Form.Item label="Password">
+                        <Form.Item label="Short Description">
                             <Input
-                                name="password"
-                                placeholder="Password"
+                                placeholder="Full editing of the file up to 5 minutes..."
                                 onChange={formik.handleChange}
                             />
                         </Form.Item>
-                        <Form.Item label="Phone">
-                            <Input
-                                name="phone"
-                                placeholder="Phone"
-                                onChange={formik.handleChange}
+                        <Form.Item label="Work Detail Id">
+                            <InputNumber
+                                placeholder="1"
+                                onChange={handleChangeInputNumber("maChiTietLoaiCongViec")}
+                                min={1}
                             />
                         </Form.Item>
-                        <Form.Item label="Birthday">
-                            <DatePicker
-                                format={"DD/MM/YYYY"}
-                                onChange={handleChangeDatePicker}
+                        <Form.Item label="Difficulty">
+                            <InputNumber
+                                placeholder="1"
+                                onChange={handleChangeInputNumber("saoCongViec")}
+                                min={1}
+                                max={5}
                             />
                         </Form.Item>
-                        <Form.Item label="Gender">
-                            <Select
-                                name="gender"
-                                onChange={handleChangeSelect('gender')}
-                                options={[
-                                    {
-                                        value: true,
-                                        label: "Male",
-                                    },
-                                    {
-                                        value: false,
-                                        label: "Female",
-                                    },
-                                ]}
+                        <Form.Item label="Image">
+                            <input
+                                type="file"
+                                onChange={handleChangeFile}
+                                accept="image/png,image/jpeg,image/jpg,image/gif"
                             />
-                        </Form.Item>
-                        <Form.Item label="Role">
-                            <Input
-                                name="role"
-                                defaultValue={"ADMIN"}
-                            />
+                            <br />
+                            <img style={{ width: 150, height: 150 }} src={imgSrc} alt="..." />
                         </Form.Item>
                         <Form.Item label="Submit">
                             <button
                                 type="submit"
                                 className="btnEditUser bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded"
                             >
-                                Add a New Admin
+                                Add a New Work
                             </button>
                         </Form.Item>
                     </Form>
@@ -185,11 +210,11 @@ const UserAddNew = () => {
     )
 }
 
-export default UserAddNew
+export default AdminWorkAddNew
 
 export const Container = styled.div`
-    &.UserAddNew{
-        .UserAddNew_content{
+    &.AdminWorkAddNew{
+        .WorkAddNew_content{
             padding: 14px;
       margin: 0;
             .title{}

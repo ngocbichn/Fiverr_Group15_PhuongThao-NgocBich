@@ -68,6 +68,18 @@ export const { reducer: userManageReducer, actions: userManageAction } = createS
                 state.isFetchingDeleteUser = false
                 state.errorMessage = action.payload.message
             })
+            //searchUserByName
+            .addCase(searchUserByName.pending, (state, action) => {
+                state.isFetching = true
+            })
+            .addCase(searchUserByName.fulfilled, (state, action) => {
+                state.userList = action.payload
+                state.isFetching = false
+            })
+            .addCase(searchUserByName.rejected, (state, action) => {
+                state.error = action.payload
+                state.isFetching = false
+            })
     }
 })
 
@@ -119,6 +131,18 @@ export const deleteUser = createAsyncThunk(
                 return result.data.content
             }
             dispatch(getUserInfo())
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const searchUserByName = createAsyncThunk(
+    'userManage/searchUserByName',
+    async (name, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await userManageServices.searchUserByName(name)
+            return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
         }

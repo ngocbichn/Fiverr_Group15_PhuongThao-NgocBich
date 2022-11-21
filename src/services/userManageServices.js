@@ -12,5 +12,8 @@ export const userManageServices = {
     },
     deleteUser: (userId) => {
         return api.delete(`users?id=${userId}`)
-    }
+    },
+    searchUserByName: (name) => {
+        return api.get(`users/search/${name}`)
+    },
 }
