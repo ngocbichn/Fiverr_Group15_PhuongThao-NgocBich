@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import {
     EditFilled,
-    DeleteFilled,
+    DeleteFilled, InfoCircleOutlined
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import styled from "styled-components";
@@ -112,9 +112,11 @@ const User = () => {
                             <NavLink
                                 key={1}
                                 className=" text-primary text-20 p-2 hover:text-green-700"
-                                to={`/admin/user/edit/${user.id}`}
+                                to={`/admin/user/info/${user.id}`}
                             >
-                                <EditFilled />
+                                <Tooltip color="green" title="View Detail">
+                                    <InfoCircleOutlined />
+                                </Tooltip>
                             </NavLink>
                         </div>
                         <div className="mr-10">
@@ -130,7 +132,9 @@ const User = () => {
                                     }
                                 }}
                             >
-                                <DeleteFilled />
+                                <Tooltip color="red" title="Delete User">
+                                    <DeleteFilled />
+                                </Tooltip>
                             </span>
                         </div>
                     </div>

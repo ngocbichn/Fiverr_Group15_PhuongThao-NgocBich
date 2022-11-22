@@ -27,6 +27,10 @@ const Sidebar = () => {
                 <div className="">
                     <ul>
                         <li className="user flex justify-start items-center py-6 px-18 mb-10 hover:underline cursor-pointer focus:text-primary">
+                            <span className="mr-12"><i className="fa-solid fa-house font-semibold" style={{ width: "18px", height: "18px" }}></i></span>
+                            <NavLink to="/admin/dashboard" className="font-semibold text-16" style={{ color: "#222325" }}>Dashboard</NavLink>
+                        </li>
+                        <li className="user flex justify-start items-center py-6 px-18 mb-10 hover:underline cursor-pointer focus:text-primary">
                             <span className="mr-12"><i className="fa-solid fa-users font-semibold" style={{ width: "18px", height: "18px" }}></i></span>
                             <NavLink to="/admin/user" className="font-semibold text-16" style={{ color: "#222325" }}>User</NavLink>
                         </li>

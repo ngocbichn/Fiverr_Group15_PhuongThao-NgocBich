@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { useDispatch } from "react-redux";
-import { getWorkList } from "../../../../store/adminWorkManage/adminWorkManageReducer";
+import { deleteWork, getWorkList } from "../../../../store/adminWorkManage/adminWorkManageReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,7 +24,7 @@ const AdminWorkList = () => {
 
     const navigate = useNavigate();
 
-    const { workList, workList: { id } } = useAdminWorkManage();
+    const { workList, workList: { id }, workInfo } = useAdminWorkManage();
 
     const starArray = [...Array(5).keys()].map(i => i + 1);
 
@@ -70,12 +70,12 @@ const AdminWorkList = () => {
                 return (
                     <Fragment>
                         {work.moTa.length > 50
-                            ? work.moTa.substr(0, 50) + "......."
+                            ? work.moTa.substr(0, 60) + "......."
                             : work.moTa}
                     </Fragment>
                 );
             },
-            width: "17%",
+            width: "25%",
         },
         {
             title: "Price",
@@ -85,7 +85,7 @@ const AdminWorkList = () => {
                     ${num}
                 </Fragment>;
             },
-            width: "9%",
+            width: "7%",
         },
         {
             title: "Difficulty",
@@ -103,7 +103,7 @@ const AdminWorkList = () => {
                     </Fragment>
                 );
             },
-            width: "18%",
+            width: "12%",
         },
         {
             title: "Actions",
@@ -112,7 +112,23 @@ const AdminWorkList = () => {
             render: (text, work) => {
                 return (
                     <div className="flex justify-start align-items-center">
+                        <div className="mr-10">
+                            <span
+                                key={2}
+                                style={{ cursor: "pointer" }}
+                                className=" text-orange-600 text-20 p-2 hover:text-orange-200"
+                                onClick={() => {
+                                    if (window.confirm("Do you want to delete " + work.name)) {
+                                        dispatch(deleteWork(work.id)
+                                        );
 
+                                    }
+                                    // window.location.reload()
+                                }}
+                            >
+                                <DeleteFilled />
+                            </span>
+                        </div>
                     </div>
                 );
             },
@@ -123,7 +139,7 @@ const AdminWorkList = () => {
     // console.log('data', data)
 
     const onChange = (pagination, filters, sorter, extra) => {
-        console.log("params", pagination, filters, sorter, extra);
+        // console.log("params", pagination, filters, sorter, extra);
     };
 
     const { Search } = Input;
@@ -179,13 +195,6 @@ const AdminWorkList = () => {
                             >
                                 Add A New Work
                             </Link>
-                        </div>
-                        <div className="input_search mb-20">
-                            <Search
-                                placeholder="Search User By Name"
-                                onSearch={onSearch}
-                                enterButton
-                            />
                         </div>
                     </div>
                     <div className="worklist_table">

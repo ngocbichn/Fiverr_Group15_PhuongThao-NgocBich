@@ -4,8 +4,8 @@ export const userManageServices = {
     getUserList: () => {
         return api.get('users')
     },
-    postNewUser: (formData) => {
-        return api.post('users/upload-avatar', formData)
+    postNewUser: (user) => {
+        return api.post('users', user)
     },
     getUserInfo: (userId) => {
         return api.get(`users/${userId}`)
