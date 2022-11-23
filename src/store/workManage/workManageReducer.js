@@ -5,7 +5,7 @@ import { workManageServices } from "../../services/workManageServices"
 const initialState = {
 menuLoaiCV: [],
 fetchingmenuLoaiVC: false,
-DScongviectheoChiTietLoai: [],
+DScongviectheoChiTietLoai: null,
 fetchingDSCVtheoChiTietloai: false,
 DScongviectheoTen: [],
 fetchingDSCVtheoTen: false,
