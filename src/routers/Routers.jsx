@@ -8,10 +8,11 @@ import SignIn from "../components/pages/SignIn/SignIn"
 import WorkCategory from "../components/pages/WorkCategory/WorkCategory";
 import AdminLayout from "../components/layouts/AdminLayout";
 import User from "../components/pages/Admin/User/User";
-import UserEdit from "../components/pages/Admin/User/UserEdit";
 import AdminWorkList from "../components/pages/Admin/Work/AdminWorkList";
 import UserAddNew from "../components/pages/Admin/User/UserAddNew";
 import AdminWorkAddNew from "../components/pages/Admin/Work/AdminWorkAddNew"
+import Dashboard from "../components/pages/Admin/Dashboard/Dashboard";
+import UserInfo from "../components/pages/Admin/User/UserInfo";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -50,6 +51,10 @@ const Routers = () => {
             element: <AdminLayout />,
             children: [
                 {
+                    path: 'dashboard',
+                    element: <Dashboard />,
+                },
+                {
                     path: 'user',
                     element: <User />,
                 },
@@ -59,15 +64,15 @@ const Routers = () => {
                 },
                 {
                     path: '/admin',
-                    element: <Navigate to='/admin/user' />
+                    element: <Navigate to='/admin/dashboard' />
                 },
                 {
                     path: '/admin/user/addnew',
                     element: <UserAddNew />
                 },
                 {
-                    path: '/admin/user/edit/:userId',
-                    element: <UserEdit />
+                    path: '/admin/user/info/:userId',
+                    element: <UserInfo />
                 },
                 {
                     path: '/admin/worklist/addnew',

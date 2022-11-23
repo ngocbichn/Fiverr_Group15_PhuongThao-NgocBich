@@ -17,12 +17,11 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { useUserManage } from '../../../../store/userManage/userManageSelector';
 import { useDispatch } from 'react-redux';
-import { postNewUser } from '../../../../store/userManage/userManageReducer';
+import { postNewWork } from '../../../../store/adminWorkManage/adminWorkManageReducer';
 
 const AdminWorkAddNew = () => {
-    const [imgSrc, setImgSrc] = useState("");
 
-    const { isLoadingUserChanged, errorMessage } = useUserManage()
+    const { isPosting, errorMessage } = useUserManage()
 
     const dispatch = useDispatch()
 
@@ -30,11 +29,11 @@ const AdminWorkAddNew = () => {
 
     const formik = useFormik({
         initialValues: {
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2MTMiLCJlbWFpbCI6ImJpZWJpZUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJuYmYiOjE2NjkwOTUwNzMsImV4cCI6MTY2OTY5OTg3M30.ebc__kp3yY_vtVT1T8jx5fDKnAZlXaHZ39hcXtOrZWU",
             tenCongViec: "",
             danhGia: 0,
             giaTien: 0,
-            nguoiTao: 1,
-            hinhAnh: null,
+            nguoiTao: 1613,
             moTa: "",
             maChiTietLoaiCongViec: 0,
             moTaNgan: "",
@@ -42,40 +41,17 @@ const AdminWorkAddNew = () => {
         },
         onSubmit: (values) => {
             console.log('values', values)
+            dispatch(postNewWork(values));
+            // alert("Added Successfully!")
+            // navigate(-1)
         },
     });
-
-    const handleChangeSelect = (name) => {
-        return (value) => {
-            formik.setFieldValue(name, value);
-        };
-    }
 
     const handleChangeInputNumber = (name) => {
         return (value) => {
             formik.setFieldValue(name, value)
         }
     }
-
-    const handleChangeFile = (e) => {
-        let file = e.target.files[0];
-        if (
-            file.type === "image/jpeg" ||
-            file.type === "image/jpg" ||
-            file.type === "image/png" ||
-            file.type === "image.gif"
-        ) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                // console.log(e.target.result
-                setImgSrc(e.target.result);
-            };
-            formik.setFieldValue("hinhAnh", file);
-
-            // formik.setErrors()
-        }
-    };
 
     return (
         <Container className="AdminWorkAddNew">
@@ -124,7 +100,7 @@ const AdminWorkAddNew = () => {
                         </ol>
                     </div>
                 </div>
-                <div className="form_addNew">
+                <div className="form_addNewWork">
                     <Form
                         onSubmitCapture={formik.handleSubmit}
                         labelCol={{
@@ -167,6 +143,7 @@ const AdminWorkAddNew = () => {
                         </Form.Item>
                         <Form.Item label="Short Description">
                             <Input
+                                name="moTaNgan"
                                 placeholder="Full editing of the file up to 5 minutes..."
                                 onChange={formik.handleChange}
                             />
@@ -186,19 +163,10 @@ const AdminWorkAddNew = () => {
                                 max={5}
                             />
                         </Form.Item>
-                        <Form.Item label="Image">
-                            <input
-                                type="file"
-                                onChange={handleChangeFile}
-                                accept="image/png,image/jpeg,image/jpg,image/gif"
-                            />
-                            <br />
-                            <img style={{ width: 150, height: 150 }} src={imgSrc} alt="..." />
-                        </Form.Item>
                         <Form.Item label="Submit">
                             <button
                                 type="submit"
-                                className="btnEditUser bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded"
+                                className="btnAddWork bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded"
                             >
                                 Add a New Work
                             </button>
@@ -218,7 +186,7 @@ export const Container = styled.div`
             padding: 14px;
       margin: 0;
             .title{}
-            .form_addNew{}
+            .form_addNewWork{}
         }
     }
 `
