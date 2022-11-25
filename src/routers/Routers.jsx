@@ -13,6 +13,9 @@ import UserAddNew from "../components/pages/Admin/User/UserAddNew";
 import AdminWorkAddNew from "../components/pages/Admin/Work/AdminWorkAddNew"
 import Dashboard from "../components/pages/Admin/Dashboard/Dashboard";
 import UserInfo from "../components/pages/Admin/User/UserInfo";
+import AdminWorkCategory from "../components/pages/Admin/WorkCategory/AdminWorkCategory";
+import WorkOrders from "../components/pages/Admin/Orders/WorkOrders";
+import SingleDetail from "../components/pages/Admin/WorkCategory/SingleDetail";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -63,6 +66,14 @@ const Routers = () => {
                     element: <AdminWorkList />
                 },
                 {
+                    path: 'workcategory',
+                    element: <AdminWorkCategory />
+                },
+                {
+                    path: 'workorders',
+                    element: <WorkOrders />
+                },
+                {
                     path: '/admin',
                     element: <Navigate to='/admin/dashboard' />
                 },
@@ -77,6 +88,10 @@ const Routers = () => {
                 {
                     path: '/admin/worklist/addnew',
                     element: <AdminWorkAddNew />
+                },
+                {
+                    path: '/admin/workcategory/singledetail/:id',
+                    element: <SingleDetail />
                 },
             ]
         },

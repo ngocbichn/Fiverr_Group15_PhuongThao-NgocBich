@@ -11,6 +11,8 @@ const initialState = {
     workInfo: [],
     isFetchingWorkInfo: false,
     isFetchingDeleteWork: false,
+    workCategory: [],
+    isFetchingCategory: false,
 }
 
 export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction } = createSlice({
@@ -69,6 +71,18 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isFetchingDeleteWork = false
                 state.errorMessage = action.payload.message
             })
+            //getWorkCategoryDetail
+            .addCase(getWorkCategoryDetail.pending, (state, action) => {
+                state.isFetching = true
+            })
+            .addCase(getWorkCategoryDetail.fulfilled, (state, action) => {
+                state.workCategory = action.payload
+                state.isFetchingCategory = false
+            })
+            .addCase(getWorkCategoryDetail.rejected, (state, action) => {
+                state.error = action.payload
+                state.isFetchingCategory = false
+            })
     }
 })
 
@@ -118,6 +132,18 @@ export const deleteWork = createAsyncThunk(
                 return result.data.content
             }
             dispatch(getWorkInfo())
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const getWorkCategoryDetail = createAsyncThunk(
+    'adminWorkManage/getWorkCategoryDetail',
+    async (data, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.getWorkCategoryDetail()
+            return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
         }

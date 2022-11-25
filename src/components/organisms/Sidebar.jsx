@@ -40,11 +40,11 @@ const Sidebar = () => {
                         </li>
                         <li className="user flex justify-start items-center py-6 px-18 mb-10 hover:underline cursor-pointer focus:text-primary">
                             <span className="mr-12"><i className="fa-solid fa-layer-group font-semibold" style={{ width: "18px", height: "18px" }}></i></span>
-                            <span className="font-semibold text-16">Work Category</span>
+                            <NavLink to="/admin/workcategory" className="font-semibold text-16" style={{ color: "#222325" }}>Work Category</NavLink>
                         </li>
                         <li className="user flex justify-start items-center py-6 px-18 mb-10 hover:underline cursor-pointer focus:text-primary">
                             <span className="mr-12"><i className="fa-solid fa-folder-plus font-semibold" style={{ width: "18px", height: "18px" }}></i></span>
-                            <span className="font-semibold text-16">Work Orders</span>
+                            <NavLink to="/admin/workorders" className="font-semibold text-16" style={{ color: "#222325" }}>Work Orders</NavLink>
                         </li>
                     </ul>
                 </div>

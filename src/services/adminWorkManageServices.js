@@ -12,5 +12,8 @@ export const adminWorkManageServices = {
     },
     deleteWork: (workId) => {
         return api.delete(`cong-viec/${workId}`)
-    }
+    },
+    getWorkCategoryDetail: () => {
+        return api.get('chi-tiet-loai-cong-viec')
+    },
 }
