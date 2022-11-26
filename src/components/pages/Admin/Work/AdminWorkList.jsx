@@ -2,10 +2,12 @@ import React, { Fragment, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAdminWorkManage } from "../../../../store/adminWorkManage/adminWorkManageSelector";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import {
     EditFilled,
     DeleteFilled,
+    UploadOutlined,
+    ToolFilled,
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { useDispatch } from "react-redux";
@@ -113,6 +115,16 @@ const AdminWorkList = () => {
                 return (
                     <div className="flex justify-start align-items-center">
                         <div className="mr-10">
+                            <NavLink
+                                key={1}
+                                style={{ cursor: "pointer" }}
+                                className=" text-blue-400 text-20 p-2 hover:text-blue-700"
+                                to={`/admin/worklist/uploadworkimg/${work.id}`}
+                            >
+                                <Tooltip color="blue" title="Update Image">
+                                    <UploadOutlined />
+                                </Tooltip>
+                            </NavLink>
                             <span
                                 key={2}
                                 style={{ cursor: "pointer" }}

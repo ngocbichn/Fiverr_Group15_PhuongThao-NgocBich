@@ -29,7 +29,6 @@ const AdminWorkAddNew = () => {
 
     const formik = useFormik({
         initialValues: {
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2MTMiLCJlbWFpbCI6ImJpZWJpZUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJuYmYiOjE2NjkwOTUwNzMsImV4cCI6MTY2OTY5OTg3M30.ebc__kp3yY_vtVT1T8jx5fDKnAZlXaHZ39hcXtOrZWU",
             tenCongViec: "",
             danhGia: 0,
             giaTien: 0,

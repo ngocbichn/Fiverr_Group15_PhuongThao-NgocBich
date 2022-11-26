@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { getWorkCategoryDetail } from "../../../../store/adminWorkManage/adminWorkManageReducer";
 import {
     EditFilled,
-    DeleteFilled, InfoCircleOutlined, PlusOutlined
+    DeleteFilled, InfoCircleOutlined, PlusOutlined, CiCircleFilled
 } from "@ant-design/icons";
 
 const AdminWorkCategory = () => {
@@ -67,6 +67,14 @@ const AdminWorkCategory = () => {
                         </ol>
                     </div>
                 </div>
+                <div className="my-24">
+                    <Link
+                        to="/admin/workcategory/addnewcategory"
+                        className="bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded hover:text-white"
+                    >
+                        Add A New Category
+                    </Link>
+                </div>
                 <div className="work_category">
                     <div className="">
                         {
@@ -93,9 +101,11 @@ const AdminWorkCategory = () => {
                                                         </NavLink>
                                                         <NavLink
                                                             className=" text-yellow-400 text-20 p-2 ml-10 hover:text-orange-600"
-                                                            to={`/admin/workcategory`}
+                                                            to={`/admin/workcategory/editDetailName/:${chiTietLoai.id}`}
                                                         >
-                                                            <Tooltip color="yellow" title="Edit"></Tooltip>
+                                                            <Tooltip color="yellow" title="Edit">
+                                                                <EditFilled />
+                                                            </Tooltip>
                                                         </NavLink>
                                                         <span
                                                             style={{ cursor: "pointer" }}

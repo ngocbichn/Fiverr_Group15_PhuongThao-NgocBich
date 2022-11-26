@@ -16,6 +16,9 @@ import UserInfo from "../components/pages/Admin/User/UserInfo";
 import AdminWorkCategory from "../components/pages/Admin/WorkCategory/AdminWorkCategory";
 import WorkOrders from "../components/pages/Admin/Orders/WorkOrders";
 import SingleDetail from "../components/pages/Admin/WorkCategory/SingleDetail";
+import AdminAddNewCategory from "../components/pages/Admin/WorkCategory/AdminAddNewCategory";
+import EditDetailName from "../components/pages/Admin/WorkCategory/EditDetailName";
+import AdminWorkUpdateImg from "../components/pages/Admin/Work/AdminWorkUpdateImg";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -90,8 +93,20 @@ const Routers = () => {
                     element: <AdminWorkAddNew />
                 },
                 {
+                    path: '/admin/worklist/uploadworkimg/:workId',
+                    element: <AdminWorkUpdateImg />
+                },
+                {
                     path: '/admin/workcategory/singledetail/:id',
                     element: <SingleDetail />
+                },
+                {
+                    path: '/admin/workcategory/addnewcategory',
+                    element: <AdminAddNewCategory />
+                },
+                {
+                    path: '/admin/workcategory/editDetailName/:id',
+                    element: <EditDetailName />
                 },
             ]
         },

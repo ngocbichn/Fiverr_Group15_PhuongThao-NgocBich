@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { get } from "lodash"
 import { adminWorkManageServices } from "../../services/adminWorkManageServices"
 
+
 const initialState = {
     workList: [],
     isFetching: false,
-    error: undefined,
+    error: null,
     isPosting: false,
     errorMessage: null,
     workInfo: [],
@@ -13,6 +14,9 @@ const initialState = {
     isFetchingDeleteWork: false,
     workCategory: [],
     isFetchingCategory: false,
+    workCateInfo: [],
+    isFetchingWorkCateInfo: false,
+    isUpdatingImg: false,
 }
 
 export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction } = createSlice({
@@ -58,6 +62,19 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isFetchingWorkInfo = false
                 state.error = action.payload
             })
+            //POST Work Image
+            .addCase(updateWorkImage.pending, (state, action) => {
+                state.isUpdatingImg = true
+                state.errorMessage = null
+            })
+            .addCase(updateWorkImage.fulfilled, (state, action) => {
+                state.isUpdatingImg = false
+                state.errorMessage = action.payload
+            })
+            .addCase(updateWorkImage.rejected, (state, action) => {
+                state.isUpdatingImg = false
+                state.errorMessage = action.payload
+            })
             //deleteWork
             .addCase(deleteWork.pending, (state, action) => {
                 state.isFetchingDeleteWork = true
@@ -82,6 +99,31 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             .addCase(getWorkCategoryDetail.rejected, (state, action) => {
                 state.error = action.payload
                 state.isFetchingCategory = false
+            })
+            //addNewCategory
+            .addCase(addNewCategory.pending, (state, action) => {
+                state.isPosting = true
+                state.errorMessage = null
+            })
+            .addCase(addNewCategory.fulfilled, (state, action) => {
+                state.isPosting = false
+                state.errorMessage = action.payload
+            })
+            .addCase(addNewCategory.rejected, (state, action) => {
+                state.isPosting = false
+                state.errorMessage = action.payload.message
+            })
+            //getDetailCategoryId
+            .addCase(getDetailCategoryId.pending, (state, action) => {
+                state.isFetchingWorkCateInfo = true
+            })
+            .addCase(getDetailCategoryId.fulfilled, (state, action) => {
+                state.isFetchingWorkCateInfo = false
+                state.workCateInfo = action.payload
+            })
+            .addCase(getDetailCategoryId.rejected, (state, action) => {
+                state.isFetchingWorkCateInfo = false
+                state.error = action.payload
             })
     }
 })
@@ -123,6 +165,21 @@ export const getWorkInfo = createAsyncThunk(
     }
 )
 
+export const updateWorkImage = createAsyncThunk(
+    'filmManage/postFilmInfoChanged',
+    async (workId, formData, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.updateWorkImage(workId, formData)
+            if (result.data.statusCode === 200) {
+                return result.data.content
+            }
+            dispatch(getWorkInfo())
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
 export const deleteWork = createAsyncThunk(
     'adminWorkManage/deleteWork',
     async (workId, { dispatch, getState, rejectWithValue }) => {
@@ -143,6 +200,30 @@ export const getWorkCategoryDetail = createAsyncThunk(
     async (data, { dispatch, getState, rejectWithValue }) => {
         try {
             const result = await adminWorkManageServices.getWorkCategoryDetail()
+            return result.data.content
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const addNewCategory = createAsyncThunk(
+    'adminWorkManage/addNewCategory',
+    async (category, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.addNewCategory(category)
+            return result.data.content
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const getDetailCategoryId = createAsyncThunk(
+    'adminWorkManage/getDetailCategoryId',
+    async (id, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.getDetailCategoryId(id)
             return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
