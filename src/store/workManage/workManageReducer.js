@@ -11,6 +11,8 @@ DScongviectheoTen: [],
 fetchingDSCVtheoTen: false,
 chiTietLoaiCV: [],
 fetchingchiTietLoaiCV: false,
+ChiTietCongViec: null, 
+fetchingCTCV: false,
 
 }
 
@@ -83,6 +85,21 @@ export const { reducer: workManageReducer, actions: workManageAction } = createS
             state.fetchingchiTietLoaiCV = false
             state.chiTietLoaiCV = action.payload
         })
+
+        //lấy nội dung chi tiết công việc 
+        .addCase(getCongViecChiTiet.pending, (state,action) => {
+            state.fetchingCTCV = true;
+        })
+        .addCase(getCongViecChiTiet.fulfilled, (state,action) => {
+            state.fetchingCTCV = false;
+            state.ChiTietCongViec = action.payload
+        })
+        .addCase(getCongViecChiTiet.rejected, (state,action) => {
+            state.fetchingCTCV = false;
+            state.ChiTietCongViec = action.payload
+        })
+        
+
     }
 })
 
@@ -139,5 +156,20 @@ export const getChiTietLoaiCV = createAsyncThunk('workManage/getChiTietLoaiCV', 
         
         
     }
+
+})
+
+//lấy nội dung chi tiết công việc
+export const getCongViecChiTiet = createAsyncThunk('workManage/getCongViecChiTiet',async(maCongViec, {dispatch,getState,rejectWithValue}) => {
+
+    try {
+        const result = await workManageServices.getCongViecChiTiet(maCongViec)
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+        
+    }
+
 
 })

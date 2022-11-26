@@ -16,6 +16,7 @@ import UserInfo from "../components/pages/Admin/User/UserInfo";
 import AdminWorkCategory from "../components/pages/Admin/WorkCategory/AdminWorkCategory";
 import WorkOrders from "../components/pages/Admin/Orders/WorkOrders";
 import SingleDetail from "../components/pages/Admin/WorkCategory/SingleDetail";
+import WorkDetail from "../components/pages/WorkDetail/WorkDetail";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -38,6 +39,10 @@ const Routers = () => {
                 {
                     path: 'categories/:maLoaiCV',
                     element: <WorkCategory />
+                },
+                {
+                    path: 'workdetail/:maCongViec',
+                    element: <WorkDetail />
                 },
                 {
                     path: 'signup',

@@ -8,7 +8,7 @@ const baseURL = 'https://fiverrnew.cybersoft.edu.vn/api/'
 export const api = axios.create()
 
 api.interceptors.request.use((config) => {
-    const bearerToken = JSON.parse(localStorage.getItem('User_Login'))?.accessToken
+    const Token = JSON.parse(localStorage.getItem('User_Login'))?.token
     config = {
         ...config,
         headers: {
@@ -17,8 +17,8 @@ api.interceptors.request.use((config) => {
         baseURL,
     }
     // console.log(bearerToken);
-    if (bearerToken) {
-        config.headers['Authorization'] = `Bearer ${bearerToken}`
+    if (Token) {
+        config.headers['Token'] = `${Token}`
     }
 
     return config

@@ -29,8 +29,6 @@ const WorkList = () => {
 
     window.addEventListener('scroll', addShadow)
 
- 
-
     useEffect(() => {dispatch(getMenuLoaiCV())},[])
 
     const getCV = (Chitietid) => {
@@ -52,7 +50,7 @@ const WorkList = () => {
             <div className='categoryMenu'>
                 <div className='container'>
                     <ul className='navMenu'>
-                         {menuLoaiCV.map((menuCV,index) => {
+                         {menuLoaiCV?.map((menuCV,index) => {
                             return (
                             <div className='navCate' key={index}>
                             <li className='category'> <NavLink to={`/categories/${menuCV.id}`}>{menuCV.tenLoaiCongViec}</NavLink>  </li>
