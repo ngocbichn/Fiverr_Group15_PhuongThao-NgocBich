@@ -17,8 +17,6 @@ const WorkCategory = () => {
     const [stateDSCVtheochitietloai, setstateDSCVtheochitietloai] = useState(null)
     console.log(stateDSCVtheochitietloai)
 
-
-
     const param = useParams()
     
 
@@ -35,7 +33,7 @@ const WorkCategory = () => {
         setstateDSCVtheochitietloai([])
 
     }
-    //là cái này nè 
+
     const getLoaiCV = (MaLoaiCV) => {
         dispatch(getChiTietLoaiCV(MaLoaiCV));
         setstateDSCVtheochitietloai(null)
@@ -62,13 +60,13 @@ const WorkCategory = () => {
                         <div className=' listedResult grid grid-cols-4 gap-[20px]'>
                         {DScongviectheoChiTietLoai?.map((congviec) => {
                             return (
-                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}>
+                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id} onClick={() => navigate(`/workdetail/${congviec.id}`)}>
                                 <div className='grid-card'>
                                    
                                     <div className='imageCarousel'>
                                         <img src={congviec.congViec.hinhAnh} />
                                     </div>
-                                    {/* <SimpleSlider/> */}
+                                   
                                     <div className='sellerInfo m-[12px]'>
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src={congviec.avatar} alt="" />
@@ -115,7 +113,7 @@ const WorkCategory = () => {
                                     <div className='imageCarousel'>
                                         <img src={congviec.congViec.hinhAnh} />
                                     </div>
-                                    {/* <SimpleSlider/> */}
+                                   
                                     <div className='sellerInfo m-[12px]'>
                                         <span className='sellerImg' >
                                             <img style={{ borderRadius: '50%', width: '24px', height: '24px' }} src={congviec.avatar} alt="" />
@@ -232,7 +230,7 @@ const WorkCategory = () => {
             <div className='categoryMenu'>
                 <div className='container'>
                     <ul className='navMenu'>
-                        {menuLoaiCV.map((menuCV, index) => {
+                        {menuLoaiCV?.map((menuCV, index) => {
                             return (
                                 <div className='navCate' key={index}>
                                     <li className='category' onClick={() => {getLoaiCV(menuCV.id)

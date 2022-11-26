@@ -19,6 +19,7 @@ import SingleDetail from "../components/pages/Admin/WorkCategory/SingleDetail";
 import AdminAddNewCategory from "../components/pages/Admin/WorkCategory/AdminAddNewCategory";
 import EditDetailName from "../components/pages/Admin/WorkCategory/EditDetailName";
 import AdminWorkUpdateImg from "../components/pages/Admin/Work/AdminWorkUpdateImg";
+import WorkDetail from "../components/pages/WorkDetail/WorkDetail";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -41,6 +42,10 @@ const Routers = () => {
                 {
                     path: 'categories/:maLoaiCV',
                     element: <WorkCategory />
+                },
+                {
+                    path: 'workdetail/:maCongViec',
+                    element: <WorkDetail />
                 },
                 {
                     path: 'signup',

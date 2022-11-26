@@ -16,6 +16,10 @@ export const workManageServices = {
     },
     getChiTietLoaiCV: (MaLoaiCongViec) => {
         return api.get(`cong-viec/lay-chi-tiet-loai-cong-viec/${MaLoaiCongViec}`)
+    },
+
+    getCongViecChiTiet: (maCongViec) => {
+        return api.get(`cong-viec/lay-cong-viec-chi-tiet/${maCongViec}`)
     }
 
     
