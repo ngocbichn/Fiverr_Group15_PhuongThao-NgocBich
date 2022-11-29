@@ -13,6 +13,9 @@ chiTietLoaiCV: [],
 fetchingchiTietLoaiCV: false,
 ChiTietCongViec: null, 
 fetchingCTCV: false,
+binhLuanTheoCV: null, 
+fetchingbinhLuanTheoCV: false,
+
 
 }
 
@@ -98,8 +101,22 @@ export const { reducer: workManageReducer, actions: workManageAction } = createS
             state.fetchingCTCV = false;
             state.ChiTietCongViec = action.payload
         })
-        
 
+        //lấy bình luận theo công việc 
+
+        .addCase(getBinhLuanTheoCV.pending, (state,action) => {
+            state.fetchingbinhLuanTheoCV = true;
+        })
+        .addCase(getBinhLuanTheoCV.fulfilled, (state,action) => {
+            state.fetchingbinhLuanTheoCV = false;
+            state.binhLuanTheoCV = action.payload
+        })
+        .addCase(getBinhLuanTheoCV.rejected, (state,action) => {
+            state.fetchingbinhLuanTheoCV = false;
+            state.binhLuanTheoCV = action.payload
+        })
+        //post bình luận 
+       
     }
 })
 
@@ -164,6 +181,7 @@ export const getCongViecChiTiet = createAsyncThunk('workManage/getCongViecChiTie
 
     try {
         const result = await workManageServices.getCongViecChiTiet(maCongViec)
+       
         return result.data.content
         
     } catch (error) {
@@ -171,5 +189,45 @@ export const getCongViecChiTiet = createAsyncThunk('workManage/getCongViecChiTie
         
     }
 
+
+})
+
+//lấy bình luận theo cv 
+export const getBinhLuanTheoCV = createAsyncThunk('workManage/getBinhLuanTheoCV', async(maCongViec, {dispatch,getState,rejectWithValue}) => {
+    try {
+        const result =  await workManageServices.getBinhLuanTheoCV(maCongViec)
+        console.log('A')
+        console.log(result.data.content)
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+//add bình luận 
+export const binhLuanAction = createAsyncThunk('workManage/binhLuanAction', async(binhLuan, {dispatch,getState,rejectWithValue}) => {
+    try {
+        console.log(binhLuan)
+        const result =await workManageServices.binhLuanAction(binhLuan);
+         dispatch(getBinhLuanTheoCV(binhLuan.maCongViec))
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+//thuê công việc 
+export const thueCongViec = createAsyncThunk('workManage/binhLuanAction', async (congViec, {dispatch, getState, rejectWithValue}) => {
+    try {
+        const result = await workManageServices.thueCongViec(congViec)
+        alert('Thuê thành công')
+
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
 
 })

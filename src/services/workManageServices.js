@@ -20,7 +20,18 @@ export const workManageServices = {
 
     getCongViecChiTiet: (maCongViec) => {
         return api.get(`cong-viec/lay-cong-viec-chi-tiet/${maCongViec}`)
+    },
+    getBinhLuanTheoCV: (maCongViec) => {
+        return api.get(`binh-luan/lay-binh-luan-theo-cong-viec/${maCongViec}`)
+    },
+    binhLuanAction: (binhLuan) => {
+        return api.post('binh-luan',binhLuan)
+    },
+    thueCongViec: (congViec) => {
+        return api.post('thue-cong-viec', congViec)
     }
+
+
 
     
 }

@@ -42,7 +42,7 @@ const SignIn = () => {
             dispatch(signInAction(values))
             if (isSuccess) {
                 alert('Sign In successfully!')
-                navigate('/home')
+                      navigate(-1)
             }
         },
     });
