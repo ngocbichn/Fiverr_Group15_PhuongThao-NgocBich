@@ -2,7 +2,8 @@ import React, { Fragment } from "react";
 import { Table, Tooltip } from "antd";
 import {
     EditFilled,
-    DeleteFilled, InfoCircleOutlined
+    DeleteFilled,
+    InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import styled from "styled-components";
@@ -10,16 +11,19 @@ import { useUserManage } from "../../../../store/userManage/userManageSelector";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { deleteUser, getUserList, searchUserByName } from "../../../../store/userManage/userManageReducer";
+import {
+    deleteUser,
+    getUserList,
+    searchUserByName,
+} from "../../../../store/userManage/userManageReducer";
 import moment from "moment";
 
 const User = () => {
-
     const dispatch = useDispatch();
     const {
         userList,
         userList: { id },
-        isFetchingDeleteUser
+        isFetchingDeleteUser,
     } = useUserManage();
 
     useEffect(() => {
@@ -74,6 +78,8 @@ const User = () => {
                     value: false,
                 },
             ],
+            filterMode: "tree",
+            filterSearch: true,
             width: "12%",
         },
         {
@@ -125,10 +131,10 @@ const User = () => {
                                 style={{ cursor: "pointer" }}
                                 className=" text-orange-600 text-20 p-2 hover:text-orange-200"
                                 onClick={() => {
-                                    if (window.confirm("Do you want to delete " + user.name + "?")) {
-                                        dispatch(deleteUser(user.id)
-                                        );
-
+                                    if (
+                                        window.confirm("Do you want to delete " + user.name + "?")
+                                    ) {
+                                        dispatch(deleteUser(user.id));
                                     }
                                 }}
                             >
@@ -155,11 +161,11 @@ const User = () => {
 
     const onSearch = (value) => {
         console.log(value);
-        dispatch(searchUserByName(value))
+        dispatch(searchUserByName(value));
     };
     return (
         <Container className="UserAdmin">
-            <div className="container">
+            <div className="content">
                 <div className="title">
                     <div className="title_content">
                         <h4 className="text-18 text-headingPrimary font-semibold leading-5 tracking-tight">
@@ -206,7 +212,11 @@ const User = () => {
                             </Link>
                         </div>
                         <div className="input_search mb-20">
-                            <Search placeholder="Search User By Name" onSearch={onSearch} enterButton />
+                            <Search
+                                placeholder="Search User By Name"
+                                onSearch={onSearch}
+                                enterButton
+                            />
                         </div>
                     </div>
                     <div className="user_table">
@@ -229,7 +239,7 @@ export default User;
 
 export const Container = styled.div`
   &.UserAdmin {
-    .container {
+    .content {
       padding: 14px;
       margin: 0;
       .title {

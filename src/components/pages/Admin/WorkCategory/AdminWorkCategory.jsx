@@ -4,15 +4,16 @@ import styled from "styled-components";
 import { Tabs, Card, Collapse, Tooltip } from 'antd';
 import { useAdminWorkManage } from "../../../../store/adminWorkManage/adminWorkManageSelector";
 import { useDispatch } from "react-redux";
-import { getWorkCategoryDetail } from "../../../../store/adminWorkManage/adminWorkManageReducer";
+import { deleteCategory, getWorkCategoryDetail } from "../../../../store/adminWorkManage/adminWorkManageReducer";
 import {
     EditFilled,
     DeleteFilled, InfoCircleOutlined, PlusOutlined, CiCircleFilled
 } from "@ant-design/icons";
+import { Table, Input } from "antd";
 
 const AdminWorkCategory = () => {
 
-    const { workCategory, isFetchingCategory, error } = useAdminWorkManage()
+    const { workCategory, workCategory: { id }, isFetchingCategory, error } = useAdminWorkManage()
 
     const dispatch = useDispatch()
 
@@ -24,11 +25,102 @@ const AdminWorkCategory = () => {
 
     console.log(workCategory)
 
-    const { Panel } = Collapse;
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "id",
+            render: (text, object) => {
+                return <span>{text}</span>;
+            },
+            sorter: (a, b) => a.id - b.id,
+            sortDirections: ["ascend", "descend"],
+            width: "10%",
+        },
+        {
+            title: "Image",
+            dataIndex: "hinhAnh",
+            render: (imgSrc, object) => {
+                return <img src={imgSrc} alt="image" style={{ width: "50px", height: "50px" }} />
+            },
+            width: "20%",
+        },
+        {
+            title: "Category Name",
+            dataIndex: "tenNhom",
+            sorter: (a, b) => {
+                let tenCongViecA = a.tenCongViec.toLowerCase().trim();
+                let tenCongViecB = b.tenCongViec.toLowerCase().trim();
+                if (tenCongViecA > tenCongViecB) {
+                    return 1;
+                }
+                return -1;
+            },
+            width: "30%",
+            sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "Category Code",
+            dataIndex: "maLoaiCongviec",
+            render: (text, object) => {
+                return <span>{text}</span>;
+            },
+            sorter: (a, b) => a.maLoaiCongviec - b.maLoaiCongviec,
+            sortDirections: ["ascend", "descend"],
+            width: "10%",
+        },
+        {
+            title: "Actions",
+            dataIndex: "hanhDong",
+            width: "30%",
+            render: (text, category) => {
+                return (
+                    <div className="flex justify-start align-items-center">
+                        <div className="mr-10">
+                            <NavLink
+                                key={1}
+                                style={{ cursor: "pointer" }}
+                                className=" text-green-400 text-20 p-2 hover:text-green-700 mr-10"
+                                to={`/admin/workcategory/info/${category.id}`}
+                            >
+                                <Tooltip color="green" title="View Detail">
+                                    <InfoCircleOutlined />
+                                </Tooltip>
+                            </NavLink>
+                            <span
+                                key={2}
+                                style={{ cursor: "pointer" }}
+                                className=" text-orange-600 text-20 p-2 hover:text-orange-200"
+                                onClick={() => {
+                                    if (window.confirm("Do you want to delete " + category.tenNhom)) {
+                                        dispatch(deleteCategory(category.id)
+                                        );
 
-    const onChange = (key) => {
-        console.log(key);
+                                    }
+                                    window.location.reload()
+                                }}
+                            >
+                                <DeleteFilled />
+                            </span>
+                        </div>
+                    </div>
+                );
+            },
+        },
+    ];
+
+    const data = workCategory;
+    // console.log('data', data)
+
+    const onChange = (pagination, filters, sorter, extra) => {
+        console.log("params", pagination, filters, sorter, extra);
     };
+
+    const { Search } = Input;
+
+    const onSearch = (value) => {
+        console.log(value);
+    };
+
     return (
         <Container className="AdminWorkCategory">
             <div className="content">
@@ -75,73 +167,16 @@ const AdminWorkCategory = () => {
                         Add A New Category
                     </Link>
                 </div>
-                <div className="work_category">
-                    <div className="">
-                        {
-                            workCategory.map((work) => (
-                                <div className="" key={work.id}>
-                                    <Collapse defaultActiveKey={['7']} onChange={onChange}>
-                                        <Panel header={work.tenNhom} key={work.id}>
-                                            {work.dsChiTietLoai.map((chiTietLoai) => (
-                                                <div className="flex justify-between px-24 items-center" key={chiTietLoai.id}>
-                                                    <span
-                                                        className="hover:text-primary cursor-pointer"
-                                                        onClick={() => { navigate(`/admin/workcategory/singledetail/${chiTietLoai.id}`) }}
-                                                    >
-                                                        {chiTietLoai.tenChiTiet}
-                                                    </span>
-                                                    <span>
-                                                        <NavLink
-                                                            className=" text-primary text-20 p-2 hover:text-green-700"
-                                                            to={`/admin/workcategory/singledetail/${chiTietLoai.id}`}
-                                                        >
-                                                            <Tooltip color="green" title="View Detail">
-                                                                <InfoCircleOutlined />
-                                                            </Tooltip>
-                                                        </NavLink>
-                                                        <NavLink
-                                                            className=" text-yellow-400 text-20 p-2 ml-10 hover:text-orange-600"
-                                                            to={`/admin/workcategory/editDetailName/:${chiTietLoai.id}`}
-                                                        >
-                                                            <Tooltip color="yellow" title="Edit">
-                                                                <EditFilled />
-                                                            </Tooltip>
-                                                        </NavLink>
-                                                        <span
-                                                            style={{ cursor: "pointer" }}
-                                                            className=" text-orange-600 text-20 p-2 ml-10 hover:text-orange-200"
-                                                        // onClick={() => {
-                                                        //     if (window.confirm("Do you want to delete " + user.name + "?")) {
-                                                        //         dispatch(deleteUser(user.id)
-                                                        //         );
-
-                                                        //     }
-                                                        // }}
-                                                        >
-                                                            <Tooltip color="red" title="Delete">
-                                                                <DeleteFilled />
-                                                            </Tooltip>
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            ))}
-                                            <div className="px-24 my-8 ">
-                                                <span className="flex justify-start items-center gap-6 hover:text-primary">
-                                                    <PlusOutlined className=" text-black font-medium text-12 hover:text-primary" />
-                                                    <Link
-                                                        to="/admin/workcategory"
-                                                        className=" text-black font-medium text-12 hover:text-primary hover:underline"
-                                                    >
-                                                        Add A New One
-                                                    </Link>
-                                                </span>
-                                            </div>
-                                        </Panel>
-                                    </Collapse>
-                                </div>
-                            ))
-                        }
-
+                <div className="workCategory">
+                    <div className="workCategory_table">
+                        <Table
+                            key={id}
+                            columns={columns}
+                            dataSource={data}
+                            onChange={onChange}
+                            rowKey={"id"}
+                            bordered
+                        />
                     </div>
                 </div>
             </div>

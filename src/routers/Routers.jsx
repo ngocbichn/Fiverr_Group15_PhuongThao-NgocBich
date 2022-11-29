@@ -15,11 +15,11 @@ import Dashboard from "../components/pages/Admin/Dashboard/Dashboard";
 import UserInfo from "../components/pages/Admin/User/UserInfo";
 import AdminWorkCategory from "../components/pages/Admin/WorkCategory/AdminWorkCategory";
 import WorkOrders from "../components/pages/Admin/Orders/WorkOrders";
-import SingleDetail from "../components/pages/Admin/WorkCategory/SingleDetail";
 import AdminAddNewCategory from "../components/pages/Admin/WorkCategory/AdminAddNewCategory";
-import EditDetailName from "../components/pages/Admin/WorkCategory/EditDetailName";
-import AdminWorkUpdateImg from "../components/pages/Admin/Work/AdminWorkUpdateImg";
 import WorkDetail from "../components/pages/WorkDetail/WorkDetail";
+import AdminWorkDetail from "../components/pages/Admin/Work/AdminWorkDetail";
+import AdminWorkCategoryInfo from "../components/pages/Admin/WorkCategory/AdminWorkCategoryInfo";
+import AddNewOrder from "../components/pages/Admin/Orders/AddNewOrder";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -98,21 +98,17 @@ const Routers = () => {
                     element: <AdminWorkAddNew />
                 },
                 {
-                    path: '/admin/worklist/uploadworkimg/:workId',
-                    element: <AdminWorkUpdateImg />
-                },
-                {
-                    path: '/admin/workcategory/singledetail/:id',
-                    element: <SingleDetail />
-                },
-                {
                     path: '/admin/workcategory/addnewcategory',
                     element: <AdminAddNewCategory />
                 },
                 {
-                    path: '/admin/workcategory/editDetailName/:id',
-                    element: <EditDetailName />
+                    path: '/admin/workcategory/info/:categoryId',
+                    element: <AdminWorkCategoryInfo />
                 },
+                {
+                    path: '/admin/workorders/addnew',
+                    element: <AddNewOrder />
+                }
             ]
         },
     ]);

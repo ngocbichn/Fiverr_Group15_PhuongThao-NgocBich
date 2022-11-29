@@ -4,6 +4,7 @@ import { workManageReducer } from "./workManage";
 import { authManageReducer } from "./authManage"
 import { userManageReducer } from "./userManage";
 import { adminWorkManageReducer } from "./adminWorkManage"
+import { ordersManageReducer } from "./ordersManage"
 
 const { combineReducers } = require("redux");
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     authManageReducer,
     userManageReducer,
     adminWorkManageReducer,
+    ordersManageReducer,
 })
 
 export const store = configureStore({

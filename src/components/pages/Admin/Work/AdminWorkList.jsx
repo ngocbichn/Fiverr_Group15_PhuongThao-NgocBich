@@ -6,8 +6,7 @@ import { Table, Tooltip } from "antd";
 import {
     EditFilled,
     DeleteFilled,
-    UploadOutlined,
-    ToolFilled,
+    InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { useDispatch } from "react-redux";
@@ -118,11 +117,11 @@ const AdminWorkList = () => {
                             <NavLink
                                 key={1}
                                 style={{ cursor: "pointer" }}
-                                className=" text-blue-400 text-20 p-2 hover:text-blue-700"
-                                to={`/admin/worklist/uploadworkimg/${work.id}`}
+                                className=" text-green-400 text-20 p-2 hover:text-green-700 mr-10"
+                                to={`/admin/worklist/detail/${work.id}`}
                             >
-                                <Tooltip color="blue" title="Update Image">
-                                    <UploadOutlined />
+                                <Tooltip color="green" title="View Detail">
+                                    <InfoCircleOutlined />
                                 </Tooltip>
                             </NavLink>
                             <span

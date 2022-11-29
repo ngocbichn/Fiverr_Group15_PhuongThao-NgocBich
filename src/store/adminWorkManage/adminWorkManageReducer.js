@@ -16,7 +16,8 @@ const initialState = {
     isFetchingCategory: false,
     workCateInfo: [],
     isFetchingWorkCateInfo: false,
-    isUpdatingImg: false,
+    isSuccess: false,
+    isFetchingDeleteCate: false,
 }
 
 export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction } = createSlice({
@@ -40,14 +41,17 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             //postNewWork
             .addCase(postNewWork.pending, (state, action) => {
                 state.isPosting = true
+                state.isSuccess = false
                 state.errorMessage = null
             })
             .addCase(postNewWork.fulfilled, (state, action) => {
                 state.isPosting = false
+                state.isSuccess = true
                 state.errorMessage = action.payload
             })
             .addCase(postNewWork.rejected, (state, action) => {
                 state.isPosting = false
+                state.isSuccess = false
                 state.errorMessage = action.payload.message
             })
             //getWorkInfo
@@ -62,19 +66,6 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isFetchingWorkInfo = false
                 state.error = action.payload
             })
-            //POST Work Image
-            .addCase(updateWorkImage.pending, (state, action) => {
-                state.isUpdatingImg = true
-                state.errorMessage = null
-            })
-            .addCase(updateWorkImage.fulfilled, (state, action) => {
-                state.isUpdatingImg = false
-                state.errorMessage = action.payload
-            })
-            .addCase(updateWorkImage.rejected, (state, action) => {
-                state.isUpdatingImg = false
-                state.errorMessage = action.payload
-            })
             //deleteWork
             .addCase(deleteWork.pending, (state, action) => {
                 state.isFetchingDeleteWork = true
@@ -82,7 +73,7 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             })
             .addCase(deleteWork.fulfilled, (state, action) => {
                 state.isFetchingDeleteWork = false
-                state.errorMessage = action.payload
+                state.errorMessage = action.payload.message
             })
             .addCase(deleteWork.rejected, (state, action) => {
                 state.isFetchingDeleteWork = false
@@ -113,17 +104,30 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isPosting = false
                 state.errorMessage = action.payload.message
             })
-            //getDetailCategoryId
-            .addCase(getDetailCategoryId.pending, (state, action) => {
+            //getCategory
+            .addCase(getCategoryInfo.pending, (state, action) => {
                 state.isFetchingWorkCateInfo = true
             })
-            .addCase(getDetailCategoryId.fulfilled, (state, action) => {
+            .addCase(getCategoryInfo.fulfilled, (state, action) => {
                 state.isFetchingWorkCateInfo = false
                 state.workCateInfo = action.payload
             })
-            .addCase(getDetailCategoryId.rejected, (state, action) => {
+            .addCase(getCategoryInfo.rejected, (state, action) => {
                 state.isFetchingWorkCateInfo = false
                 state.error = action.payload
+            })
+            //deleteWork
+            .addCase(deleteCategory.pending, (state, action) => {
+                state.isFetchingDeleteCate = true
+                state.errorMessage = null
+            })
+            .addCase(deleteCategory.fulfilled, (state, action) => {
+                state.isFetchingDeleteCate = false
+                state.errorMessage = action.payload.message
+            })
+            .addCase(deleteCategory.rejected, (state, action) => {
+                state.isFetchingDeleteCate = false
+                state.errorMessage = action.payload.message
             })
     }
 })
@@ -161,21 +165,6 @@ export const getWorkInfo = createAsyncThunk(
             return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
-        }
-    }
-)
-
-export const updateWorkImage = createAsyncThunk(
-    'filmManage/postFilmInfoChanged',
-    async (workId, formData, { dispatch, getState, rejectWithValue }) => {
-        try {
-            const result = await adminWorkManageServices.updateWorkImage(workId, formData)
-            if (result.data.statusCode === 200) {
-                return result.data.content
-            }
-            dispatch(getWorkInfo())
-        } catch (error) {
-            return rejectWithValue(error)
         }
     }
 )
@@ -219,12 +208,27 @@ export const addNewCategory = createAsyncThunk(
     }
 )
 
-export const getDetailCategoryId = createAsyncThunk(
-    'adminWorkManage/getDetailCategoryId',
-    async (id, { dispatch, getState, rejectWithValue }) => {
+export const getCategoryInfo = createAsyncThunk(
+    'adminWorkManage/getCategoryInfo',
+    async (categoryId, { dispatch, getState, rejectWithValue }) => {
         try {
-            const result = await adminWorkManageServices.getDetailCategoryId(id)
+            const result = await adminWorkManageServices.getCategoryInfo(categoryId)
             return result.data.content
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const deleteCategory = createAsyncThunk(
+    'adminWorkManage/deleteCategory',
+    async (categoryId, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.deleteCategory(categoryId)
+            if (result.data.statusCode === 200) {
+                return result.data.content
+            }
+            dispatch(getCategoryInfo())
         } catch (error) {
             return rejectWithValue(error.response.data)
         }

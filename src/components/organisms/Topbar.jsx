@@ -27,7 +27,7 @@ const Topbar = () => {
               trigger={["click"]}
             >
               <a onClick={(e) => e.preventDefault()}>
-                <img src="https://source.unsplash.com/100x100/?portrait" alt="" className="w-40 h-40 rounded-full dark:bg-gray-500" />
+                <img src="https://joeschmoe.io/api/v1/random" alt="" className="w-40 h-40 rounded-full dark:bg-gray-500" />
               </a>
             </Dropdown>
           </li>
