@@ -20,6 +20,7 @@ import WorkDetail from "../components/pages/WorkDetail/WorkDetail";
 import AdminWorkDetail from "../components/pages/Admin/Work/AdminWorkDetail";
 import AdminWorkCategoryInfo from "../components/pages/Admin/WorkCategory/AdminWorkCategoryInfo";
 import AddNewOrder from "../components/pages/Admin/Orders/AddNewOrder";
+import EditOrders from "../components/pages/Admin/Orders/EditOrders";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -108,6 +109,10 @@ const Routers = () => {
                 {
                     path: '/admin/workorders/addnew',
                     element: <AddNewOrder />
+                },
+                {
+                    path: '/admin/workcategory/edit/:orderId',
+                    element: <EditOrders />
                 }
             ]
         },

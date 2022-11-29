@@ -89,17 +89,17 @@ const WorkOrders = () => {
             title: "Actions",
             dataIndex: "hanhDong",
             width: "20%",
-            render: (text, user) => {
+            render: (text, order) => {
                 return (
                     <div className="flex justify-start align-items-center">
                         <div className="mr-10">
                             <NavLink
                                 key={1}
-                                className=" text-primary text-20 p-2 hover:text-green-700"
-                            // to={`/admin/user/info/${user.id}`}
+                                className="text-yellow-300 text-20 p-2 hover:text-yellow-700"
+                                to={`/admin/workcategory/edit/${order.id}`}
                             >
-                                <Tooltip color="green" title="View Detail">
-                                    <InfoCircleOutlined />
+                                <Tooltip color="yellow" title="Edit">
+                                    <EditFilled />
                                 </Tooltip>
                             </NavLink>
                         </div>
