@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { getCongViecChiTiet, getCVtheochitietloai, getMenuLoaiCV } from '../../../store/workManage/workManageReducer';
+import { binhLuanAction, getBinhLuanTheoCV, getCongViecChiTiet, getCVtheochitietloai, getMenuLoaiCV, thueCongViec } from '../../../store/workManage/workManageReducer';
 import { useWorkManage } from '../../../store/workManage/workManageSelector';
 import Header from '../../organisms/Header';
 import { ClockCircleOutlined, CheckOutlined, ArrowRightOutlined, RightOutlined, DownOutlined, SearchOutlined, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
@@ -13,6 +13,7 @@ const WorkDetail = () => {
     const dispatch = useDispatch()
     useEffect(() => { dispatch(getMenuLoaiCV()) }, [])
     const param = useParams()
+    const navigate = useNavigate()
 
     console.log(param.maCongViec)
 
@@ -20,14 +21,95 @@ const WorkDetail = () => {
         dispatch(getCongViecChiTiet(param.maCongViec))
     }, [])
 
+    useEffect(() => {
+        dispatch(getBinhLuanTheoCV(param.maCongViec))
+    }, [])
+
     const getCV = (Chitietid) => {
         dispatch(getCVtheochitietloai(Chitietid))
 
     }
 
-    const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen, ChiTietCongViec } = useWorkManage()
+    const user = JSON.parse(localStorage.getItem('User_Login'))
+
+    console.log(user)
+
+    const [currentDate, setCurrentDate] = useState('');
+ 
+    useEffect(() => {
+      var date = new Date().getDate(); //Current Date
+      var month = new Date().getMonth() + 1; //Current Month
+      var year = new Date().getFullYear(); //Current Year
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      var sec = new Date().getSeconds(); //Current Seconds
+      setCurrentDate(
+        date + '/' + month + '/' + year
+      );
+    }, []);
+    console.log(currentDate)
+
+const inputRef = useRef(null)
+
+   const submitComment = () => {
+    console.log(inputRef.current.value)
+ 
+    if (!localStorage.getItem('User_Login')) {
+        return navigate('/signin') 
+        } 
+        else {
+            let binhLuan = {
+                id: 0,
+                maCongViec: 0,
+                maNguoiBinhLuan: 0,
+                ngayBinhLuan: "string",
+                noiDung: "string",
+                saoBinhLuan: 4
+        }
+        binhLuan.maCongViec = param.maCongViec;
+        binhLuan.ngayBinhLuan = currentDate;
+        binhLuan.maNguoiBinhLuan = user.user.id;
+        binhLuan.noiDung = inputRef.current.value;
+       
+        dispatch(binhLuanAction(binhLuan));
+        inputRef.current.value = '';
+
+        }
+   
+   }
+
+   const thueCV = () => {
+    if (!localStorage.getItem('User_Login')) {
+        return navigate('/signin') 
+        }
+        else {
+
+            let congViec = {
+                
+                    id: 0,
+                    maCongViec: 0,
+                    maNguoiThue: 0,
+                    ngayThue: "string",
+                    hoanThanh: true      
+            };
+            congViec.maCongViec = param.maCongViec;
+            congViec.maNguoiThue = user.user.id;
+            congViec.ngayThue = currentDate;
+            
+            dispatch(thueCongViec(congViec))
+        }
+}
+
+   
+
+
+
+
+
+    const { menuLoaiCV, DScongviectheoChiTietLoai, DScongviectheoTen, ChiTietCongViec, binhLuanTheoCV } = useWorkManage()
 
     console.log('ChiTietCongViec', ChiTietCongViec)
+    console.log('binhLuantheoCV', binhLuanTheoCV)
     return (
         <Container className='WorkDetail'>
             <Header />
@@ -301,86 +383,94 @@ const WorkDetail = () => {
                         <div className='CommentSection'>
                             <div className='comment-Wrap'>
                                 <ul className='commentList'>
-                                    <span className='comment'>
-                                        <li>
-                                            <div className='commentHeader'>
-                                                <div className='reviewerDetail'>
-                                                    <span className='reviewerImg' >
-                                                        <img style={{ borderRadius: '50%', width: '60px', height: '60px' }} src='https://dummyimage.com/60x60' alt="" />
-                                                    </span>
-
-                                                    <div className='reviewerInfo'>
-                                                        <div className='reviewersubInfo'>
-                                                            <span style={{ color: '#404145', fontSize: '16px', fontWeight: '700', marginRight: '10px' }}>admin</span>
-                                                            <span aria-hidden="true" style={{ width: 15, height: 15, marginRight: '10px' }}>
-                                                                <svg width={16} height={17} viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path fillRule="evenodd" clipRule="evenodd" d="M0.25 3C0.25 2.0335 1.0335 1.25 2 1.25H14C14.9665 1.25 15.75 2.0335 15.75 3V11.5C15.75 12.4665 14.9665 13.25 14 13.25H8.77744L5.48809 16.0694C5.26571 16.2601 4.95271 16.3038 4.68661 16.1814C4.42051 16.059 4.25 15.7929 4.25 15.5V13.25H2C1.0335 13.25 0.25 12.4665 0.25 11.5V3ZM2 2.75C1.86193 2.75 1.75 2.86193 1.75 3V11.5C1.75 11.6381 1.86193 11.75 2 11.75H5C5.41421 11.75 5.75 12.0858 5.75 12.5V13.8693L8.01191 11.9306C8.14784 11.814 8.32097 11.75 8.5 11.75H14C14.1381 11.75 14.25 11.6381 14.25 11.5V3C14.25 2.86193 14.1381 2.75 14 2.75H2Z" fill="#74767E" /><path fillRule="evenodd" clipRule="evenodd" d="M11.5 6.21267C11.5 6.29206 11.4453 6.36704 11.3906 6.42439L9.86358 7.98582L10.2254 10.1912C10.2296 10.2221 10.2296 10.2486 10.2296 10.2795C10.2296 10.3941 10.1791 10.5 10.0571 10.5C9.9982 10.5 9.9393 10.4779 9.88882 10.4471L8 9.40611L6.11118 10.4471C6.05649 10.4779 6.0018 10.5 5.94291 10.5C5.82091 10.5 5.76623 10.3941 5.76623 10.2795C5.76623 10.2486 5.77043 10.2221 5.77464 10.1912L6.13642 7.98582L4.60517 6.42439C4.55469 6.36704 4.5 6.29206 4.5 6.21267C4.5 6.08034 4.63041 6.02741 4.73558 6.00977L6.84736 5.68778L7.79387 3.68084C7.83173 3.59704 7.90325 3.5 8 3.5C8.09675 3.5 8.16827 3.59704 8.20613 3.68084L9.15264 5.68778L11.2644 6.00977C11.3654 6.02741 11.5 6.08034 11.5 6.21267Z" fill="#74767E" /></svg>
-                                                            </span>
-                                                            <span>2 reviews</span>
-
-                                                        </div>
-                                                        <div className='country mt-[12px]'>
-                                                            <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src="https://dummyimage.com/20x20" alt="" />
-                                                            <span>Australia</span>
-                                                        </div>
-                                                    </div>
-
-
-
-                                                </div>
-
-                                            </div>
-                                            <div className='commentDetail'>
-                                                <div className='Rating'>
-                                                    <div className='reviewerRate'>
-                                                        <span className='RatingStar'>
-                                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                                            </svg>
-                                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                                            </svg>
-                                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                                            </svg>
-                                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                                            </svg>
-                                                            <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                                                <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                                                            </svg>
-
+                                    {/* render dữ liệu tại đây */}
+                                    {binhLuanTheoCV?.map((binhLuan) => {
+                                        return (
+                                            <span className='comment' key={binhLuan.id}>
+                                            <li>
+                                                <div className='commentHeader'>
+                                                    <div className='reviewerDetail'>
+                                                        <span className='reviewerImg' >
+                                                            <img style={{ borderRadius: '50%', width: '60px', height: '60px' }} src={binhLuan.avatar} alt="" />
                                                         </span>
-                                                        <span className='rate' style={{ fontWeight: '700', color: '#ffbe5b' }}> 5 </span>
-                                                        <span style={{ marginLeft: '8px' }}> | 3 weeks ago</span>
-
+    
+                                                        <div className='reviewerInfo'>
+                                                            <div className='reviewersubInfo'>
+                                                                <span style={{ color: '#404145', fontSize: '16px', fontWeight: '700', marginRight: '10px' }}>{binhLuan.tenNguoiBinhLuan}</span>
+                                                                <span aria-hidden="true" style={{ width: 15, height: 15, marginRight: '10px' }}>
+                                                                    <svg width={16} height={17} viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fillRule="evenodd" clipRule="evenodd" d="M0.25 3C0.25 2.0335 1.0335 1.25 2 1.25H14C14.9665 1.25 15.75 2.0335 15.75 3V11.5C15.75 12.4665 14.9665 13.25 14 13.25H8.77744L5.48809 16.0694C5.26571 16.2601 4.95271 16.3038 4.68661 16.1814C4.42051 16.059 4.25 15.7929 4.25 15.5V13.25H2C1.0335 13.25 0.25 12.4665 0.25 11.5V3ZM2 2.75C1.86193 2.75 1.75 2.86193 1.75 3V11.5C1.75 11.6381 1.86193 11.75 2 11.75H5C5.41421 11.75 5.75 12.0858 5.75 12.5V13.8693L8.01191 11.9306C8.14784 11.814 8.32097 11.75 8.5 11.75H14C14.1381 11.75 14.25 11.6381 14.25 11.5V3C14.25 2.86193 14.1381 2.75 14 2.75H2Z" fill="#74767E" /><path fillRule="evenodd" clipRule="evenodd" d="M11.5 6.21267C11.5 6.29206 11.4453 6.36704 11.3906 6.42439L9.86358 7.98582L10.2254 10.1912C10.2296 10.2221 10.2296 10.2486 10.2296 10.2795C10.2296 10.3941 10.1791 10.5 10.0571 10.5C9.9982 10.5 9.9393 10.4779 9.88882 10.4471L8 9.40611L6.11118 10.4471C6.05649 10.4779 6.0018 10.5 5.94291 10.5C5.82091 10.5 5.76623 10.3941 5.76623 10.2795C5.76623 10.2486 5.77043 10.2221 5.77464 10.1912L6.13642 7.98582L4.60517 6.42439C4.55469 6.36704 4.5 6.29206 4.5 6.21267C4.5 6.08034 4.63041 6.02741 4.73558 6.00977L6.84736 5.68778L7.79387 3.68084C7.83173 3.59704 7.90325 3.5 8 3.5C8.09675 3.5 8.16827 3.59704 8.20613 3.68084L9.15264 5.68778L11.2644 6.00977C11.3654 6.02741 11.5 6.08034 11.5 6.21267Z" fill="#74767E" /></svg>
+                                                                </span>
+                                                                <span>2 reviews</span>
+    
+                                                            </div>
+                                                            <div className='country mt-[12px]'>
+                                                                <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src="https://dummyimage.com/20x20" alt="" />
+                                                                <span>Australia</span>
+                                                            </div>
+                                                        </div>
+    
+    
+    
                                                     </div>
-
+    
                                                 </div>
-                                                <div className='reviewDes' style={{ color: '#404145', fontSize: '14px', fontWeight: '500', margin: '12px 0' }}>
-                                                    Wow, I was blown away by Tommy's work, so much information and good recommendations were provided. He also clearly explained the reason behind his recommendations so it was super easy for me to understand. The delivery was
-                                                </div>
-                                                <div className='reviewFooter'>
-                                                    <div> Helpful ?</div>
-                                                    <div className='thumb'>
-                                                        <button>
-                                                            <LikeOutlined /> Yes
-                                                        </button>
-                                                        <button><DislikeOutlined /> No</button>
+                                                <div className='commentDetail'>
+                                                    <div className='Rating'>
+                                                        <div className='reviewerRate'>
+                                                            <span className='RatingStar'>
+                                                                <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
+                                                                    <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                                </svg>
+                                                                <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
+                                                                    <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                                </svg>
+                                                                <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
+                                                                    <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                                </svg>
+                                                                <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
+                                                                    <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                                </svg>
+                                                                <svg className='mr-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
+                                                                    <path fill="currentColor" d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                                                                </svg>
+    
+                                                            </span>
+                                                            <span className='rate' style={{ fontWeight: '700', color: '#ffbe5b' }}> {binhLuan.saoBinhLuan} </span>
+                                                            <span style={{ marginLeft: '8px' }}> | {binhLuan.ngayBinhLuan}</span>
+    
+                                                        </div>
+    
+                                                    </div>
+                                                    <div className='reviewDes' style={{ color: '#404145', fontSize: '14px', fontWeight: '500', margin: '12px 0' }}>
+                                                        {binhLuan.noiDung}
+                                                    </div>
+                                                    <div className='reviewFooter'>
+                                                        <div> Helpful ?</div>
+                                                        <div className='thumb'>
+                                                            <button>
+                                                                <LikeOutlined /> Yes
+                                                            </button>
+                                                            <button><DislikeOutlined /> No</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </span>
+                                            </li>
+                                        </span>
+
+                                        )
+
+                                    })}
+                                  
                                 </ul>
                             </div>
                             <div className='addComment'>
                                 <div className='commentInput'>
                                 <span> <img style={{ borderRadius: '50%', width: '60px', height: '60px' }} src='https://dummyimage.com/60x60' alt="" /></span>
-                                <input type="text" placeholder='Comment' className='writeComment' />
+                                <input ref={inputRef} type="text" placeholder='Comment' className='writeComment' name='commentContent'/>
                                 </div>
                                
-                                <div> <button className='addComBtn'>
+                                <div> <button type='submit' className='addComBtn' onClick={submitComment}>
                                 Add your comment</button> </div>
                             </div>
                         </div>
@@ -407,7 +497,7 @@ const WorkDetail = () => {
                                             </div>
                                         </div>
                                         <div className='button'>
-                                            <button className='buyButton'> Continue (${CVChiTiet.congViec.giaTien}) <ArrowRightOutlined /></button>
+                                            <button className='buyButton' onClick={thueCV}> Continue (${CVChiTiet.congViec.giaTien}) <ArrowRightOutlined /></button>
                                             <p>Compare Packages</p>
                                         </div>
                                         <div>
