@@ -71,10 +71,10 @@ const AdminWorkDetail = () => {
                             <li className="font-semibold mx-10 text-primary">/</li>
                             <li className="breadcrumb_item">
                                 <Link
-                                    to="/admin/worklist"
+                                    to="#"
                                     className="text-textPrimary hover:text-primary"
                                 >
-                                    Update Work Image
+                                    Work Detail
                                 </Link>
                             </li>
                         </ol>

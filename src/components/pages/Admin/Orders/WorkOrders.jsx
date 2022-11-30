@@ -16,7 +16,7 @@ import {
     searchUserByName,
 } from "../../../../store/userManage/userManageReducer";
 import moment from "moment";
-import { getOrdersList } from "../../../../store/ordersManage/ordersManageReducer";
+import { deleteOrder, getOrdersList } from "../../../../store/ordersManage/ordersManageReducer";
 
 const WorkOrders = () => {
     const dispatch = useDispatch();
@@ -108,13 +108,14 @@ const WorkOrders = () => {
                                 key={2}
                                 style={{ cursor: "pointer" }}
                                 className=" text-orange-600 text-20 p-2 hover:text-orange-200"
-                            // onClick={() => {
-                            //     if (
-                            //         window.confirm("Do you want to delete " + user.name + "?")
-                            //     ) {
-                            //         dispatch(deleteUser(user.id));
-                            //     }
-                            // }}
+                                onClick={() => {
+                                    if (window.confirm("Do you want to delete this order number " + order.id)) {
+                                        dispatch(deleteOrder(order.id)
+                                        );
+
+                                    }
+                                    window.location.reload()
+                                }}
                             >
                                 <Tooltip color="red" title="Delete Order">
                                     <DeleteFilled />
@@ -132,7 +133,7 @@ const WorkOrders = () => {
     // console.log(data)
 
     const onChange = (pagination, filters, sorter, extra) => {
-        console.log("params", pagination, filters, sorter, extra);
+        // console.log("params", pagination, filters, sorter, extra);
     };
 
     const { Search } = Input;
@@ -188,13 +189,6 @@ const WorkOrders = () => {
                             >
                                 Add A New Order
                             </Link>
-                        </div>
-                        <div className="input_search mb-20">
-                            <Search
-                                placeholder="Search User By Name"
-                                onSearch={onSearch}
-                                enterButton
-                            />
                         </div>
                     </div>
                     <div className="workOrders_table">

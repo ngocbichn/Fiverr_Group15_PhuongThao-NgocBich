@@ -10,6 +10,12 @@ export const adminWorkManageServices = {
     getWorkInfo: (workId) => {
         return api.get(`cong-viec/${workId}`)
     },
+    putWorkChanged: (workId, workChanged) => {
+        return api.put(`cong-viec/${workId}`, workChanged)
+    },
+    postWorkImage: (workId, formData) => {
+        return api.post(`cong-viec/upload-hinh-cong-viec/${workId}`, formData)
+    },
     deleteWork: (workId) => {
         return api.delete(`cong-viec/${workId}`)
     },

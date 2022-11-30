@@ -55,6 +55,17 @@ export const { reducer: userManageReducer, actions: userManageAction } = createS
                 state.isLoadingUserChanged = false
                 state.errorMessage = action.payload.message
             })
+            //putUserChanged
+            .addCase(putUserChanged.pending, (state, action) => {
+                state.isLoadingUserChanged = true
+            })
+            .addCase(putUserChanged.fulfilled, (state, action) => {
+                state.isLoadingUserChanged = false
+            })
+            .addCase(putUserChanged.rejected, (state, action) => {
+                state.isLoadingUserChanged = false
+                state.error = action.payload
+            })
             //deleteUser
             .addCase(deleteUser.pending, (state, action) => {
                 state.isFetchingDeleteUser = true
@@ -118,6 +129,22 @@ export const postNewUser = createAsyncThunk(
             dispatch(postNewUser())
         } catch (error) {
             return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const putUserChanged = createAsyncThunk(
+    'userManage/putUserChanged',
+    async ({ userId, valueUpdated }, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await userManageServices.putUserChanged(userId, valueUpdated)
+            if (result.data.statusCode === 200) {
+                console.log('Updated Successfully!')
+                return result.data.content
+            }
+            dispatch(getUserInfo())
+        } catch (error) {
+            return rejectWithValue(error)
         }
     }
 )

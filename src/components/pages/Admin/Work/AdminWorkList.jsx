@@ -7,6 +7,7 @@ import {
     EditFilled,
     DeleteFilled,
     InfoCircleOutlined,
+    CloudUploadOutlined,
 } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { useDispatch } from "react-redux";
@@ -117,29 +118,53 @@ const AdminWorkList = () => {
                             <NavLink
                                 key={1}
                                 style={{ cursor: "pointer" }}
-                                className=" text-green-400 text-20 p-2 hover:text-green-700 mr-10"
+                                className=" text-green-400 text-20 p-2 hover:text-green-700"
                                 to={`/admin/worklist/detail/${work.id}`}
                             >
                                 <Tooltip color="green" title="View Detail">
                                     <InfoCircleOutlined />
                                 </Tooltip>
                             </NavLink>
-                            <span
-                                key={2}
-                                style={{ cursor: "pointer" }}
-                                className=" text-orange-600 text-20 p-2 hover:text-orange-200"
-                                onClick={() => {
-                                    if (window.confirm("Do you want to delete " + work.name)) {
-                                        dispatch(deleteWork(work.id)
-                                        );
-
-                                    }
-                                    // window.location.reload()
-                                }}
-                            >
-                                <DeleteFilled />
-                            </span>
                         </div>
+                        <div className="mr-10">
+                            <NavLink
+                                key={1}
+                                className="text-yellow-300 text-20 p-2 hover:text-yellow-700"
+                                to={`/admin/worklist/edit/${work.id}`}
+                            >
+                                <Tooltip color="yellow" title="Edit">
+                                    <EditFilled />
+                                </Tooltip>
+                            </NavLink>
+                        </div>
+                        <div className="mr-10">
+                            <NavLink
+                                key={1}
+                                className="text-blue-300 text-20 p-2 hover:text-blue-700"
+                                to={`/admin/worklist/updateworkimage/${work.id}`}
+                            >
+                                <Tooltip color="blue" title="Update Image">
+                                    <CloudUploadOutlined />
+                                </Tooltip>
+                            </NavLink>
+                        </div>
+                        <span
+                            key={2}
+                            style={{ cursor: "pointer" }}
+                            className=" text-orange-600 text-20 p-2 hover:text-orange-200"
+                            onClick={() => {
+                                if (window.confirm("Do you want to delete this work?")) {
+                                    dispatch(deleteWork(work.id)
+                                    );
+
+                                }
+                                window.location.reload()
+                            }}
+                        >
+                            <Tooltip color="red" title="Delete Order">
+                                <DeleteFilled />
+                            </Tooltip>
+                        </span>
                     </div>
                 );
             },

@@ -10,6 +10,9 @@ export const userManageServices = {
     getUserInfo: (userId) => {
         return api.get(`users/${userId}`)
     },
+    putUserChanged: (userId, userChanged) => {
+        return api.put(`users/${userId}`, userChanged)
+    },
     deleteUser: (userId) => {
         return api.delete(`users?id=${userId}`)
     },

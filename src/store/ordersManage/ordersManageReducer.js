@@ -7,11 +7,11 @@ const initialState = {
     isFetching: false,
     error: null,
     isPosting: false,
-    errorMessage: null,
     isSuccess: false,
     orderInfo: [],
     isFetchingOrderInfo: false,
     isLoadingOrderChanged: false,
+    isFetchingDeleteOrder: false,
 }
 
 export const { reducer: ordersManageReducer, actions: ordersManageAction } = createSlice({
@@ -63,15 +63,26 @@ export const { reducer: ordersManageReducer, actions: ordersManageAction } = cre
             //purOrderInfoChanged
             .addCase(putOrderInfoChanged.pending, (state, action) => {
                 state.isLoadingOrderChanged = true
-                state.errorMessage = null
+                state.error = action.payload
             })
             .addCase(putOrderInfoChanged.fulfilled, (state, action) => {
                 state.isLoadingOrderChanged = false
-                state.errorMessage = action.payload
+                state.error = action.payload
             })
             .addCase(putOrderInfoChanged.rejected, (state, action) => {
                 state.isLoadingOrderChanged = false
-                state.errorMessage = action.payload
+                state.error = action.payload
+            })
+            //deleteOrder
+            .addCase(deleteOrder.pending, (state, action) => {
+                state.isFetchingDeleteOrder = true
+            })
+            .addCase(deleteOrder.fulfilled, (state, action) => {
+                state.isFetchingDeleteOrder = false
+            })
+            .addCase(deleteOrder.rejected, (state, action) => {
+                state.isFetchingDeleteOrder = false
+                state.error = action.payload
             })
     }
 })
@@ -115,15 +126,32 @@ export const getOrderInfo = createAsyncThunk(
 
 export const putOrderInfoChanged = createAsyncThunk(
     'ordersManage/putOrderInfoChanged',
-    async (orderId, orderChanged, { dispatch, getState, rejectWithValue }) => {
+    async ({ id, valueUpdated }, { dispatch, getState, rejectWithValue }) => {
         try {
-            const result = await adminOrderManageServices.putOrderInfoChanged(orderId, orderChanged)
+            const result = await adminOrderManageServices.putOrderInfoChanged(id, valueUpdated)
             if (result.data.statusCode === 200) {
+                console.log('Updated Successfully!')
                 return result.data.content
             }
             dispatch(getOrderInfo())
         } catch (error) {
             return rejectWithValue(error)
+        }
+    }
+)
+
+export const deleteOrder = createAsyncThunk(
+    'adminWorkManage/deleteCategory',
+    async (orderId, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminOrderManageServices.deleteOrder(orderId)
+            if (result.data.statusCode === 200) {
+                console.log('Deleted Successfully!')
+                return result.data.content
+            }
+            dispatch(getOrderInfo())
+        } catch (error) {
+            return rejectWithValue(error.response.data)
         }
     }
 )

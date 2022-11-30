@@ -21,8 +21,6 @@ import { postNewWork } from '../../../../store/adminWorkManage/adminWorkManageRe
 
 const AdminWorkAddNew = () => {
 
-    const { isPosting, errorMessage, isSuccess } = useUserManage()
-
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
@@ -41,10 +39,8 @@ const AdminWorkAddNew = () => {
         onSubmit: (values) => {
             console.log('values', values)
             dispatch(postNewWork(values));
-            if (isSuccess) {
-                alert("Added Successfully!")
-                navigate(-1)
-            }
+            navigate(-1)
+
         },
     });
 

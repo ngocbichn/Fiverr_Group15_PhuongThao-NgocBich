@@ -1,25 +1,30 @@
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useFormik } from 'formik';
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import {
-    getOrderInfo,
-    putOrderInfoChanged,
-} from "../../../../store/ordersManage/ordersManageReducer";
-import { useOrdersManage } from "../../../../store/ordersManage/ordersManageSelector";
-import { DatePicker, Form, Input, InputNumber, Switch } from "antd";
+    DatePicker,
+    Form,
+    Input,
+    InputNumber,
+    Radio,
+    Select,
+    Switch,
+} from "antd";
+import { useUserManage } from '../../../../store/userManage/userManageSelector';
+import { getUserInfo } from '../../../../store/userManage/userManageReducer';
 import moment from "moment";
 
-const EditOrders = () => {
+const EditUser = () => {
     const param = useParams();
 
-    const { orderInfo, isFetchingOrderInfo } = useOrdersManage();
+    const { userInfo } = useUserManage();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getOrderInfo(param.orderId));
+        dispatch(getUserInfo(param.userId));
     }, []);
 
     const navigate = useNavigate();
@@ -27,25 +32,34 @@ const EditOrders = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            id: orderInfo.id,
-            maCongViec: orderInfo?.maCongViec,
-            maNguoiThue: orderInfo?.maNguoiThue,
-            ngayThue: orderInfo?.ngayThue,
-            hoanThanh: orderInfo?.hoanThanh,
+            id: userInfo.id,
+            name: userInfo?.name,
+            email: userInfo?.email,
+            phone: userInfo?.phone,
+            birthday: userInfo?.birthday,
+            gender: userInfo?.gender,
+            role: userInfo?.role,
         },
         onSubmit: (values) => {
-            dispatch(putOrderInfoChanged({
-                id: values.id,
-                valueUpdated: values
-            }));
-            navigate(-1)
+            console.log('values', values)
+            // dispatch(putWorkChanged({
+            //     id: values.id,
+            //     valueUpdated: values,
+            // }));
+            // navigate(-1)
         },
     });
 
+    const handleChangeInputNumber = (name) => {
+        return (value) => {
+            formik.setFieldValue(name, value);
+        };
+    };
+
     const handleChangeDatePicker = (value) => {
         // console.log('datePickerChange', moment(value))
-        let ngayThue = moment(value);
-        formik.setFieldValue("ngayThue", ngayThue);
+        let birthday = moment(value);
+        formik.setFieldValue("birthday", birthday);
     };
 
     const handleChangeSwitch = (name) => {
@@ -54,19 +68,13 @@ const EditOrders = () => {
         };
     };
 
-    const handleChangeInputNumber = (name) => {
-        return (value) => {
-            formik.setFieldValue(name, value);
-        };
-    };
-
     return (
-        <Container className="EditOrders">
+        <Container className="EditUser">
             <div className="content">
                 <div className="title mb-20">
                     <div className="title_content">
                         <h4 className="text-18 text-headingPrimary font-semibold leading-5 tracking-tight">
-                            Edit Work Orders
+                            Edit User
                         </h4>
                         <ol className="breadcrumb flex">
                             <li className="breadcrumb_item">
@@ -89,16 +97,16 @@ const EditOrders = () => {
                             <li className="font-semibold mx-10 text-primary">/</li>
                             <li className="breadcrumb_item">
                                 <Link
-                                    to="/admin/workorders"
+                                    to="/admin/user"
                                     className="text-textPrimary hover:text-primary"
                                 >
-                                    Work Orders
+                                    User List
                                 </Link>
                             </li>
                             <li className="font-semibold mx-10 text-primary">/</li>
                             <li className="breadcrumb_item">
                                 <Link to="#" className="text-textPrimary hover:text-primary">
-                                    Edit Work Orders
+                                    Edit User
                                 </Link>
                             </li>
                         </ol>
@@ -116,64 +124,74 @@ const EditOrders = () => {
                         layout="horizontal"
                         size="large"
                     >
-                        <Form.Item label="Work Id">
-                            <InputNumber
-                                placeholder="10"
-                                onChange={handleChangeInputNumber("maCongViec")}
-                                min={1}
-                                value={formik.values.maCongViec}
+                        <Form.Item label="Name">
+                            <Input
+                                name="name"
+                                placeholder="Name"
+                                onChange={formik.handleChange}
+                                value={formik.values.name}
                             />
                         </Form.Item>
-                        <Form.Item label="Employer Id">
-                            <InputNumber
-                                placeholder="10"
-                                onChange={handleChangeInputNumber("maNguoiThue")}
-                                min={1}
-                                value={formik.values.maNguoiThue}
+                        <Form.Item label="Email">
+                            <Input
+                                name="email"
+                                placeholder="Email"
+                                onChange={formik.handleChange}
+                                value={formik.values.email}
                             />
                         </Form.Item>
-                        <Form.Item label="Date hired">
+                        <Form.Item label="Phone">
+                            <InputNumber
+                                placeholder=""
+                                onChange={handleChangeInputNumber("phone")}
+                                min={1}
+                                value={formik.values.phone}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Birthday">
                             <DatePicker
                                 format={"DD/MM/YYYY"}
                                 onChange={handleChangeDatePicker}
-                                value={moment(formik.values.ngayThue)}
+                                value={moment(formik.values.birthday)}
                             />
                         </Form.Item>
-                        <Form.Item label="Completion" valuePropName="checked">
+                        <Form.Item label="Gender" valuePropName="checked">
                             <Switch
-                                name="hoanThanh"
-                                onChange={handleChangeSwitch("hoanThanh")}
-                                checked={formik.values.hoanThanh}
+                                name="gender"
+                                onChange={handleChangeSwitch("gender")}
+                                checked={formik.values.gender}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Role">
+                            <Input
+                                name="role"
+                                placeholder=""
+                                onChange={formik.handleChange}
+                                value={formik.values.role}
                             />
                         </Form.Item>
                         <Form.Item label="Submit">
                             <button
                                 type="submit"
-                                className="btnEditOrder bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded"
+                                className="btnEditWork bg-primary text-white font-medium text-14 hover:bg-green-800 py-10 px-18 rounded"
                             >
-                                Edit Order
+                                Edit User
                             </button>
                         </Form.Item>
                     </Form>
                 </div>
             </div>
         </Container>
-    );
-};
+    )
+}
 
-export default EditOrders;
+export default EditUser
 
 export const Container = styled.div`
-  &.EditOrders {
-    .content {
-      margin: 0;
-      padding: 14px;
-
-      .ant-form-item {
-        .ant-switch-checked {
-          background-color: #1dbf73;
+    &.EditUser{
+        .content{
+            margin: 0;
+            padding: 14px;
         }
-      }
     }
-  }
-`;
+`
