@@ -126,6 +126,17 @@ const User = () => {
                             </NavLink>
                         </div>
                         <div className="mr-10">
+                            <NavLink
+                                key={1}
+                                className="text-yellow-300 text-20 p-2 hover:text-yellow-700"
+                                to={`/admin/user/edit/${user.id}`}
+                            >
+                                <Tooltip color="yellow" title="Edit">
+                                    <EditFilled />
+                                </Tooltip>
+                            </NavLink>
+                        </div>
+                        <div className="mr-10">
                             <span
                                 key={2}
                                 style={{ cursor: "pointer" }}

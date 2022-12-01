@@ -8,7 +8,6 @@ const initialState = {
     isFetching: false,
     error: null,
     isPosting: false,
-    errorMessage: null,
     workInfo: [],
     isFetchingWorkInfo: false,
     isFetchingDeleteWork: false,
@@ -18,6 +17,8 @@ const initialState = {
     isFetchingWorkCateInfo: false,
     isSuccess: false,
     isFetchingDeleteCate: false,
+    isLoadingWorkChanged: false,
+    isUpdatingImg: false,
 }
 
 export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction } = createSlice({
@@ -42,17 +43,16 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             .addCase(postNewWork.pending, (state, action) => {
                 state.isPosting = true
                 state.isSuccess = false
-                state.errorMessage = null
             })
             .addCase(postNewWork.fulfilled, (state, action) => {
                 state.isPosting = false
                 state.isSuccess = true
-                state.errorMessage = action.payload
+                state.error = action.payload
             })
             .addCase(postNewWork.rejected, (state, action) => {
                 state.isPosting = false
                 state.isSuccess = false
-                state.errorMessage = action.payload.message
+                state.error = action.payload
             })
             //getWorkInfo
             .addCase(getWorkInfo.pending, (state, action) => {
@@ -66,10 +66,31 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isFetchingWorkInfo = false
                 state.error = action.payload
             })
+            //putWorkChanged
+            .addCase(putWorkChanged.pending, (state, action) => {
+                state.isLoadingWorkChanged = true
+            })
+            .addCase(putWorkChanged.fulfilled, (state, action) => {
+                state.isLoadingWorkChanged = false
+            })
+            .addCase(putWorkChanged.rejected, (state, action) => {
+                state.isLoadingWorkChanged = false
+                state.error = action.payload
+            })
+            //postWorkImage
+            .addCase(postWorkImage.pending, (state, action) => {
+                state.isUpdatingImg = true
+            })
+            .addCase(postWorkImage.fulfilled, (state, action) => {
+                state.isUpdatingImg = false
+            })
+            .addCase(postWorkImage.rejected, (state, action) => {
+                state.isUpdatingImg = false
+                state.error = action.payload
+            })
             //deleteWork
             .addCase(deleteWork.pending, (state, action) => {
                 state.isFetchingDeleteWork = true
-                state.errorMessage = null
             })
             .addCase(deleteWork.fulfilled, (state, action) => {
                 state.isFetchingDeleteWork = false
@@ -77,7 +98,7 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             })
             .addCase(deleteWork.rejected, (state, action) => {
                 state.isFetchingDeleteWork = false
-                state.errorMessage = action.payload.message
+                state.error = action.payload
             })
             //getWorkCategoryDetail
             .addCase(getWorkCategoryDetail.pending, (state, action) => {
@@ -94,15 +115,14 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             //addNewCategory
             .addCase(addNewCategory.pending, (state, action) => {
                 state.isPosting = true
-                state.errorMessage = null
             })
             .addCase(addNewCategory.fulfilled, (state, action) => {
                 state.isPosting = false
-                state.errorMessage = action.payload
+                state.error = action.payload
             })
             .addCase(addNewCategory.rejected, (state, action) => {
                 state.isPosting = false
-                state.errorMessage = action.payload.message
+                state.error = action.payload
             })
             //getCategory
             .addCase(getCategoryInfo.pending, (state, action) => {
@@ -116,18 +136,17 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
                 state.isFetchingWorkCateInfo = false
                 state.error = action.payload
             })
-            //deleteWork
+            //deleteCategory
             .addCase(deleteCategory.pending, (state, action) => {
                 state.isFetchingDeleteCate = true
-                state.errorMessage = null
             })
             .addCase(deleteCategory.fulfilled, (state, action) => {
                 state.isFetchingDeleteCate = false
-                state.errorMessage = action.payload.message
+                state.error = action.payload
             })
             .addCase(deleteCategory.rejected, (state, action) => {
                 state.isFetchingDeleteCate = false
-                state.errorMessage = action.payload.message
+                state.error = action.payload
             })
     }
 })
@@ -165,6 +184,38 @@ export const getWorkInfo = createAsyncThunk(
             return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const putWorkChanged = createAsyncThunk(
+    'ordersManage/putOrderInfoChanged',
+    async ({ id, valueUpdated }, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.putWorkChanged(id, valueUpdated)
+            if (result.data.statusCode === 200) {
+                console.log('Updated Successfully!')
+                return result.data.content
+            }
+            dispatch(getWorkInfo())
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const postWorkImage = createAsyncThunk(
+    'ordersManage/postWorkImage',
+    async ({ workId, formData }, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.postWorkImage(workId, formData)
+            if (result.data.statusCode === 200) {
+                console.log('Updated Successfully!')
+                return result.data.content
+            }
+            dispatch(getWorkInfo())
+        } catch (error) {
+            return rejectWithValue(error)
         }
     }
 )
