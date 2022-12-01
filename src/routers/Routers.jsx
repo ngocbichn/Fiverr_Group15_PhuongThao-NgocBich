@@ -20,6 +20,7 @@ import WorkDetail from "../components/pages/WorkDetail/WorkDetail";
 import AdminWorkDetail from "../components/pages/Admin/Work/AdminWorkDetail";
 import AdminWorkCategoryInfo from "../components/pages/Admin/WorkCategory/AdminWorkCategoryInfo";
 import AddNewOrder from "../components/pages/Admin/Orders/AddNewOrder";
+import ProfileDetail from "../components/pages/ProfileDetail/ProfileDetail";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -54,6 +55,10 @@ const Routers = () => {
                 {
                     path: 'signin',
                     element: <SignIn />
+                },
+                {
+                    path: 'profiledetail',
+                    element: <ProfileDetail />
                 }
             ],
         },

@@ -1,9 +1,18 @@
 import React from 'react'
+import styled from 'styled-components'
 
 const ProfileDetail = () => {
     return (
-        <div>ProfileDetail</div>
+        <Container className='ProfileDetail'>
+            Profile detail
+
+        </Container>
     )
 }
 
 export default ProfileDetail
+
+
+export const Container = styled.div`
+    
+`
