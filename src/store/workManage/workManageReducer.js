@@ -15,6 +15,8 @@ ChiTietCongViec: null,
 fetchingCTCV: false,
 binhLuanTheoCV: null, 
 fetchingbinhLuanTheoCV: false,
+DSdathue: null,
+fetchingDSdathue: false
 
 
 }
@@ -115,7 +117,21 @@ export const { reducer: workManageReducer, actions: workManageAction } = createS
             state.fetchingbinhLuanTheoCV = false;
             state.binhLuanTheoCV = action.payload
         })
-        //post bình luận 
+        //lấy DS đã thuê
+        .addCase(layDSdathue.pending, (state,action) => {
+            state.fetchingDSdathue = true;
+          
+        })
+        .addCase(layDSdathue.fulfilled, (state,action) => {
+            state.fetchingDSdathue = false;
+            state.DSdathue = action.payload
+        })
+        .addCase(layDSdathue.rejected, (state,action) => {
+            state.fetchingDSdathue = false;
+            state.DSdathue = action.payload
+        })
+
+        
        
     }
 })
@@ -219,7 +235,7 @@ export const binhLuanAction = createAsyncThunk('workManage/binhLuanAction', asyn
 })
 
 //thuê công việc 
-export const thueCongViec = createAsyncThunk('workManage/binhLuanAction', async (congViec, {dispatch, getState, rejectWithValue}) => {
+export const thueCongViec = createAsyncThunk('workManage/thueCongViec', async (congViec, {dispatch, getState, rejectWithValue}) => {
     try {
         const result = await workManageServices.thueCongViec(congViec)
         alert('Thuê thành công')
@@ -228,6 +244,18 @@ export const thueCongViec = createAsyncThunk('workManage/binhLuanAction', async 
         
     } catch (error) {
         return rejectWithValue(error.response.data)
+    }
+
+})
+//lấy danh sách đã thuê 
+export const layDSdathue = createAsyncThunk('workManage/layDSdathue', async (_,{dispatch, getState, rejectWithValue}) => {
+    try {
+        const result = await workManageServices.layDSdathue()
+        return result.data.content
+        
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+        
     }
 
 })
