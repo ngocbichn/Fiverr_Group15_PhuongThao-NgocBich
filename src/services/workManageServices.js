@@ -29,7 +29,11 @@ export const workManageServices = {
     },
     thueCongViec: (congViec) => {
         return api.post('thue-cong-viec', congViec)
+    },
+    layDSdathue: () => {
+        return api.get('thue-cong-viec/lay-danh-sach-da-thue')
     }
+
 
 
 

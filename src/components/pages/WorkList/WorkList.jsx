@@ -182,10 +182,10 @@ const WorkList = () => {
                     </div>
                     <div className='container searchedResult '>
                         <h2 className='my-[24px]' >30,775 services available</h2>
-                        <div className=' listedResult grid grid-cols-4 gap-[20px]'>
+                        <div className=' listedResult '>
                         {DScongviectheoChiTietLoai?.map((congviec) => {
                             return (
-                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}>
+                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id} onClick={() => navigate(`/workdetail/${congviec.id}`)}>
                                 <div className='grid-card'>
                                    
                                     <div className='imageCarousel'>
@@ -232,7 +232,7 @@ const WorkList = () => {
 
                         {DScongviectheoTen?.map((congviec) => {
                             return (
-                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}>
+                                <div className='grid-box' style={{ backgroundColor: '#fff' }} key={congviec.id}onClick={() => navigate(`/workdetail/${congviec.id}`)}>
                                 <div className='grid-card'>
                                    
                                     <div className='imageCarousel'>
@@ -283,10 +283,6 @@ const WorkList = () => {
                         </div>
                     </div>
                 </div>
-
-
-
-
                 <Footer />
             </div>
 
@@ -395,10 +391,7 @@ export const Container = styled.div`
              }    
             }
 
-            @media screen and (min-width: 986px) {
-               
-                
-            }
+           
 
         .suggestedSearch {
             background-color: #f5f5f5;
@@ -565,9 +558,8 @@ export const Container = styled.div`
                         .imageCarousel {
                             img {
                                 min-height: 200px;
+                                margin: 0 auto;
                             }
-                            
-
                         }
                         .sellerInfo {
                          display: flex;
@@ -643,6 +635,27 @@ export const Container = styled.div`
                     }
                 }
 
+            
+            @media only screen and (min-width: 576px) {
+                    display: grid;
+                    width: 80%;
+                    grid-template-columns: repeat(1,1fr);
+                    grid-gap: 20px;
+               
+                
+            }
+            @media only screen and (min-width: 768px) {
+                    display: grid;
+                    grid-template-columns: repeat(2,1fr);
+                    grid-gap: 20px;
+               
+                
+            }
+            @media only screen and (min-width: 992px) {
+                    display: grid;
+                    grid-template-columns: repeat(4,1fr);
+                    grid-gap: 20px;
+
                 }
             }
 
@@ -654,4 +667,5 @@ export const Container = styled.div`
 
 
     }
+}
 `

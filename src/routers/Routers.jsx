@@ -26,6 +26,8 @@ import AdminWorkEdit from "../components/pages/Admin/Work/AdminWorkEdit";
 import UpdateWorkAvatar from "../components/pages/Admin/Work/UpdateWorkImage";
 import EditUser from "../components/pages/Admin/User/EditUser";
 import AdminEditWorkCategory from "../components/pages/Admin/WorkCategory/AdminEditWorkCategory";
+import EditProfile from "../components/pages/ProfileDetail/EditProfile";
+
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -64,6 +66,10 @@ const Routers = () => {
                 {
                     path: 'profiledetail',
                     element: <ProfileDetail />
+                },
+                {
+                    path: 'editprofile/:userid',
+                    element: <EditProfile />
                 }
             ],
         },
