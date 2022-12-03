@@ -1,13 +1,15 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderHomePage = () => {
 
+    const navigate = useNavigate()
+
     return (
         <Container className="HeaderHomePage text-black">
             <div className="container flex justify-between mx-auto h-80">
-                <a className="logo md:text-20">
+                <a className="logo md:text-20" onClick={() => { navigate("/home") }}>
                     <svg
                         width="89"
                         height="27"
@@ -26,7 +28,7 @@ const HeaderHomePage = () => {
                 <ul className="nav-list space-x-3 md:flex mb-0 flex items-center">
                     <li className="px-10">
                         <NavLink
-                            to="/categories"
+                            to="/worklist"
                             className="flex items-center px-4 sm:text-10"
                         >
                             Explore

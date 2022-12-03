@@ -6,7 +6,7 @@ import {
     InputNumber,
 } from "antd";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAdminWorkManage } from "../../../../store/adminWorkManage/adminWorkManageSelector";
 import { useDispatch } from "react-redux";
 import { addNewCategory } from "../../../../store/adminWorkManage/adminWorkManageReducer";
@@ -16,6 +16,8 @@ const AdminAddNewCategory = () => {
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues: {
             tenChiTiet: "",
@@ -24,6 +26,8 @@ const AdminAddNewCategory = () => {
         onSubmit: (values) => {
             console.log("values", values);
             dispatch(addNewCategory(values));
+            alert('Added Successfully!')
+            navigate(-1)
         },
     });
 

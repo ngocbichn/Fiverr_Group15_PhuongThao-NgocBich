@@ -25,6 +25,7 @@ import EditOrders from "../components/pages/Admin/Orders/EditOrders";
 import AdminWorkEdit from "../components/pages/Admin/Work/AdminWorkEdit";
 import UpdateWorkAvatar from "../components/pages/Admin/Work/UpdateWorkImage";
 import EditUser from "../components/pages/Admin/User/EditUser";
+import AdminEditWorkCategory from "../components/pages/Admin/WorkCategory/AdminEditWorkCategory";
 
 const Routers = () => {
     const Routing = useRoutes([
@@ -135,8 +136,12 @@ const Routers = () => {
                     element: <AddNewOrder />
                 },
                 {
-                    path: '/admin/workcategory/edit/:orderId',
+                    path: '/admin/workorders/edit/:orderId',
                     element: <EditOrders />
+                },
+                {
+                    path: '/admin/workcategory/edit/:categoryId',
+                    element: <AdminEditWorkCategory />
                 }
             ]
         },

@@ -40,10 +40,7 @@ const SignIn = () => {
         onSubmit: values => {
             console.log('values', values)
             dispatch(signInAction(values))
-            if (isSuccess) {
-                alert('Sign In successfully!')
-                      navigate(-1)
-            }
+            navigate('/worklist')
         },
     });
 

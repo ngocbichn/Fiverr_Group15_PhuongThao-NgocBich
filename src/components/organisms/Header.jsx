@@ -1,34 +1,108 @@
 import React from "react";
 import styled from "styled-components";
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCVTheoTen } from "../../store/workManage/workManageReducer";
 import { useWorkManage } from "../../store/workManage/workManageSelector";
-
+import { useAuthManage } from "../../store/authManage";
+import { Dropdown, message } from "antd";
 
 const Header = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    // const searchContent = 
+    // const searchContent =
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(event.target.searchInput.value)
-        dispatch(getCVTheoTen(event.target.searchInput.value))  
-        navigate('/worklist')
-     
-      }
+        console.log(event.target.searchInput.value);
+        dispatch(getCVTheoTen(event.target.searchInput.value));
+        navigate("/worklist");
+    };
 
-      const {DScongviectheoTen} = useWorkManage()
-     
-      
-      
-   
+    const { DScongviectheoTen } = useWorkManage();
+
+    const { userSignIn } = useAuthManage();
+
+    const directAdminPage = () => {
+        const item = JSON.parse(localStorage.getItem("User_Login"));
+        const role = item.user.role
+        if (role === "ADMIN") {
+            navigate("/admin")
+            window.location.reload()
+        } else {
+            alert("You are not an ADMIN!")
+            navigate("#")
+            window.location.reload()
+        }
+    }
+
+    const items = [
+        { label: (<NavLink onClick={() => { navigate("/profiledetail"); window.location.reload(); }}>Profile</NavLink>), key: "profile" },
+        {
+            label: (<a onClick={() => { directAdminPage() }}> Admin Setting</ a>), key: "Contact"
+        },
+        {
+            label: (
+                <NavLink
+                    onClick={() => {
+                        localStorage.removeItem("User_Login");
+                        navigate("/home");
+                        window.location.reload();
+                    }}
+                >
+                    Sign Out
+                </NavLink>
+            ),
+            key: "signOut",
+        },
+    ];
+
+    const renderAfterSignIn = () => {
+        if (localStorage.getItem("User_Login")) {
+            return (
+                <>
+                    <li className="flex justify-center items-center px-18">
+                        <span className="text-primary font-medium cursor-pointer" onClick={() => { navigate("/profiledetail") }}>{userSignIn.user.name}</span>
+                        <Dropdown
+                            menu={{
+                                items,
+                                // onClick,
+                            }}
+                            trigger={["click"]}
+                        >
+                            <a onClick={(e) => e.preventDefault()}>
+                                <img
+                                    src="https://joeschmoe.io/api/v1/random"
+                                    alt=""
+                                    className="w-40 h-40 rounded-full dark:bg-gray-500"
+                                />
+                            </a>
+                        </Dropdown>
+                    </li>
+                </>
+            );
+        }
+        return (
+            <>
+                <li className="px-10">
+                    <NavLink to="/signin" className="flex items-center px-4 navbar_item">
+                        Sign In
+                    </NavLink>
+                </li>
+                <li className="px-10">
+                    <NavLink to="/signup" className="button_SignUp flex items-center">
+                        Join
+                    </NavLink>
+                </li>
+            </>
+        );
+    };
+
     return (
         <Container className="Header text-black">
             <div className="container flex justify-between mx-auto h-80">
-                <a className="logo">
+                <a className="logo" onClick={() => { navigate("/home") }}>
                     <svg
                         width="89"
                         height="27"
@@ -44,21 +118,22 @@ const Header = () => {
                         </g>
                     </svg>
                 </a>
-                
-                <form onSubmit={handleSubmit} className="searchBar"  action="">
-                <SearchOutlined className="text-base ml-5"/>
-               
-                <input 
-                 type="text" placeholder="What services are you looking for today?" className="searchInput ml-4" style={{height: '50px'}} name="searchInput"/>
-                <button type="submit" className="searchButton bg-green-500 ">
-                    SEARCH
-                </button>
-               
-                
-                 </form>
-               
-                
-                
+
+                <form onSubmit={handleSubmit} className="searchBar" action="">
+                    <SearchOutlined className="text-base ml-5" />
+
+                    <input
+                        type="text"
+                        placeholder="What services are you looking for today?"
+                        className="searchInput ml-4"
+                        style={{ height: "50px" }}
+                        name="searchInput"
+                    />
+                    <button type="submit" className="searchButton bg-green-500 ">
+                        SEARCH
+                    </button>
+                </form>
+
                 <ul className="nav-list space-x-3 md:flex mb-0 flex items-center">
                     {/* <li className="px-10">
                         <a
@@ -73,27 +148,12 @@ const Header = () => {
                         <a
                             rel="noopener noreferrer"
                             href="#"
-                            className="flex items-center px-4"
+                            className="flex items-center px-4 navbar_item"
                         >
                             Become a Seller
                         </a>
                     </li>
-                    <li className="px-10">
-                        <NavLink
-                            to="/signin"
-                            className="flex items-center px-4"
-                        >
-                            Sign In
-                        </NavLink>
-                    </li>
-                    <li className="px-10">
-                        <NavLink
-                           to="/signup"
-                            className="button_LogIn flex items-center"
-                        >
-                            Join
-                        </NavLink>
-                    </li>
+                    {renderAfterSignIn()}
                 </ul>
                 <button className="flex justify-end p-4 md:hidden">
                     <svg
@@ -120,7 +180,7 @@ export default Header;
 
 export const Container = styled.div`
   &.Header {
-    border-bottom:1px solid #e4e5e7;
+    border-bottom: 1px solid #e4e5e7;
     .container {
       max-width: 1280px;
       padding: 0 15px;
@@ -131,36 +191,34 @@ export const Container = styled.div`
         color: #62646a;
         font-weight: 900;
         font-size: 40px;
-        display:flex;
-        align-items:center;
+        display: flex;
+        align-items: center;
       }
       .searchBar {
-          width: 40%;
-          /* height: 40%; */
-          border: 1px solid #e4e5e7;
-          margin: auto;
-          margin-left: 10px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          border-radius: 5px;
+        width: 40%;
+        /* height: 40%; */
+        border: 1px solid #e4e5e7;
+        margin: auto;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
 
-          .searchInput{
-              width: 100%;
-              height: 100%;
-          }
-          .searchButton{
-              width: 25%;
-              height: 50px;
-              color: #fff;
-              font-weight: bold;
-
-          }
-        
+        .searchInput {
+          width: 100%;
+          height: 100%;
+        }
+        .searchButton {
+          width: 25%;
+          height: 50px;
+          color: #fff;
+          font-weight: bold;
+        }
       }
       .nav-list {
         li {
-          a {
+          .navbar_item {
             color: #62646a;
             font-weight: 700;
             font-size: 16px;
@@ -168,7 +226,7 @@ export const Container = styled.div`
               color: #1dbf73;
             }
           }
-          .button_LogIn {
+          .button_SignUp {
             padding: 5px 20px;
             font-weight: 700;
             color: #1dbf73;
