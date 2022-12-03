@@ -1,12 +1,46 @@
 import React from "react";
 import styled from "styled-components";
 import { Dropdown, Space } from 'antd';
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthManage } from "../../store/authManage";
 
 const Topbar = () => {
+
+  const navigate = useNavigate()
+
+  const { userSignIn } = useAuthManage()
+
+  const directAdminPage = () => {
+    const item = JSON.parse(localStorage.getItem("User_Login"));
+    const role = item.user.role
+    if (role === "ADMIN") {
+      navigate("/admin")
+      window.location.reload()
+    } else {
+      navigate("#")
+      window.location.reload()
+    }
+  }
+
   const items = [
-    { label: "Profiles", key: "profile" },
-    { label: "Contact", key: "contact" },
-    { label: "Log Out", key: "logOut" },
+    { label: (<NavLink onClick={() => { navigate("/profiledetail"); window.location.reload(); }}>Profile</NavLink>), key: "profile" },
+    {
+      label: (<a onClick={() => { directAdminPage() }}> Admin Setting</ a>), key: "Contact"
+    },
+    {
+      label: (
+        <NavLink
+          onClick={() => {
+            localStorage.removeItem("User_Login");
+            navigate("/home");
+            window.location.reload();
+          }}
+        >
+          Sign Out
+        </NavLink>
+      ),
+      key: "signOut",
+    },
   ];
 
   return (
@@ -18,8 +52,8 @@ const Topbar = () => {
               <i className="text-20 fa-solid fa-bell text-primary"></i>
             </span>
           </li>
-          <li>
-            <span></span>
+          <li className="flex justify-center items-center px-18">
+            <span className="text-primary font-medium cursor-pointer" onClick={() => { navigate("/profiledetail") }}>{userSignIn.user.name}</span>
             <Dropdown
               menu={{
                 items,

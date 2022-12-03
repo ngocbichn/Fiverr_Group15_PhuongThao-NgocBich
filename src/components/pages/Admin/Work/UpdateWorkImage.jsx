@@ -18,7 +18,7 @@ const UpdateWorkImage = () => {
     const param = useParams();
     // console.log(param.movieId)
     const { workInfo } = useAdminWorkManage();
-    // console.log('filmInfo', filmInfo)
+    console.log("workInfo", workInfo)
 
     const dispatch = useDispatch();
 
@@ -35,23 +35,18 @@ const UpdateWorkImage = () => {
             hinhAnh: null,
         },
         onSubmit: (values) => {
-            console.log("values", values);
             const formData = new FormData();
 
-            for (let key in values) {
-                if (key !== "hinhAnh") {
-                    formData.append(key, values[key]);
-                } else {
-                    if (values.hinhAnh !== null) {
-                        formData.append("File", values.hinhAnh, values.hinhAnh.name);
-                    }
-                }
-            }
-            console.log(formData)
+            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+
+            console.log('formik', formData.get('File'))
             dispatch(postWorkImage({
                 workId: values.id,
-                formData: formData,
+                valueUpdated: formData,
             }));
+
+            // alert("Uploaded Successfully!");
+            // navigate("/admin/films");
         },
     });
 

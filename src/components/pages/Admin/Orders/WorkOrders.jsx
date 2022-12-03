@@ -96,7 +96,7 @@ const WorkOrders = () => {
                             <NavLink
                                 key={1}
                                 className="text-yellow-300 text-20 p-2 hover:text-yellow-700"
-                                to={`/admin/workcategory/edit/${order.id}`}
+                                to={`/admin/workorders/edit/${order.id}`}
                             >
                                 <Tooltip color="yellow" title="Edit">
                                     <EditFilled />

@@ -19,6 +19,7 @@ const initialState = {
     isFetchingDeleteCate: false,
     isLoadingWorkChanged: false,
     isUpdatingImg: false,
+    isLoadingCateChanged: false,
 }
 
 export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction } = createSlice({
@@ -83,6 +84,7 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             })
             .addCase(postWorkImage.fulfilled, (state, action) => {
                 state.isUpdatingImg = false
+                state.workList = action.payload
             })
             .addCase(postWorkImage.rejected, (state, action) => {
                 state.isUpdatingImg = false
@@ -134,6 +136,17 @@ export const { reducer: adminWorkManageReducer, actions: adminWorkManageAction }
             })
             .addCase(getCategoryInfo.rejected, (state, action) => {
                 state.isFetchingWorkCateInfo = false
+                state.error = action.payload
+            })
+            //putCategoryChanged
+            .addCase(putCategoryChanged.pending, (state, action) => {
+                state.isLoadingCateChanged = true
+            })
+            .addCase(putCategoryChanged.fulfilled, (state, action) => {
+                state.isLoadingCateChanged = false
+            })
+            .addCase(putCategoryChanged.rejected, (state, action) => {
+                state.isLoadingCateChanged = false
                 state.error = action.payload
             })
             //deleteCategory
@@ -206,14 +219,14 @@ export const putWorkChanged = createAsyncThunk(
 
 export const postWorkImage = createAsyncThunk(
     'ordersManage/postWorkImage',
-    async ({ workId, formData }, { dispatch, getState, rejectWithValue }) => {
+    async ({ workId, valueUpdated }, { dispatch, getState, rejectWithValue }) => {
         try {
-            const result = await adminWorkManageServices.postWorkImage(workId, formData)
+            const result = await adminWorkManageServices.postWorkImage(workId, valueUpdated)
             if (result.data.statusCode === 200) {
                 console.log('Updated Successfully!')
                 return result.data.content
             }
-            dispatch(getWorkInfo())
+            // dispatch(getWorkInfo())
         } catch (error) {
             return rejectWithValue(error)
         }
@@ -267,6 +280,22 @@ export const getCategoryInfo = createAsyncThunk(
             return result.data.content
         } catch (error) {
             return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const putCategoryChanged = createAsyncThunk(
+    'adminWorkManage/putCategoryChanged',
+    async ({ id, valueUpdated }, { dispatch, getState, rejectWithValue }) => {
+        try {
+            const result = await adminWorkManageServices.putCategoryChanged(id, valueUpdated)
+            if (result.data.statusCode === 200) {
+                console.log('Updated Successfully!')
+                return result.data.content
+            }
+            dispatch(getCategoryInfo())
+        } catch (error) {
+            return rejectWithValue(error)
         }
     }
 )

@@ -28,6 +28,9 @@ export const adminWorkManageServices = {
     getCategoryInfo: (categoryId) => {
         return api.get(`chi-tiet-loai-cong-viec/${categoryId}`)
     },
+    putCategoryChanged: (categoryId, CategoryChanged) => {
+        return api.put(`chi-tiet-loai-cong-viec/sua-nhom-chi-tiet-loai/${categoryId}`, CategoryChanged)
+    },
     deleteCategory: (categoryId) => {
         return api.delete(`chi-tiet-loai-cong-viec/${categoryId}`)
     },

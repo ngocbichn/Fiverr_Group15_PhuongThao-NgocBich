@@ -13,13 +13,14 @@ import {
     Switch,
 } from "antd";
 import { useUserManage } from '../../../../store/userManage/userManageSelector';
-import { getUserInfo } from '../../../../store/userManage/userManageReducer';
+import { getUserInfo, putUserChanged } from '../../../../store/userManage/userManageReducer';
 import moment from "moment";
 
 const EditUser = () => {
     const param = useParams();
 
     const { userInfo } = useUserManage();
+    console.log(userInfo)
 
     const dispatch = useDispatch();
 
@@ -42,10 +43,10 @@ const EditUser = () => {
         },
         onSubmit: (values) => {
             console.log('values', values)
-            // dispatch(putWorkChanged({
-            //     id: values.id,
-            //     valueUpdated: values,
-            // }));
+            dispatch(putUserChanged({
+                id: values.id,
+                valueUpdated: values
+            }));
             // navigate(-1)
         },
     });
