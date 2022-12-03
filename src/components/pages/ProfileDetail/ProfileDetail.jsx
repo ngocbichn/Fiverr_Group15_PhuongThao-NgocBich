@@ -127,14 +127,7 @@ const ProfileDetail = () => {
 
 
                                     </div>
-                                    <div className='Languages'>
-                                        <div className='top'>
-                                            <h5>Languages</h5>
-                                            <button>Add New</button>
-                                        </div>
-                                        <p>English - <span>Basic</span></p>
-
-                                    </div>
+                                   
                                     <div className='LinkedAcc'>
                                         <div className='top'>
                                             <h5>Linked Accounts </h5>
@@ -155,22 +148,24 @@ const ProfileDetail = () => {
                                             <h5>Skills</h5>
                                             <button>Add New</button>
                                         </div>
-                                        <p>Add your Skills</p>
+                                        {userInfo.skill?.map((skill,index) =>{
+                                            return (
+                                                <p key ={index}> + {skill}</p>
+                                            )
+                                        })}
                                     </div>
-                                    <div className='Education'>
-                                        <div className='top'>
-                                            <h5>Education</h5>
-                                            <button>Add New</button>
-                                        </div>
-                                        <p>Add your Education</p>
-
-                                    </div>
+                                   
                                     <div className='Certification'>
                                         <div className='top'>
                                             <h5>Certification</h5>
                                             <button>Add New</button>
                                         </div>
-                                        <p>Add your Certification</p>
+                                        {userInfo.certification?.map((cert,index) =>{
+                                            return (
+                                                <p key ={index}> + {cert}</p>
+                                            )
+                                        })}
+                                       
 
                                     </div>
                                 </div>
@@ -280,7 +275,7 @@ export const Container = styled.div`
                         p {
                             text-align: left;
                             margin: 20px 0;
-                            color: #b2b2b2;
+                            color: #555;
                         }
                         .top {
                             display: flex;
@@ -305,22 +300,7 @@ export const Container = styled.div`
                             border-bottom: 1px solid #dadbdd
 
                         }
-                        .Languages {
-                            margin-top: 30px;
-                            padding-bottom: 20px;
-                            border-bottom: 1px solid #dadbdd;
-                            p {
-                                text-align: left;
-                                margin-top: 8px;
-                                color :#555;
-                            
-                                span {
-                                    color:#b2b2b2;
-
-                                }
-                            }
-
-                        }
+                       
                         .LinkedAcc {
                             margin-top: 30px;
                             border-bottom: 1px solid #dadbdd;
@@ -351,12 +331,12 @@ export const Container = styled.div`
                         }
                         .Skills {
                             margin-top: 30px;
-                            border-bottom: 1px solid #dadbdd
+                            border-bottom: 1px solid #dadbdd;
 
                         }
                         .Education {
                             margin-top: 30px;
-                            border-bottom: 1px solid #dadbdd
+                            border-bottom: 1px solid #dadbdd;
 
                         }
                         .Certification {

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { Navigate, useNavigate } from "react-router-dom"
 import { userManageServices } from "../../services/userManageServices"
 
 const initialState = {
@@ -10,7 +11,9 @@ const initialState = {
     isLoadingUserChanged: false,
     isFetchingDeleteUser: false,
     errorMessage: null,
+    isUpdate: false,
 }
+
 
 export const { reducer: userManageReducer, actions: userManageAction } = createSlice({
     name: "userManage",
@@ -58,13 +61,16 @@ export const { reducer: userManageReducer, actions: userManageAction } = createS
             //putUserChanged
             .addCase(putUserChanged.pending, (state, action) => {
                 state.isLoadingUserChanged = true
+                state.isUpdate = false
             })
             .addCase(putUserChanged.fulfilled, (state, action) => {
                 state.isLoadingUserChanged = false
+                state.isUpdate = true
             })
             .addCase(putUserChanged.rejected, (state, action) => {
                 state.isLoadingUserChanged = false
                 state.error = action.payload
+                state.isUpdate = false
             })
             //deleteUser
             .addCase(deleteUser.pending, (state, action) => {
@@ -139,7 +145,7 @@ export const putUserChanged = createAsyncThunk(
         try {
             const result = await userManageServices.putUserChanged(userId, valueUpdated)
             if (result.data.statusCode === 200) {
-                console.log('Updated Successfully!')
+                alert('Updated Successfully!')
                 return result.data.content
             }
             dispatch(getUserInfo())

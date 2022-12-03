@@ -24,7 +24,9 @@ const EditProfile = () => {
 
     const { userInfo } = useUserManage()
     // userInfo.skill.push('abd')
-    console.log(userInfo.certification)
+    console.log(userInfo)
+    const {isUpdate} = useUserManage()
+    console.log(isUpdate)
  
    
 
@@ -54,8 +56,13 @@ const EditProfile = () => {
             dispatch(putUserChanged({
                 userId: values.id,
                 valueUpdated: values,
-            }));
-            // navigate(-1)
+            }))
+            .then(() => {
+                if (isUpdate) {
+                  navigate(-1)
+                }      
+              })
+            
         },
     });
 
@@ -77,19 +84,20 @@ const EditProfile = () => {
         };
     };
     const handleArraySkill = (skill) => {
-        const userInfo1 = {...userInfo, skill: []}
+        let userInfo1 = {...userInfo, skill: [...userInfo.skill]}
         userInfo1.skill.push(skill.target.value)
         formik.setFieldValue('skill',userInfo1.skill)
         
-    }
+    };
+
     const handleArrayCert = (cert) => {
-        const userInfo2 = {...userInfo, certification: []}
-        userInfo2.certification.push(cert.target.value)
-        console.log(cert.target.value)
-        console.log(userInfo2.certification)
-        formik.setFieldValue('certification',userInfo2.certication)
-        
+        let userInfo1 = Object.assign({...userInfo, certification: [...userInfo.certification]})
+        userInfo1.certification.push(cert.target.value)
+        formik.setFieldValue('certification',userInfo1.certification)
+
     }
+    
+    
 
 
     return (
@@ -168,7 +176,7 @@ const EditProfile = () => {
                                 name="skill"
                                 placeholder="Add your skill"
                                 onChange={handleArraySkill}
-                                value={formik.values.skill}
+                                
                             />
                         </Form.Item>
                         <Form.Item label="Certification">
@@ -176,7 +184,7 @@ const EditProfile = () => {
                                 name="certification"
                                 placeholder="Add your certification"
                                 onChange={handleArrayCert}
-                                value={formik.values.certification}
+                               
                             />
                         </Form.Item>
 
